@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import IndexView
-
+# importa as views que foram criadas
+from .views import PaginaInicial
+# padrão django urls
 urlpatterns = [
-    
+    path('', PaginaInicial.as_view(), name='index'),
 ]
