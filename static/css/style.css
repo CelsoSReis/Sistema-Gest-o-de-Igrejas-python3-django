@@ -1,3 +1,171 @@
-body {
-    background-color: blue;
+
+.tabela{
+	margin-right: 40px; 
+	border:solid 1px #a8a8a8; 
+	padding:20px;
+	font-size:14px;
+}
+
+.tabela a{
+	text-decoration: none;
+}
+
+
+@media only screen and (max-width: 700px) {
+.esc{
+	display:none; 
+}
+}
+
+.bordacardsede{
+	border-left:solid 4px #b54343;
+}
+
+.bordacard{
+	border-left:solid 4px #262396;
+}
+
+.bordacardtarefa{
+	border-left:solid 4px #4c8cc2;
+}
+
+.titulocard{
+	font-size:13px;
+}
+
+.subtitulocard{
+	font-size:11px;
+}
+
+.totaiscard{
+	font-size:11px;
+}
+
+.linkcard a{
+	text-decoration: none;
+}
+
+/*NOVO */
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+  }
+
+  @media (min-width: 768px) {
+	.bd-placeholder-img-lg {
+	  font-size: 3.5rem;
+	}
+  }
+
+  /*headers*/
+  .b-example-divider {
+	height: 3rem;
+	background-color: rgba(0, 0, 0, .1);
+	border: solid rgba(0, 0, 0, .15);
+	border-width: 1px 0;
+	box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+  
+  .form-control-dark {
+	color: #fff;
+	background-color: var(--bs-dark);
+	border-color: var(--bs-gray);
+  }
+  .form-control-dark:focus {
+	color: #fff;
+	background-color: var(--bs-dark);
+	border-color: #fff;
+	box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+  }
+  
+  .bi {
+	vertical-align: -.125em;
+	fill: currentColor;
+	text-align: center;
+	font-size: 25px;
+  }
+  .foto {
+	text-align: right;
+	color: white;
+  }
+  
+  .text-small {
+	font-size: 85%;
+  }
+  
+  .dropdown-toggle {
+	outline: 0;
+  }
+  
+  /*Background-sistema*/
+
+  .background-sistema{
+  	background-color: #0A3A40;
+  }
+
+  /*Menu navbar*/
+  .nav-menu{
+  	background-color: #0A3A40;
+  }
+
+/*cor da borda do card*/
+.borda-card{
+	border-color: #0A3A40;
+}
+
+.card a {
+    text-decoration: none;
+
+}
+.texto-pequeno-card{
+	font-size: 12px;
+}
+.link-cards{
+	text-decoration: none;
+	color: #fff;
+}
+/*Igrejas e congregações*/
+
+.icon-square {
+  width: 3rem;
+  height: 3rem;
+  border-radius: .75rem;
+}
+.text-shadow-1 { text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25); }
+.text-shadow-2 { text-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); }
+.text-shadow-3 { text-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .25); }
+
+/*CARD CONGREGAÇÔES*/
+
+.bg-card-header {
+	background-color: #042326;
+	font-size: 16px;
+	font-weight: 600;
+}
+.bg-card-body {
+	background-color: #0F5959;
+	color: #fff;
+}
+
+/*PÁGINA IGREJA*/
+
+.nav-menu-igrejas {
+	background-color: #042326;
+}
+
+.body-igrejas {
+	background-color: #0A3A40;
+}
+/*DASHBOARD IGREJA*/
+
+.bg-card-igrejas{
+	background-color: #0A3A40;
+	border-color: white;
+}
+
+a {
+	text-decoration: none;
 }
