@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 #classe PaginaInicial extends TemplateView
 class PaginaInicial(TemplateView):
-    template_name = "paginas/modelo.html"
+    template_name = "paginas/index.html"
 
 
 class SobreView(TemplateView):

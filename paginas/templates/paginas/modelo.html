@@ -26,11 +26,12 @@
 
 	<link href="{% static 'css/toastr.css' %}" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="{% static 'js/toastr.js' %}"></script>
-
+	{% block titulo %}
 	<title>Painel Administrativo</title>
+	{% endblock %}
 </head>
 <body class="background-sistema">
-
+{% block menu %}
 <header>
     <div class="px-3 py-1 nav-menu text-white">
     	<div class="container-fluider">
@@ -112,7 +113,9 @@
       </div>
     </div>
   </header>
+{% endblock %}
 
+{% block dashboard %}
 	<div class="container-fluid mb-4 mx-4">
 		<div class="container-fluid " >
             <section id="minimal-statistics" style="margin-right:20px">
@@ -201,6 +204,7 @@
             </div>
         </div>
 	</div>
+{% endblock %}
 
 </body>
 </html>
