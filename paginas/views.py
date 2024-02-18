@@ -10,3 +10,9 @@ class PaginaInicial(TemplateView):
 
 class SobreView(TemplateView):
     template_name = "paginas/sobre.html"
+
+class HomeView(TemplateView):
+    template_name = "paginas/home.html"
+
+class PastoresView(TemplateView):
+    template_name = "paginas/pastores.html"

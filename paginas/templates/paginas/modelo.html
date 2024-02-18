@@ -36,11 +36,11 @@
     <div class="px-3 py-1 nav-menu text-white">
     	<div class="container-fluider">
       	<div class=" d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-					<a class="d-flex align-items-center mx-5 my-2 my-lg-0 me-lg-auto text-white text-decoration-none" href="index.php"><img src="../img/logo-icone.jpg" width="45px"> </a>
+					<a class="d-flex align-items-center mx-5 my-2 my-lg-0 me-lg-auto text-white text-decoration-none" href="{% url 'index' %}"><img src="{% static 'img/logo-icone.jpg' %}" width="45px"> </a>
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-              <a href="index.php" class="nav-link text-white">
+              <a href="{% url 'index' %}" class="nav-link text-white">
 			  <i class="d-block mx-auto bi bi-house-door-fill"></i>
                 Home
               </a>
@@ -53,7 +53,7 @@
               </a>
 			  	<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" href="index.php?pag=bispos">Pastor Presidente</a></li>
-							<li><a class="dropdown-item" href="index.php?pag=pastores">Pastores (Presbíteros)</a></li>
+							<li><a class="dropdown-item" href="{% url 'pastores' %}">Pastores (Presbíteros)</a></li>
 							<li><a class="dropdown-item" href="index.php?pag=tesoureiros">Tesoureiros</a></li>
 							<li><a class="dropdown-item" href="index.php?pag=secretarios">Secretários</a>
 							</li>
@@ -88,6 +88,12 @@
 							<li><a class="dropdown-item" href="index.php?pag=patrimonios">Patrimônios</a></li>			
 				</ul>
             </li>
+			<li>
+				<a href="{% url 'sobre' %}" class="nav-link text-white">
+				<i class="d-block mx-auto bi bi-house-door-fill"></i>
+				  Sobre
+				</a>
+			  </li>
 			
             <li>
 			  <a class="nav-link text-white" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#modalConfig"><i class="d-block mx-auto bi bi-gear-fill"></i>Configurações</a>
