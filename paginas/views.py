@@ -16,3 +16,6 @@ class HomeView(TemplateView):
 
 class PastoresView(TemplateView):
     template_name = "paginas/pastores.html"
+
+class UsuariosView(TemplateView):
+    template_name = "paginas/usuarios.html"
