@@ -33,7 +33,7 @@
 						<td class="esc"><img src="../img/membros/<?php echo $foto ?>" width="30px"></td>
 						
 						<td>
-							<a href="#" onclick="" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+							<a href="#" onclick="editar('<?php echo $id ?>', '<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>', '<?php echo $data_nasc ?>', '<?php echo $igreja ?>', '<?php echo $nome_ig ?>')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
 
 							<a href="#" onclick="excluir('<?php echo $id ?>' , '<?php echo $nome ?>')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
 							<a href="#" onclick="dados('<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>', '<?php echo $data_nascF ?>', '<?php echo $data_cadF ?>', '<?php echo $nome_ig ?>')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>

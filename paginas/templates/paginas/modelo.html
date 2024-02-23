@@ -21,8 +21,8 @@
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="../DataTables/datatables.min.css"/>
-	<script type="text/javascript" src="../DataTables/datatables.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.min.css' %}"/>
+	<script type="text/javascript" src="{% static 'DataTables/datatables.min.js'%}"></script>
 
 	<link href="{% static 'css/toastr.css' %}" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="{% static 'js/toastr.js' %}"></script>
@@ -52,10 +52,10 @@
                 Pessoas
               </a>
 			  	<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="index.php?pag=bispos">Pastor Presidente</a></li>
+							<li><a class="dropdown-item" href="{% url 'bispos'%}">Pastor Presidente</a></li>
 							<li><a class="dropdown-item" href="{% url 'pastores' %}">Pastores (Presbíteros)</a></li>
-							<li><a class="dropdown-item" href="index.php?pag=tesoureiros">Tesoureiros</a></li>
-							<li><a class="dropdown-item" href="index.php?pag=secretarios">Secretários</a>
+							<li><a class="dropdown-item" href="{% url 'tesoureiros' %}">Tesoureiros</a></li>
+							<li><a class="dropdown-item" href="{% url 'secretarios' %}">Secretários</a>
 							</li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="{% url 'usuarios' %}">Usuários</a></li>			
@@ -69,11 +69,11 @@
               </a>
 			  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-							<li><a class="dropdown-item" href="index.php?pag=igrejas">Igrejas</a></li>
+							<li><a class="dropdown-item" href="{% url 'igrejas' %}">Igrejas</a></li>
 							
-							<li><a class="dropdown-item" href="index.php?pag=cargos">Cargos Ministeriais</a></li>
+							<li><a class="dropdown-item" href="{% url 'cargos' %}">Cargos Ministeriais</a></li>
 
-							<li><a class="dropdown-item" href="index.php?pag=frequencias">Frequências (Contas)</a></li>
+							<li><a class="dropdown-item" href="{% url 'frequencias'%}">Frequências (Contas)</a></li>
 							
 						</ul>
             </li>
