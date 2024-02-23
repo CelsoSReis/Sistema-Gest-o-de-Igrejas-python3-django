@@ -1,6 +1,6 @@
 from django.urls import path
 # importa as views que foram criadas
-from .views import PaginaInicial, SobreView, HomeView, PastoresView, UsuariosView, IgrejasView, BisposView, TesoureirosView, SecretariosView, CargosView, FrequenciasView
+from .views import PaginaInicial, SobreView, HomeView, PastoresView, UsuariosView, IgrejasView, BisposView, TesoureirosView, SecretariosView, CargosView, FrequenciasView, PatrimoniosView
 
 # padrão django urls
 urlpatterns = [
@@ -15,6 +15,5 @@ urlpatterns = [
     path('secretarios/', SecretariosView.as_view(), name='secretarios' ),
     path('cargos/', CargosView.as_view(), name='cargos' ),
     path('frequencias/', FrequenciasView.as_view(), name='frequencias' ),
-
-
+    path('patrimonios/', PatrimoniosView.as_view(), name='patrimonios' ),
 ]

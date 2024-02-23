@@ -36,3 +36,6 @@ class CargosView(TemplateView):
 
 class FrequenciasView(TemplateView):
     template_name = "paginas/frequencias.html"
+
+class PatrimoniosView(TemplateView):
+    template_name = "paginas/patrimonios.html"
