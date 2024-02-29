@@ -39,8 +39,8 @@
 						<td class="esc"><img src="../img/membros/<?php echo $foto ?>" width="30px"></td>
 						
 						<td>
-							<a href="#" onclick="editar('<?php echo $id ?>', '<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
-							<a href="#" onclick="excluir('<?php echo $id ?>' , '<?php echo $nome ?>')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
+							<a href="#" data-bs-toggle="modal" data-bs-target="#modalEditarTesoureiro" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+							<a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
 							<a href="#" onclick="dados('<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
 						</td>
 					</tr>	
@@ -131,12 +131,12 @@
 	</div>
 </div>
 
-
+<!--Modal Tesoureiro-->
 <div class="modal fade" id="modalTesoureiro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Cadastrar Tesoureiro</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Novo Tesoureiro</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<form id="form" method="post">
@@ -179,9 +179,17 @@
 							</div>
 						</div>
 
+						<div class="col-md-9">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Cidade</label>
+								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o Endereço">
+							</div>
+						</div>
+
 
 					</div>
 
+					<!-- Foto Tesoureiro 
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-3">
@@ -195,7 +203,7 @@
 							</div>
 						</div>
 					</div>
-
+					-->
 					<input type="hidden" id="id" name="id">
 
 				</div>
@@ -205,11 +213,98 @@
 					<button type="submit" class="btn btn-primary">Salvar</button>
 				</div>
 			</form>
+		</div>
 	</div>
 </div>
 
+<!--Modal Editar Tesoureiro-->
+<div class="modal fade" id="modalEditarTesoureiro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Editar Tesoureiro</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form id="form" method="post">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Nome</label>
+								<input type="text" class="form-control" id="nome" name="nome" placeholder="Insira o Nome" required>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">CPF</label>
+								<input type="text" class="form-control" id="cpf" name="cpf" placeholder="Insira o CPF"  required>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Email</label>
+								<input type="email" class="form-control" id="email" name="email" placeholder="Insira o Email" required>
+							</div>
+						</div>
 
-<!-- Modal -->
+					</div>
+					<div class="row">
+						
+
+						<div class="col-md-3">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Telefone</label>
+								<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Insira o Telefone" required>
+							</div>
+						</div>
+
+						<div class="col-md-9">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Endereço</label>
+								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o Endereço">
+							</div>
+						</div>
+
+						<div class="col-md-9">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Cidade</label>
+								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o Endereço">
+							</div>
+						</div>
+
+					</div>
+
+					<!--Foto Tesoureiro
+					<div class="row">
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Foto</label>
+								<input type="file" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
+							</div>
+						</div>
+						<div class="col-md-6">
+						<div id="divImg" class="mt-4">
+								<img src="../img/membros/sem-foto.jpg"  width="130px" id="target">									
+							</div>
+						</div>
+					</div>
+					-->
+
+					<input type="hidden" id="id" name="id">
+
+				</div>
+				<small><div align="center" id="mensagem"></div></small>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Cancelar</button>
+					<button type="submit" class="btn btn-primary">Editar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--Final modal Editar Tesoureiro-->
+
+<!-- Modal Excluir-->
 <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -279,23 +374,6 @@
 
 
 <script type="text/javascript">
-
-	function editar(id, nome, cpf, email, telefone, endereco, foto){
-		$('#id').val(id);
-		$('#nome').val(nome);
-		$('#email').val(email);
-		$('#cpf').val(cpf);
-		$('#telefone').val(telefone);
-		$('#endereco').val(endereco);
-		$('#target').attr('src', '../img/membros/' + foto);
-		
-		$('#tituloModal').text('Editar Registro');
-		var myModal = new bootstrap.Modal(document.getElementById('modalForm'), {		});
-		myModal.show();
-		$('#mensagem').text('');
-	}
-
-
 
 	function dados(nome, cpf, email, telefone, endereco, foto){
 

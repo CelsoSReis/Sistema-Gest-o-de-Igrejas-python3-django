@@ -11,7 +11,7 @@
 
 
 <div class="col-md-12 my-3">
-	<a href="#" onclick="inserir()" type="button" class="btn btn-success btn-sm">Nova Igreja</a>
+	<a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" type="button" class="btn btn-success btn-sm">Nova Igreja</a>
 </div>
 
 <div class="tabela bg-light">
@@ -41,7 +41,7 @@
 						
 						<td>
 							<big>
-							<a href="#" onclick="editar('')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+							<a href="#" data-bs-toggle="modal" data-bs-target="#modalEditar" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
 							<a href="#" onclick="excluir('')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
 							<a href="#" onclick="dados('')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
 
@@ -62,7 +62,7 @@
 	
 </div>
 
-
+<!--Modal Form-->
 <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -151,10 +151,103 @@
 </div>
 
 
+<!--Modal Editar-->
+
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Editar Igreja</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form id="form" method="post">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Nome</label>
+								<input type="text" class="form-control" id="nome" name="nome" placeholder="Insira o Nome" required>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Telefone</label>
+								<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Insira o Telefone" required>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Endereço</label>
+								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o Endereço">
+							</div>
+						</div>
+
+					</div>
+					
+						<div class="row">
+						<div class="col-md-4">
+							<div class="mb-3">
+								<label for="exampleFormControlInput1" class="form-label">Pastor Responsável</label>
+								<select class="form-control sel2" id="pastor" name="pastor" style="width:100%;">
+								
+											<option value="<?php echo $id_reg ?>"><?php echo $nome_reg ?></option>
+											<option value="<?php echo $id_reg ?>"><?php echo $nome_reg ?></option>
+
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-8">
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Vídeo Página Inicial do Site <small><small>(Url Incorporada Youtube, o src do iframe)</small></small></label>
+									<input type="text" class="form-control" id="video" name="video" placeholder="https://www.youtube.com/embed/Y7sfHr1alEI">
+								</div>
+							</div>
+							
+						</div>
+
+						<div class="row">
+							<div class="col-md-5">
+								<label for="exampleFormControlInput1" class="form-label">Email</label>
+									<input type="email" class="form-control" id="email" name="email" placeholder="Email da igreja">								
+								</div>
+							<!-- #logo
+								<div class="col-md-5">
+								<div class="mb-3">
+									<label for="exampleFormControlInput1" class="form-label">Foto</label>
+									<input type="file" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
+								</div>
+							</div>
+							
+							
+							<div class="col-md-2">
+								<div id="divImg" class="mt-4">
+									<img src="../img/igrejas/sem-foto.jpg"  width="130px" id="target">									
+								</div>
+							</div>
+							-->
+							</div>
+						
+
+					<input type="hidden" id="id" name="id">
+
+				</div>
+				<small><div align="center" id="mensagem"></div></small>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Fechar</button>
+					<button type="submit" class="btn btn-primary">Editar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 
 
-<!-- Modal -->
+
+<!-- Modal Excluir -->
 <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -183,7 +276,7 @@
 </div>
 
 
-
+<!--Modal Dados-->
 <div class="modal fade" id="modalDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -224,7 +317,8 @@
 </div>
 </div>
 
-<!-- Modal -->
+
+<!-- Modal Obs-->
 <div class="modal fade" id="modalObs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -257,7 +351,8 @@
 	</div>
 </div>
 
-<!-- Modal -->
+
+<!-- Modal Arquivos -->
 <div class="modal fade" id="modalArquivos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -283,7 +378,7 @@
 
 
 
-<!-- Modal -->
+<!-- Modal Imagens-->
 <div class="modal fade" id="modalImagens" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
