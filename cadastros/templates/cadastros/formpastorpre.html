@@ -1,5 +1,24 @@
+{% extends 'paginas/modelo.html' %}
 {% load static %}
 
-{% block modelpastorpres%}
 
+{% block titulo %}
+    <title>Cadastrar Pastor Presidente</title>
+{% endblock %}
+
+
+{% block dashboard %}
+<div class="container-fluid mb-4 mx-4">
+    <div class="row g-5">
+      <div class="col-md-7 col-lg-8">
+        <form class="needs-validation" method="post" >
+          {% csrf_token %}
+		  {{ form.as_p }}
+		  <button class="w-100 btn btn-primary btn-lg" type="submit">Salvar</button>  
+        </form>
+		
+      </div>
+	  
+    </div>
+</div>
 {% endblock %}

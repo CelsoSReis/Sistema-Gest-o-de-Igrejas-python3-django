@@ -9,7 +9,7 @@
 <div class="container-fluid mb-4 mx-4">
 
 <div class="col-md-12 my-3">
-	<a href="#" data-bs-toggle="modal" data-bs-target="#modalPastorPresidente" type="button" class="btn btn-success btn-sm">Novo Pastor Presidente</a>
+	<a href="{% url 'cadastrar-pastor-presidente'%}" type="button" class="btn btn-success btn-sm">Novo Pastor Presidente</a>
 </div>
 
 <div class="tabela bg-light">
@@ -122,9 +122,6 @@
 </div>
 
 
-
-
-
 <!-- Modal -->
 
 
@@ -132,10 +129,12 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Cadastrar Pastor Presidente</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			
+		
 			</div>
 			<form id="form" method="post">
+			
+				<!--
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-4">
@@ -195,6 +194,8 @@
 					<input type="hidden" id="id" name="id">
 	
 				</div>
+
+			-->
 				<small><div align="center" id="mensagem"></div></small>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar">Cancelar</button>
