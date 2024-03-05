@@ -13,5 +13,11 @@ class PastorPresidenteCreate(CreateView):
 class SecretariosCreate(CreateView):
     model = Secretarios
     fields = ['nome','cpf','endereco','email','telefone']
-    template_name = 'cadastros/formpastorpre.html'
-    success_url = reverse_lazy('secretarios')
+    template_name = 'cadastros/formsecretarios.html'
+    success_url = reverse_lazy('cadastrar-secretario')
+
+class TesoureiroCreate(CreateView):
+    model = Tesoureiro
+    fields = ['nome','cpf','endereco','email','telefone']
+    template_name = 'cadastros/formtesoureiro.html'
+    success_url = reverse_lazy('cadastrar-tesoureiro')
