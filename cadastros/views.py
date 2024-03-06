@@ -21,3 +21,27 @@ class TesoureiroCreate(CreateView):
     fields = ['nome','cpf','endereco','email','telefone']
     template_name = 'cadastros/formtesoureiro.html'
     success_url = reverse_lazy('cadastrar-tesoureiro')
+
+class PastoresCreate(CreateView):
+    model = Pastores
+    fields = ['nome','cpf','endereco','email','data_nascimento','telefone']
+    template_name = 'cadastros/formpastores.html'
+    success_url = reverse_lazy('cadastrar-pastores')
+
+class IgrejasCreate(CreateView):
+    model = Igrejas
+    fields = ['nome','endereco','email','telefone', 'pastores']
+    template_name = 'cadastros/formigrejas.html'
+    success_url = reverse_lazy('cadastrar-igrejas')
+
+class CargoCreate(CreateView):
+    model = Cargos
+    fields = ['nome']
+    template_name = 'cadastros/formcargos.html'
+    success_url = reverse_lazy('cadastrar-cargos')
+
+class MembrosCreate(CreateView):
+    model = Membros
+    fields = ['nome','cpf','data_nascimento','data_batismo','endereco','email','telefone','cargos' ]
+    template_name = 'cadastros/formmembros.html'
+    success_url = reverse_lazy('cadastrar-membros')

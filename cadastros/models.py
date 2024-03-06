@@ -41,7 +41,7 @@ class Pastores(models.Model):
     data_nascimento = models.DateField(verbose_name='Data de Nascimento')
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
     def __str__(self): ##define método
-        return "{}".format(self.nome,self.cpf, self.endereco, self.email, self.telefone)
+        return "{}".format(self.nome,self.cpf, self.endereco, self.email, self.data_nascimento, self.telefone)
 
 # IGREJAS
 class Igrejas(models.Model):
