@@ -1,6 +1,7 @@
 from django.urls import path
 # importa as views que foram criadas
 from .views import PastorPresidenteCreate, SecretariosCreate, TesoureiroCreate, PastoresCreate, IgrejasCreate, CargoCreate, MembrosCreate
+from .views import PastorPresidenteUpdate, SecretariosUpdate, TesoureiroUpdate, PastoresUpdate,IgrejasUpdate, CargoUpdate, MembrosUpdate
 
 # padrão django urls
 urlpatterns = [
@@ -12,5 +13,8 @@ urlpatterns = [
     path('cadastrar/cargos', CargoCreate.as_view(), name='cadastrar-cargos'),
     path('cadastrar/membros', MembrosCreate.as_view(), name='cadastrar-membros'),
 
+## Editar registos
+    path('editar/pastorpresidente/<int:pk>/', PastorPresidenteUpdate.as_view(), name='editar-pastor-presidente'),
+    path('editar/secretario/<int:pk>/', SecretariosUpdate.as_view(), name='editar-secretario'),
 
 ]
