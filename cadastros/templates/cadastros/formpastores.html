@@ -41,16 +41,14 @@
                             
                             <td>
                                 <a href="#" onclick="editar('<?php echo $id ?>', '<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>')" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
-                                <a href="#" onclick="excluir('<?php echo $id ?>' , '<?php echo $nome ?>')" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
-                                <a href="#" onclick="dados('<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
+                                <a href="#"title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
                             </td>
                         </tr>	
-                    <?php } ?>	
+                	
                 </tbody>
             </table>
-        <?php }else{
-            echo 'Não Existem Dados Cadastrados';
-        } ?>
+        
     </div>
     
     
@@ -219,6 +217,9 @@
     </div>
     
     
+    
+    
+    <!-- Modal Excluir-->
     <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -229,8 +230,8 @@
                 <form id="form-excluir" method="post">
                     <div class="modal-body">
     
-                        Deseja Realmente excluir este Registro: <span id="nome-excluido"></span>?
-    
+                        Deseja Realmente excluir: <span id="nome-excluido">{{ object }}</span>?
+                        {% csrf_token %}
                         <small><div id="mensagem-excluir" align="center"></div></small>
     
                         <input type="hidden" class="form-control" name="id-excluir"  id="id-excluir">
@@ -238,7 +239,7 @@
     
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-excluir">Fechar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-fechar-excluir">Cancelar</button>
                         <button type="submit" class="btn btn-danger">Excluir</button>
                     </div>
                 </form>
@@ -288,23 +289,6 @@
     
     <script type="text/javascript">
     
-        function editar(id, nome, cpf, email, telefone, endereco, foto){
-            $('#id').val(id);
-            $('#nome').val(nome);
-            $('#email').val(email);
-            $('#cpf').val(cpf);
-            $('#telefone').val(telefone);
-            $('#endereco').val(endereco);
-            $('#target').attr('src', '../img/membros/' + foto);
-            
-            $('#tituloModal').text('Editar Registro');
-            var myModal = new bootstrap.Modal(document.getElementById('modalForm'), {		});
-            myModal.show();
-            $('#mensagem').text('');
-        }
-    
-    
-    
         function dados(nome, cpf, email, telefone, endereco, foto){
     
             $('#nome-dados').text(nome);
@@ -319,7 +303,6 @@
             $('#mensagem').text('');
         }
     
-    
         function limpar(){
             $('#id').val('');
             $('#nome').val('');		
@@ -332,4 +315,6 @@
         }
     
     </script>
+    
+    
 {% endblock %}

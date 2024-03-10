@@ -1,4 +1,4 @@
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # import models
 from .models import PastorPresidente, Pastores, Tesoureiro, Secretarios, Igrejas, Cargos, Membros
 # import redirecionamnto
@@ -89,5 +89,42 @@ class CargoUpdate(UpdateView):
 class MembrosUpdate(UpdateView):
     model = Membros
     fields = ['nome','cpf','data_nascimento','data_batismo','endereco','email','telefone','cargos' ]
+    template_name = 'cadastros/formmembros.html'
+    success_url = reverse_lazy('cadastrar-membros')
+
+############## DELETE VIEW ###################
+    
+class PastorPresidenteDelete(DeleteView):
+    model = PastorPresidente
+    template_name = 'cadastros/formpastorpre.html'
+    success_url = reverse_lazy('bispos')
+
+class SecretariosDelete(DeleteView):
+    model = Secretarios
+    template_name = 'cadastros/formsecretarios.html'
+    success_url = reverse_lazy('cadastrar-secretario')
+
+class TesoureiroDelete(DeleteView):
+    model = Tesoureiro
+    template_name = 'cadastros/formtesoureiro.html'
+    success_url = reverse_lazy('cadastrar-tesoureiro')
+
+class PastoresDelete(DeleteView):
+    model = Pastores
+    template_name = 'cadastros/formpastores.html'
+    success_url = reverse_lazy('cadastrar-pastores')
+
+class IgrejasDelete(DeleteView):
+    model = Igrejas
+    template_name = 'cadastros/formigrejas.html'
+    success_url = reverse_lazy('cadastrar-igrejas')
+
+class CargoDelete(DeleteView):
+    model = Cargos
+    template_name = 'cadastros/formcargos.html'
+    success_url = reverse_lazy('cadastrar-cargos')
+
+class MembrosDelete(DeleteView):
+    model = Membros
     template_name = 'cadastros/formmembros.html'
     success_url = reverse_lazy('cadastrar-membros')

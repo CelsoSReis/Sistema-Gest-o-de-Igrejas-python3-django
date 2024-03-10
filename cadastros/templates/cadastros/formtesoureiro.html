@@ -320,8 +320,8 @@
                 <form id="form-excluir" method="post">
                     <div class="modal-body">
     
-                        Deseja Realmente excluir: <span id="nome-excluido"></span>?
-    
+                        Deseja Realmente excluir: <span id="nome-excluido">{{ object }}</span>?
+                        {% csrf_token %}
                         <small><div id="mensagem-excluir" align="center"></div></small>
     
                         <input type="hidden" class="form-control" name="id-excluir"  id="id-excluir">

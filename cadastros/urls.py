@@ -2,6 +2,7 @@ from django.urls import path
 # importa as views que foram criadas
 from .views import PastorPresidenteCreate, SecretariosCreate, TesoureiroCreate, PastoresCreate, IgrejasCreate, CargoCreate, MembrosCreate
 from .views import PastorPresidenteUpdate, SecretariosUpdate, TesoureiroUpdate, PastoresUpdate,IgrejasUpdate, CargoUpdate, MembrosUpdate
+from .views import PastorPresidenteDelete, SecretariosDelete, TesoureiroDelete, PastoresDelete, IgrejasDelete, CargoDelete, MembrosDelete
 
 # padrão django urls
 urlpatterns = [
@@ -16,5 +17,19 @@ urlpatterns = [
 ## Editar registos
     path('editar/pastorpresidente/<int:pk>/', PastorPresidenteUpdate.as_view(), name='editar-pastor-presidente'),
     path('editar/secretario/<int:pk>/', SecretariosUpdate.as_view(), name='editar-secretario'),
+    path('editar/tesoureiro/<int:pk>/', TesoureiroUpdate.as_view(), name='editar-tesoureiro'),
+    path('editar/pastores/<int:pk>/', PastoresUpdate.as_view(), name='editar-pastores'),
+    path('editar/igrejas/<int:pk>/', IgrejasUpdate.as_view(), name='editar-igrejas'),
+    path('editar/cargos/<int:pk>/', CargoUpdate.as_view(), name='editar-cargos'),
+    path('editar/membros/<int:pk>/', MembrosUpdate.as_view(), name='editar-membros'),
+
+## Deletar registos
+    path('excluir/pastorpresidente/<int:pk>/', PastorPresidenteDelete.as_view(), name='excluir-pastor-presidente'),
+    path('excluir/secretario/<int:pk>/', SecretariosDelete.as_view(), name='excluir-secretario'),
+    path('excluir/tesoureiro/<int:pk>/', TesoureiroDelete.as_view(), name='excluir-tesoureiro'),
+    path('excluir/pastores/<int:pk>/', PastoresDelete.as_view(), name='excluir-pastores'),
+    path('excluir/igrejas/<int:pk>/', IgrejasDelete.as_view(), name='excluir-igrejas'),
+    path('excluir/cargos/<int:pk>/', CargoDelete.as_view(), name='excluir-cargos'),
+    path('excluir/membros/<int:pk>/', MembrosDelete.as_view(), name='excluir-membros'),
 
 ]
