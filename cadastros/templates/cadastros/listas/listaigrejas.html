@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block titulo %}
-    <title>Cadastrar Tesoureiro</title>
+    <title>Cadastrar Igrejas</title>
 {% endblock %}
 
 {% block dashboard %}
@@ -10,7 +10,7 @@
 <div class="container-fluid mb-4 mx-4">
 
     <div class="col-md-12 my-3">
-        <a href="{% url 'cadastrar-tesoureiro' %}" type="button" class="btn btn-success btn-sm">Novo Tesoureiro</a>
+        <a href="{% url 'cadastrar-igrejas' %}" type="button" class="btn btn-success btn-sm">Nova Igreja</a>
     </div>
     
     <div class="tabela bg-light">
@@ -19,32 +19,32 @@
                 <thead>			
                     <tr>
                         <th>Nome</th>
-                        <th>CPF</th>
+                        <th>Endereço</th>
                         <th class="esc">Email</th>
                         <th class="esc">Telefone</th>
-                        <th class="esc">Igreja</th>
+                        <th class="esc">Pastor</th>
                         
                         <th>Ações</th>
                     </tr>		
                 </thead>
                 <tbody>
-                    {% for tesoureiro in object_list %}
+                    {% for igrejas in object_list %}
                     <tr>
-                        <td>{{ tesoureiro.nome }}</td>
-                        <td>{{ tesoureiro.cpf }}</td>
-                        <td class="esc">{{ tesoureiro.email }}</td>
-                        <td class="esc">{{ tesoureiro.telefone }}</td>
-                        <td class="esc">{{ tesoureiro.igreja }}</td>
+                        <td>{{ igrejas.nome }}</td>
+                        <td>{{ igrejas.endereco }}</td>
+                        <td class="esc">{{ igrejas.email }}</td>
+                        <td class="esc">{{ igrejas.telefone }}</td>
+                        <td class="esc">{{ igrejas.pastores.nome }}</td>
                         
                         <td>
-                            <a href="{% url 'editar-tesoureiro' tesoureiro.pk %}"  title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
-                            <a href="{% url 'excluir-tesoureiro' tesoureiro.pk %}" title="Excluir">	<i class="bi bi-trash text-danger"></i> </a>
-                            <a href="#" onclick="dados('{{ tesoureiro.nome }}', '{{ tesoureiro.cpf }}', '{{ tesoureiro.email }}', '{{ tesoureiro.telefone }}', '{{ tesoureiro.endereco }}')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
+                            <a href="{% url 'editar-igrejas' igrejas.pk %}"  title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+                            <a href="{% url 'excluir-igrejas' igrejas.pk %}" title="Excluir">	<i class="bi bi-trash text-danger"></i> </a>
+                            <a href="#" onclick="dados('{{ igrejas.nome }}', '{{ igrejas.cpf }}', '{{ igrejas.email }}', '{{ igrejas.telefone }}', '{{ igrejas.endereco }}')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="3">Nenhum arquivo </td>
+                        <td colspan="3">Nenhum Secretário Cadastrado </td>
                     </tr>
                     {% endfor %}
                         	

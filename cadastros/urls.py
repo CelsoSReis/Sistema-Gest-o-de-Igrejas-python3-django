@@ -35,10 +35,10 @@ urlpatterns = [
 
 ## Listar Registros do banco de dados
     path('listar/pastorpresidente/<int:pk>/', PastorPresidenteList.as_view(), name='listar-pastor-presidente'),
-    path('listar/secretario/<int:pk>/', SecretariosList.as_view(), name='listar-secretario'),
+    path('listar/secretario/', SecretariosList.as_view(), name='listar-secretario'),
     path('listar/tesoureiro/', TesoureiroList.as_view(), name='listar-tesoureiro'),
-    path('listar/pastores/<int:pk>/', PastoresList.as_view(), name='listar-pastores'),
-    path('listar/igrejas/<int:pk>/', IgrejasList.as_view(), name='listar-igrejas'),
+    path('listar/pastores/', PastoresList.as_view(), name='listar-pastores'),
+    path('listar/igrejas/', IgrejasList.as_view(), name='listar-igrejas'),
     path('listar/cargos/<int:pk>/', CargoList.as_view(), name='listar-cargos'),
     path('listar/membros/<int:pk>/', MembrosList.as_view(), name='listar-membros'),
 ]

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block titulo %}
-    <title>Cadastrar Tesoureiro</title>
+    <title>Cadastrar Pastores</title>
 {% endblock %}
 
 {% block dashboard %}
@@ -10,7 +10,7 @@
 <div class="container-fluid mb-4 mx-4">
 
     <div class="col-md-12 my-3">
-        <a href="{% url 'cadastrar-tesoureiro' %}" type="button" class="btn btn-success btn-sm">Novo Tesoureiro</a>
+        <a href="{% url 'cadastrar-pastores' %}" type="button" class="btn btn-success btn-sm">Novo Pastor</a>
     </div>
     
     <div class="tabela bg-light">
@@ -28,18 +28,18 @@
                     </tr>		
                 </thead>
                 <tbody>
-                    {% for tesoureiro in object_list %}
+                    {% for pastores in object_list %}
                     <tr>
-                        <td>{{ tesoureiro.nome }}</td>
-                        <td>{{ tesoureiro.cpf }}</td>
-                        <td class="esc">{{ tesoureiro.email }}</td>
-                        <td class="esc">{{ tesoureiro.telefone }}</td>
-                        <td class="esc">{{ tesoureiro.igreja }}</td>
+                        <td>{{ pastores.nome }}</td>
+                        <td>{{ pastores.cpf }}</td>
+                        <td class="esc">{{ pastores.email }}</td>
+                        <td class="esc">{{ pastores.telefone }}</td>
+                        <td class="esc">{{ pastores.igreja }}</td>
                         
                         <td>
-                            <a href="{% url 'editar-tesoureiro' tesoureiro.pk %}"  title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
-                            <a href="{% url 'excluir-tesoureiro' tesoureiro.pk %}" title="Excluir">	<i class="bi bi-trash text-danger"></i> </a>
-                            <a href="#" onclick="dados('{{ tesoureiro.nome }}', '{{ tesoureiro.cpf }}', '{{ tesoureiro.email }}', '{{ tesoureiro.telefone }}', '{{ tesoureiro.endereco }}')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
+                            <a href="{% url 'editar-pastores' pastores.pk %}"  title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+                            <a href="{% url 'excluir-pastores' pastores.pk %}" title="Excluir">	<i class="bi bi-trash text-danger"></i> </a>
+                            <a href="#" onclick="dados('{{ pastores.nome }}', '{{ pastores.cpf }}', '{{ pastores.email }}', '{{ pastores.telefone }}', '{{ pastores.endereco }}')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
                         </td>
                     </tr>
                     {% empty %}

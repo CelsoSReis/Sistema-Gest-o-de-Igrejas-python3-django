@@ -15,8 +15,8 @@ class PastorPresidenteCreate(CreateView):
 class SecretariosCreate(CreateView):
     model = Secretarios
     fields = ['nome','cpf','endereco','email','telefone']
-    template_name = 'cadastros/formsecretarios.html'
-    success_url = reverse_lazy('cadastrar-secretario')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-secretario')
 
 class TesoureiroCreate(CreateView):
     model = Tesoureiro
@@ -27,14 +27,14 @@ class TesoureiroCreate(CreateView):
 class PastoresCreate(CreateView):
     model = Pastores
     fields = ['nome','cpf','endereco','email','data_nascimento','telefone']
-    template_name = 'cadastros/formpastores.html'
-    success_url = reverse_lazy('cadastrar-pastores')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-pastores')
 
 class IgrejasCreate(CreateView):
     model = Igrejas
     fields = ['nome','endereco','email','telefone', 'pastores']
-    template_name = 'cadastros/formigrejas.html'
-    success_url = reverse_lazy('cadastrar-igrejas')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-igrejas')
 
 class CargoCreate(CreateView):
     model = Cargos
@@ -61,8 +61,8 @@ class PastorPresidenteUpdate(UpdateView):
 class SecretariosUpdate(UpdateView):
     model = Secretarios
     fields = ['nome','cpf','endereco','email','telefone']
-    template_name = 'cadastros/formsecretarios.html'
-    success_url = reverse_lazy('cadastrar-secretario')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-secretario')
 
 class TesoureiroUpdate(UpdateView):
     model = Tesoureiro
@@ -73,14 +73,14 @@ class TesoureiroUpdate(UpdateView):
 class PastoresUpdate(UpdateView):
     model = Pastores
     fields = ['nome','cpf','endereco','email','data_nascimento','telefone']
-    template_name = 'cadastros/formpastores.html'
-    success_url = reverse_lazy('cadastrar-pastores')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-pastores')
 
 class IgrejasUpdate(UpdateView):
     model = Igrejas
     fields = ['nome','endereco','email','telefone', 'pastores']
-    template_name = 'cadastros/formigrejas.html'
-    success_url = reverse_lazy('cadastrar-igrejas')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-igrejas')
 
 class CargoUpdate(UpdateView):
     model = Cargos
@@ -103,8 +103,8 @@ class PastorPresidenteDelete(DeleteView):
 
 class SecretariosDelete(DeleteView):
     model = Secretarios
-    template_name = 'cadastros/formsecretarios.html'
-    success_url = reverse_lazy('cadastrar-secretario')
+    template_name = 'cadastros/formexcluir.html'
+    success_url = reverse_lazy('listar-secretario')
 
 class TesoureiroDelete(DeleteView):
     model = Tesoureiro
@@ -113,13 +113,13 @@ class TesoureiroDelete(DeleteView):
 
 class PastoresDelete(DeleteView):
     model = Pastores
-    template_name = 'cadastros/formpastores.html'
-    success_url = reverse_lazy('cadastrar-pastores')
+    template_name = 'cadastros/formexcluir.html'
+    success_url = reverse_lazy('listar-pastores')
 
 class IgrejasDelete(DeleteView):
     model = Igrejas
-    template_name = 'cadastros/formigrejas.html'
-    success_url = reverse_lazy('cadastrar-igrejas')
+    template_name = 'cadastros/formexcluir.html'
+    success_url = reverse_lazy('listar-igrejas')
 
 class CargoDelete(DeleteView):
     model = Cargos
@@ -142,8 +142,7 @@ class PastorPresidenteList(ListView):
 
 class SecretariosList(ListView):
     model = Secretarios
-    template_name = 'cadastros/formsecretarios.html'
-    success_url = reverse_lazy('cadastrar-secretario')
+    template_name = 'cadastros/listas/listasecretarios.html'
 
 class TesoureiroList(ListView):
     model = Tesoureiro
@@ -152,13 +151,11 @@ class TesoureiroList(ListView):
 
 class PastoresList(ListView):
     model = Pastores
-    template_name = 'cadastros/formpastores.html'
-    success_url = reverse_lazy('cadastrar-pastores')
+    template_name = 'cadastros/listas/listapastores.html'
 
 class IgrejasList(ListView):
     model = Igrejas
-    template_name = 'cadastros/formigrejas.html'
-    success_url = reverse_lazy('cadastrar-igrejas')
+    template_name = 'cadastros/listas/listaigrejas.html'
 
 class CargoList(ListView):
     model = Cargos
