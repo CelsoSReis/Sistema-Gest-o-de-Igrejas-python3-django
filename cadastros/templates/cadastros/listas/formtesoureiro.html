@@ -10,7 +10,7 @@
 <div class="container-fluid mb-4 mx-4">
 
     <div class="col-md-12 my-3">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#modalTesoureiro" type="button" class="btn btn-success btn-sm">Novo Tesoureiro</a>
+        <a href="{% url 'cadastrar-tesoureiro' %}" type="button" class="btn btn-success btn-sm">Novo Tesoureiro</a>
     </div>
     
     <div class="tabela bg-light">
@@ -23,27 +23,31 @@
                         <th class="esc">Email</th>
                         <th class="esc">Telefone</th>
                         <th class="esc">Igreja</th>
-                        <th class="esc">Foto</th>
                         
                         <th>Ações</th>
                     </tr>		
                 </thead>
                 <tbody>
-                    
-                        <tr>
-                            <td><?php echo $nome ?></td>
-                            <td><?php echo $cpf ?></td>
-                            <td class="esc"><?php echo $email ?></td>
-                            <td class="esc"><?php echo $telefone ?></td>
-                            <td class="esc"><?php echo $nome_ig ?></td>
-                            <td class="esc"><img src="../img/membros/<?php echo $foto ?>" width="30px"></td>
-                            
-                            <td>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalEditarTesoureiro" title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir" title="Excluir Registro">	<i class="bi bi-trash text-danger"></i> </a>
-                                <a href="#" onclick="dados('<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
-                            </td>
-                        </tr>	
+                    {% for tesoureiro in object_list %}
+                    <tr>
+                        <td>{{ tesoureiro.nome }}</td>
+                        <td>{{ tesoureiro.cpf }}</td>
+                        <td class="esc">{{ tesoureiro.email }}</td>
+                        <td class="esc">{{ tesoureiro.telefone }}</td>
+                        <td class="esc">{{ tesoureiro.igreja }}</td>
+                        
+                        <td>
+                            <a href="{% url 'editar-tesoureiro' tesoureiro.pk %}"  title="Editar Registro">	<i class="bi bi-pencil-square text-primary"></i> </a>
+                            <a href="{% url 'excluir-tesoureiro' tesoureiro.pk %}" title="Excluir">	<i class="bi bi-trash text-danger"></i> </a>
+                            <a href="#" onclick="dados('<?php echo $nome ?>', '<?php echo $cpf ?>', '<?php echo $email ?>', '<?php echo $telefone ?>', '<?php echo $endereco ?>', '<?php echo $foto ?>')" title="Ver Dados">	<i class="bi bi-info-square-fill text-primary"></i> </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">Nenhum arquivo </td>
+                    </tr>
+                    {% endfor %}
+                        	
                     
                 </tbody>
             </table>
