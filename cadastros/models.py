@@ -7,7 +7,7 @@ class PastorPresidente(models.Model):
     nome = models.CharField(max_length=100, verbose_name='Nome')
     cpf = models.CharField(max_length=20, verbose_name='CPF')
     endereco = models.CharField(max_length=255, verbose_name='Endereço')
-    email = models.EmailField(max_length=60, verbose_name='E-mail')
+    email = models.EmailField(max_length=60, verbose_name='E-mail', blank=True, null=True)
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
     def __str__(self): ##define método
         return "{}".format(self.nome,self.cpf, self.endereco, self.email, self.telefone)
@@ -17,7 +17,7 @@ class Tesoureiro(models.Model):
     nome = models.CharField(max_length=100, verbose_name='Nome')
     cpf = models.CharField(max_length=20, verbose_name='CPF')
     endereco = models.CharField(max_length=255, verbose_name='Endereço')
-    email = models.EmailField(max_length=60, verbose_name='E-mail')
+    email = models.EmailField(max_length=60, verbose_name='E-mail', blank=True)
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
     def __str__(self): ##define método
         return "{}".format(self.nome,self.cpf, self.endereco, self.email, self.telefone)
@@ -27,7 +27,7 @@ class Secretarios(models.Model):
     nome = models.CharField(max_length=100, verbose_name='Nome')
     cpf = models.CharField(max_length=20, verbose_name='CPF')
     endereco = models.CharField(max_length=255, verbose_name='Endereço')
-    email = models.EmailField(max_length=60, verbose_name='E-mail')
+    email = models.EmailField(max_length=60, verbose_name='E-mail', blank=True, null=True)
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
     def __str__(self): ##define método
         return "{}".format(self.nome,self.cpf, self.endereco, self.email, self.telefone)
@@ -37,7 +37,7 @@ class Pastores(models.Model):
     nome = models.CharField(max_length=100, verbose_name='Nome')
     cpf = models.CharField(max_length=20, verbose_name='CPF')
     endereco = models.CharField(max_length=255, verbose_name='Endereço')
-    email = models.EmailField(max_length=60, verbose_name='E-mail')
+    email = models.EmailField(max_length=60, verbose_name='E-mail', blank=True, null=True)
     data_nascimento = models.DateField(verbose_name='Data de Nascimento')
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
     def __str__(self): ##define método
@@ -47,7 +47,7 @@ class Pastores(models.Model):
 class Igrejas(models.Model):
     nome = models.CharField(max_length=100, verbose_name='Nome')
     endereco = models.CharField(max_length=255, verbose_name='Endereço')
-    email = models.EmailField(max_length=60, verbose_name='E-mail')
+    email = models.EmailField(max_length=60, verbose_name='E-mail', blank=True, null=True)
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
 
     pastores = models.ForeignKey(Pastores, on_delete=models.PROTECT)
@@ -70,7 +70,7 @@ class Membros(models.Model):
     data_nascimento = models.DateField(verbose_name='Data de Nascimento')
     data_batismo = models.DateField(verbose_name='Data de Batismo')
     endereco = models.CharField(max_length=255, verbose_name='Endereço')
-    email = models.EmailField(max_length=60, verbose_name='E-mail')
+    email = models.EmailField(max_length=60, verbose_name='E-mail', blank=True, null=True)
     telefone = models.CharField(max_length=20, verbose_name='Telefone')
     
     cargos = models.ForeignKey(Cargos, on_delete=models.PROTECT)

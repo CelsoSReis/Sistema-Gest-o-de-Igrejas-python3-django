@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'paginas.apps.PaginasConfig',
     'cadastros.apps.CadastrosConfig',
     'dashboardigrejas.apps.DashboardigrejasConfig',
+    'autenticacao.apps.AutenticacaoConfig',
     'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 # Crispy Forms
