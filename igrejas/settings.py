@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'paginas.apps.PaginasConfig',
     'cadastros.apps.CadastrosConfig',
     'dashboardigrejas.apps.DashboardigrejasConfig',
+    'crispy_forms',
 ]
+
+# Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
