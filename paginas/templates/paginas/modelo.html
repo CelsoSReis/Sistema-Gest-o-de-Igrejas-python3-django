@@ -105,7 +105,9 @@
 					<img src="../img/membros/foto.php" alt="mdo" width="45" height="45" class=" max-auto bi mt-1 rounded-circle">
 				</a>
 				<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" data-bs-toggle="modal" >nome usuario</a></li>				
+								<li><a class="dropdown-item" data-bs-toggle="modal" >{% if user.is_authenticated %}
+									<h1>Olá, {{user.username}}</h1>  
+								{% endif %} </a></li>				
 								<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPerfil">Editar Dados</a></li>
 
 								<li><hr class="dropdown-divider"></li>

@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
+    'autenticacao.apps.AutenticacaoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +43,6 @@ INSTALLED_APPS = [
     'paginas.apps.PaginasConfig',
     'cadastros.apps.CadastrosConfig',
     'dashboardigrejas.apps.DashboardigrejasConfig',
-    'autenticacao.apps.AutenticacaoConfig',
     'crispy_forms',
     'crispy_bootstrap4',
 ]
@@ -137,6 +138,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 ## COnfigurações de autenticação
 LOGIN_REDIRECT_URL = 'index'
