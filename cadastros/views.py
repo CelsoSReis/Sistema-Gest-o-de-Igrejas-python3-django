@@ -1,3 +1,4 @@
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 ##import listas view
 from django.views.generic.list import ListView
@@ -6,6 +7,8 @@ from .models import PastorPresidente, Pastores, Tesoureiro, Secretarios, Igrejas
 # import redirecionamnto
 from django.urls import reverse_lazy
 # Create your views here.
+
+
 class PastorPresidenteCreate(CreateView):
     model = PastorPresidente
     fields = ['nome','cpf','endereco','email','telefone']

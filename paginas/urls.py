@@ -4,7 +4,6 @@ from .views import PaginaInicial, SobreView, HomeView, PastoresView, UsuariosVie
 from paginas import views
 # padrão django urls
 urlpatterns = [
-    path('', views.home, name='home'),
     path('', PaginaInicial.as_view(), name='index'),
     path('sobre/', SobreView.as_view(), name='sobre' ),
     path('home/', HomeView.as_view(), name='home' ),

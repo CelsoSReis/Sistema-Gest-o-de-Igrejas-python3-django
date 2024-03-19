@@ -1,17 +1,12 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
 # Create your views here.
 
-#classe PaginaInicial extends TemplateView
-@login_required
-def home(requests):
-    return render(requests, 'paginas/index.html')
+# classe PaginaInicial extends TemplateView
 
 class PaginaInicial(TemplateView):
     template_name = "paginas/index.html"
-
 class SobreView(TemplateView):
     template_name = "paginas/sobre.html"
 
