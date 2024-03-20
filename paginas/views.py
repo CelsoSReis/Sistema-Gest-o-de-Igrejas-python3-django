@@ -30,10 +30,8 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
-#class PaginaInicial(TemplateView):
-#    template_name = "paginas/index.html"
 
 #class SobreView(TemplateView):
 #    template_name = "paginas/sobre.html"
