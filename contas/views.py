@@ -1,18 +1,33 @@
-# contas/views.py
 from django.shortcuts import render, redirect
-from .forms import LoginForm
-from django.contrib.auth import login, logout
+from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login, logout
+
+# Create your views here.
+
+# classe PaginaInicial extends TemplateView
+
+def PaginaInicial(request):
+    return render(request, 'paginas/index.html')
+
+def SobreView(request):
+    return render(request, 'paginas/sobre.html')
+
+def HomeView(request):
+    return render(request, 'paginas/home.html')
 
 def login_view(request):
-    form = LoginForm(request.POST or None)
-    if form.is_valid():
-        user = login(request, form.cleaned_data['user'])
-        return redirect('index')  # Redirecionar para a página inicial
-    context = {
-        'form': form,
-    }
-    return render(request, 'contas/templates/login.html', context)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            # Mensagem de erro de login inválido
+            return render(request, 'login.html', {'error': 'Login inválido'})
+    return render(request, 'login.html')
 
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirecionar para a página de login
+    return redirect('login')
