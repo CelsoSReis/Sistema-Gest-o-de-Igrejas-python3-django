@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'contas.apps.ContasConfig',
     'paginas.apps.PaginasConfig',
     'cadastros.apps.CadastrosConfig',
     'dashboardigrejas.apps.DashboardigrejasConfig',

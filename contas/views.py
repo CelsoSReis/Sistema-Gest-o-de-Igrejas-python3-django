@@ -13,7 +13,7 @@ def SobreView(request):
     return render(request, 'paginas/sobre.html')
 
 def HomeView(request):
-    return render(request, 'paginas/home.html')
+    return render(request, 'contas/home.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -22,7 +22,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')
+            return redirect('home')
         else:
             # Mensagem de erro de login inválido
             return render(request, 'login.html', {'error': 'Login inválido'})
