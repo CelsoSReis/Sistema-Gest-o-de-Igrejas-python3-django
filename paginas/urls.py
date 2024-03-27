@@ -1,12 +1,14 @@
 from django.urls import path
 # importa as views que foram criadas
-from .views import PaginaInicial, SobreView, HomeView #PastoresView, UsuariosView, IgrejasView, BisposView, TesoureirosView, SecretariosView, CargosView, FrequenciasView, PatrimoniosView
+#from .views import PaginaInicial, SobreView, HomeView #PastoresView, UsuariosView, IgrejasView, BisposView, TesoureirosView, SecretariosView, CargosView, FrequenciasView, PatrimoniosView
 from paginas import views
+
+
 # padrão django urls
 urlpatterns = [
-    #path('', views.PaginaInicial, name='index'),
-    #path('', views.SobreView, name='sobre'),
-    #path('', views.HomeView, name='home'),
+    path('index/', views.PaginaInicial, name='index'),
+    path('sobre/', views.SobreView, name='sobre'),
+    path('home/', views.HomeView, name='home'),
 
     #path('', PaginaInicial.as_view(), name='index'),
     #path('sobre/', SobreView.as_view(), name='sobre' ),

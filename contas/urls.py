@@ -4,9 +4,9 @@ from django.urls import path
 from contas import views
 # padrão django urls
 urlpatterns = [
-    path('', views.HomeView, name='home'),
-    path('', views.PaginaInicial, name='index'),
-    path('', views.SobreView, name='sobre'),
+    #path('', views.HomeView, name='home'),
+    #path('', views.PaginaInicial, name='index'),
+    #path('', views.SobreView, name='sobre'),
     
     
     #path('', PaginaInicial.as_view(), name='index'),

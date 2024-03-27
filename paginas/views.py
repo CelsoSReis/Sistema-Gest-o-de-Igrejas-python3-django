@@ -1,19 +1,39 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
+#from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
+
 
 # Create your views here.
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            # Mensagem de erro
+            pass
+    return render(request, 'login.html')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 # classe PaginaInicial extends TemplateView
-
-#def PaginaInicial(request):
- #   return render(request, 'paginas/index.html')
-
-#def SobreView(request):
-  #  return render(request, 'paginas/sobre.html')
-
-#def HomeView(request):
- #   return render(request, 'paginas/home.html')
+@login_required
+def PaginaInicial(request):
+  return render(request, 'paginas/index.html')
+@login_required
+def SobreView(request):
+  return render(request, 'paginas/sobre.html')
+@login_required
+def HomeView(request):
+  return render(request, 'paginas/home.html')
 
 
 #class SobreView(TemplateView):
