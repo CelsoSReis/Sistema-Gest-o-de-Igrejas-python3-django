@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 ##import listas view
@@ -7,6 +8,7 @@ from .models import PastorPresidente, Pastores, Tesoureiro, Secretarios, Igrejas
 # import redirecionamnto
 from django.urls import reverse_lazy
 # Create your views here.
+from django.shortcuts import render
 
 
 class PastorPresidenteCreate(CreateView):
@@ -14,6 +16,7 @@ class PastorPresidenteCreate(CreateView):
     fields = ['nome','cpf','endereco','email','telefone']
     template_name = 'cadastros/formpastorpre.html'
     success_url = reverse_lazy('bispos')
+
 
 class SecretariosCreate(CreateView):
     model = Secretarios
@@ -137,28 +140,34 @@ class MembrosDelete(DeleteView):
 
 
 ############## LISTAS VIEW ###################
-    
+@login_required    
+def SecretariosList(request):
+    secretarios = Secretarios.objects.all()
+    contexto = {'secretarios': secretarios}
+    return render(request, 'cadastros/listas/listasecretarios.html', contexto)
+
 class PastorPresidenteList(ListView):
     model = PastorPresidente
     template_name = 'cadastros/formpastorpre.html'
     success_url = reverse_lazy('bispos')
 
-class SecretariosList(ListView):
-    model = Secretarios
-    template_name = 'cadastros/listas/listasecretarios.html'
-
-class TesoureiroList(ListView):
-    model = Tesoureiro
-    template_name = 'cadastros/listas/formtesoureiro.html'
+@login_required    
+def TesoureiroList(request):
+    tesoureiro = Tesoureiro.objects.all()
+    contexto = {'tesoureiro': tesoureiro}
+    return render(request, 'cadastros/listas/formtesoureiro.html', contexto)
     
+@login_required    
+def PastoresList(request):
+    pastores = Pastores.objects.all()
+    contexto = {'pastores': pastores}
+    return render(request, 'cadastros/listas/listapastores.html', contexto)
 
-class PastoresList(ListView):
-    model = Pastores
-    template_name = 'cadastros/listas/listapastores.html'
-
-class IgrejasList(ListView):
-    model = Igrejas
-    template_name = 'cadastros/listas/listaigrejas.html'
+@login_required    
+def IgrejasList(request):
+    igrejas = Igrejas.objects.all()
+    contexto = {'igrejas': igrejas}
+    return render(request, 'cadastros/listas/listaigrejas.html', contexto)
 
 class CargoList(ListView):
     model = Cargos

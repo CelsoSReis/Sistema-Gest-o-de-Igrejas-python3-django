@@ -30,6 +30,7 @@
 	<title>Painel Administrativo</title>
 	{% endblock %}
 </head>
+{% if request.user.is_authenticated %}
 <body class="background-sistema">
 {% block menu %}
 <header>
@@ -112,6 +113,15 @@
 
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
+								{% if request.user.is_authenticated %}
+									<form action="{% url 'logout' %}" method="post">
+										{% csrf_token %}
+										<button type="submit">Logout</button>
+									</form>
+									{% else %}
+
+										<a href="#"></a>
+								{% endif %}
 							</ul>
             </li>
 			<li>
@@ -453,3 +463,5 @@
 
 	});
 </script>
+
+{% endif %}

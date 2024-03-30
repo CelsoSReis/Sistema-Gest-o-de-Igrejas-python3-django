@@ -1,0 +1,14 @@
+{% if forms.errors %}
+    <p style="color: red;">Username or password incorretos</p>
+{% else %}
+    <p>login</p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Usuário">
+    <input type="password" name="password" placeholder="Senha">
+    <button type="submit">Entrar</button>
+    {% for k, v in form.errors.items %}
+    <p style="color: red;">{{ v }}</p>
+    {% endfor %}
+</form>

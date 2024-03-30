@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'contas.apps.ContasConfig',
+    'account.apps.AccountConfig',
     'paginas.apps.PaginasConfig',
     'cadastros.apps.CadastrosConfig',
     'dashboardigrejas.apps.DashboardigrejasConfig',
@@ -140,4 +140,8 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 60  # 2 weeks in seconds
