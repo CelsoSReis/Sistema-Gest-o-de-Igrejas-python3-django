@@ -169,10 +169,16 @@ def IgrejasList(request):
     contexto = {'igrejas': igrejas}
     return render(request, 'cadastros/listas/listaigrejas.html', contexto)
 
-class CargoList(ListView):
-    model = Cargos
-    template_name = 'cadastros/formcargos.html'
-    success_url = reverse_lazy('cadastrar-cargos')
+@login_required    
+def CargoList(request):
+    cargos = Cargos.objects.all()
+    contexto = {'cargos': cargos}
+    return render(request, 'cadastros/listas/listacargo.html', contexto)
+
+#class CargoList(ListView):
+ #   cargos = Cargos.objects.all()
+  #  template_name = 'cadastros/formcargos.html'
+   # success_url = reverse_lazy('cadastrar-cargos')
 
 class MembrosList(ListView):
     model = Membros
