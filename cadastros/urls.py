@@ -39,6 +39,7 @@ urlpatterns = [
     path('listar/tesoureiro/', TesoureiroList, name='listar-tesoureiro'),
     path('listar/pastores/', PastoresList, name='listar-pastores'),
     path('listar/igrejas/', IgrejasList, name='listar-igrejas'),
-    path('listar/cargos/<int:pk>/', CargoList, name='listar-cargos'),
+    path('listar/cargos/', CargoList, name='listar-cargos'),
+#    path('listar/cargos/<int:pk>/', CargoList, name='listar-cargos'),
     path('listar/membros/<int:pk>/', MembrosList.as_view(), name='listar-membros'),
 ]

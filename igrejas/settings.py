@@ -144,4 +144,4 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 300  # 2 weeks in seconds
+SESSION_COOKIE_AGE = 600  # 2 weeks in seconds

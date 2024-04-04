@@ -46,8 +46,8 @@ class IgrejasCreate(CreateView):
 class CargoCreate(CreateView):
     model = Cargos
     fields = ['nome']
-    template_name = 'cadastros/formcargos.html'
-    success_url = reverse_lazy('cadastrar-cargos')
+    template_name = 'cadastros/formcadastro.html'
+    success_url = reverse_lazy('listar-cargos')
 @method_decorator(login_required, name='dispatch')
 class MembrosCreate(CreateView):
     model = Membros
@@ -93,7 +93,7 @@ class CargoUpdate(UpdateView):
     model = Cargos
     fields = ['nome']
     template_name = 'cadastros/formcargos.html'
-    success_url = reverse_lazy('cadastrar-cargos')
+    success_url = reverse_lazy('listar-cargos')
 @method_decorator(login_required, name='dispatch')
 class MembrosUpdate(UpdateView):
     model = Membros
@@ -130,8 +130,8 @@ class IgrejasDelete(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class CargoDelete(DeleteView):
     model = Cargos
-    template_name = 'cadastros/formcargos.html'
-    success_url = reverse_lazy('cadastrar-cargos')
+    template_name = 'cadastros/formexcluir.html'
+    success_url = reverse_lazy('listar-cargos')
 @method_decorator(login_required, name='dispatch')
 class MembrosDelete(DeleteView):
     model = Membros
