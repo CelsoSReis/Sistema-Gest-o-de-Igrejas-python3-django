@@ -55,9 +55,8 @@ class MembrosCreate(CreateView):
     template_name = 'cadastros/formmembros.html'
     success_url = reverse_lazy('cadastrar-membros')
 
-
-
 ######### update #########
+
 @method_decorator(login_required, name='dispatch')    
 class PastorPresidenteUpdate(UpdateView):
     model = PastorPresidente
@@ -102,6 +101,7 @@ class MembrosUpdate(UpdateView):
     success_url = reverse_lazy('cadastrar-membros')
 
 ############## DELETE VIEW ###################
+
 @method_decorator(login_required, name='dispatch')    
 class PastorPresidenteDelete(DeleteView):
     model = PastorPresidente
@@ -138,9 +138,8 @@ class MembrosDelete(DeleteView):
     template_name = 'cadastros/formmembros.html'
     success_url = reverse_lazy('cadastrar-membros')
 
-
-
 ############## LISTAS VIEW ###################
+
 @login_required    
 def SecretariosList(request):
     secretarios = Secretarios.objects.all()
