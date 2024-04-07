@@ -19,11 +19,11 @@
     {% if forms.errors %}
     <p style="color: red;">Username or password incorretos</p>
     {% else %}
-    <p>login</p>
+    <p>Login</p>
     {% endif %}
 
-    <img class="mb-4" src="img/logo.svg" alt="Igrejas" width="100%">
-    <!--<h1 class="h3 mb-3 fw-normal">Login</h1>-->
+    <img class="mb-5" src="{% static 'img/Design.png' %}" alt="Igrejas" width="80%">
+  
 
     <div class="form-floating mb-2">
       {% csrf_token %}

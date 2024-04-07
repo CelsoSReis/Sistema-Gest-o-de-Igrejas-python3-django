@@ -28,7 +28,7 @@
                     </tr>		
                 </thead>
                 <tbody>
-                    {% for igrejas in igrejas %}
+                    {% for igrejas in object_list %}
                     <tr>
                         <td>{{ igrejas.nome }}</td>
                         <td>{{ igrejas.endereco }}</td>
@@ -44,7 +44,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="3">Nenhum Secretário Cadastrado </td>
+                        <td colspan="3">Nenhuma Igreja </td>
                     </tr>
                     {% endfor %}
                         	
