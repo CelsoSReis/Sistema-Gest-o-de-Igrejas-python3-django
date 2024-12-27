@@ -1,0 +1,109 @@
+{% extends "bases/base.html" %}
+{% load static %}
+
+{% block 'head' %}
+    
+{% endblock 'head' %}
+
+{% block 'conteudo' %}
+
+<div class="page-inner">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+            <div class="card-header">
+                <div class="card-title">Cadastro de Usuários</div>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'cadastro' %}" method="POST">{% csrf_token %}
+                <div class="row">
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="form-group">
+                        <label for="largeInput">Primeiro Nome</label>
+                        <input type="text" class="form-control" id="largeInput" name="primeiro_nome" placeholder="Primeiro Nome" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="largeInput">CPF</label>
+                        <input type="text" class="form-control" id="largeInput" name="username" placeholder="CPF" required/>
+                    </div>
+                    <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" class="form-control" id="password" name="senha" placeholder="Senha" required />
+                    </div>
+                    
+                <!--
+                    <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckDefault"
+                    />
+                    <label
+                        class="form-check-label"
+                        for="flexCheckDefault"
+                    >
+                        Agree with terms and conditions
+                    </label>
+                    </div>-->
+                </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="largeInput">Último Nome</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            id="largeInput"
+                            name="ultimo_nome"
+                            placeholder="Último Nome"
+                            required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email2">E-mail</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email2"
+                                name="email"
+                                placeholder="E-mail"
+                                required
+                            />                    
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Confirmar Senha</label>
+                                <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="confirmar_senha"
+                                placeholder="Confirme sua Senha..."
+                                required
+                                />
+                            </div>
+                    </div>
+                    <div class="card-action">
+                        <!--Exibe mensagens de alerta-->
+                        {% if messages %}
+                        <br>
+                            {% for message in messages %}
+                                <div class="col-md-8 alert {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <input class="btn btn-success" type="submit" value="Salvar">
+                        <a href="#" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
