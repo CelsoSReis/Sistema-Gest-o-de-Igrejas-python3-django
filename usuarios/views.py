@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.messages import constants
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
     
@@ -41,3 +42,21 @@ def cadastro(request):
             return redirect('/usuarios/cadastro')
             
         return redirect('/usuarios/cadastro')
+    
+# Funcionalidade para logar
+def logar(request):
+    if request.method == "GET":
+        return render(request, 'login.html')
+    else:
+        username = request.POST.get('username')
+        senha = request.POST.get('senha')
+
+        user = authenticate(username=username, password=senha)
+
+        if user:
+            login(request, user)
+						# Acontecerá um erro ao redirecionar por enquanto
+            return redirect('/')
+        else:
+            messages.add_message(request, constants.ERROR, 'Usuario ou senha inválidos')
+            return redirect('/usuarios/login')
