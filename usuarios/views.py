@@ -1,8 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.messages import constants
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from .utils import password_is_valid, email_html
+import os
+from django.conf import settings
+from .models import Ativacao
+from hashlib import sha256
 
 # Create your views here.
     
@@ -10,6 +15,8 @@ from django.contrib.auth import authenticate, login
 ## Função "cadastro", Realiza cadastro de usuários para o sistema
 def cadastro(request):
     if request.method == "GET":
+        if request.user.is_authenticated:
+            return redirect('/')
         return render(request, 'cadastro.html')
     elif request.method == "POST":
         primeiro_nome = request.POST.get('primeiro_nome')
@@ -18,13 +25,9 @@ def cadastro(request):
         email = request.POST.get('email')
         senha = request.POST.get('senha')
         confirmar_senha = request.POST.get('confirmar_senha')
-        ##verificar se as senhas estão iguais
-        if not senha == confirmar_senha:
-            messages.add_message(request, constants.ERROR, 'Senhas não correspondem!')    
-            return redirect('/usuarios/cadastro')
         
-        if len(senha) < 6:
-            messages.add_message(request, constants.ERROR, 'Sua senha deve conter 6 ou mais caracteres!')    
+        ## Validação senha
+        if not password_is_valid(request, senha, confirmar_senha):
             return redirect('/usuarios/cadastro')
         
         try:
@@ -35,17 +38,26 @@ def cadastro(request):
                 username=username,
                 email=email,
                 password=senha,
+                is_active=False,
             )
+            #cria token para ativação
+            token = sha256(f"{username}{email}".encode()).hexdigest()
+            ativacao = Ativacao(token=token, user=user)
+            ativacao.save()
+
+            path_template = os.path.join(settings.BASE_DIR, 'usuarios/templates/emails/cadastro_confirmado.html')
+            email_html(path_template, 'Cadastro confirmado', [email,], username=username, link_ativacao="127.0.0.1:8000/auth/ativar_conta/{token}")
             messages.add_message(request, constants.SUCCESS, 'Usuário Salvo com sucesso!')
         except:
             messages.add_message(request, constants.ERROR, 'Erro, contate o administrador do sistema!')
             return redirect('/usuarios/cadastro')
-            
-        return redirect('/usuarios/cadastro')
+        return redirect('/usuarios/login')
     
 # Funcionalidade para logar
 def logar(request):
     if request.method == "GET":
+        if request.user.is_authenticated:
+            return redirect('/')
         return render(request, 'login.html')
     else:
         username = request.POST.get('username')
@@ -60,3 +72,23 @@ def logar(request):
         else:
             messages.add_message(request, constants.ERROR, 'Usuario ou senha inválidos')
             return redirect('/usuarios/login')
+# Função para deslogar
+## LOGOUT
+def logout_view(request):
+    logout(request)
+    # Redirect to a success page.
+    return redirect('/usuarios/login')
+
+#ativar conta
+def ativar_conta(request, token):
+    token = get_object_or_404(Ativacao, token=token)
+    if token.ativo:
+        messages.add_message(request, constants.WARNING, 'Essa token já foi usado')
+        return redirect('/auth/logar')
+    user = User.objects.get(username=token.user.username)
+    user.is_active = True
+    user.save()
+    token.ativo = True
+    token.save()
+    messages.add_message(request, constants.SUCCESS, 'Conta ativa com sucesso')
+    return redirect('/auth/logar')
