@@ -46,7 +46,7 @@ def cadastro(request):
             ativacao.save()
 
             path_template = os.path.join(settings.BASE_DIR, 'usuarios/templates/emails/cadastro_confirmado.html')
-            email_html(path_template, 'Cadastro confirmado', [email,], username=username, link_ativacao="127.0.0.1:8000/auth/ativar_conta/{token}")
+            email_html(path_template, 'Cadastro confirmado', [email,], username=username, link_ativacao=f"127.0.0.1:8000/usuarios/ativar_conta/{token}")
             messages.add_message(request, constants.SUCCESS, 'Usuário Salvo com sucesso!')
         except:
             messages.add_message(request, constants.ERROR, 'Erro, contate o administrador do sistema!')
@@ -84,11 +84,12 @@ def ativar_conta(request, token):
     token = get_object_or_404(Ativacao, token=token)
     if token.ativo:
         messages.add_message(request, constants.WARNING, 'Essa token já foi usado')
-        return redirect('/auth/logar')
+        return redirect('/usuarios/login')
     user = User.objects.get(username=token.user.username)
     user.is_active = True
     user.save()
     token.ativo = True
     token.save()
+
     messages.add_message(request, constants.SUCCESS, 'Conta ativa com sucesso')
-    return redirect('/auth/logar')
+    return redirect('/usuarios/login')
