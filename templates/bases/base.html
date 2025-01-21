@@ -85,7 +85,6 @@
                   >
                     <i class="fas fa-home"></i>
                     <p>Início</p>
-                    
                   </a>
                 </li>
                 <li class="nav-section">
@@ -97,14 +96,19 @@
                 <li class="nav-item">
                   <a data-bs-toggle="collapse" href="#base">
                     <i class="fas fa-layer-group"></i>
-                    <p>Pacientes</p>
+                    <p>Pessoas</p>
                     <span class="caret"></span>
                   </a>
                   <div class="collapse" id="base">
                     <ul class="nav nav-collapse">
                       <li>
+                        <a href="{% url 'membros' %}">
+                          <span class="sub-item">Gereciar Membros</span>
+                        </a>
+                      </li>
+                      <li>
                         <a href="components/avatars.html">
-                          <span class="sub-item">Cadastrar Pacientes</span>
+                          <span class="sub-item">Membros</span>
                         </a>
                       </li>
                       
@@ -517,7 +521,10 @@
           </div>
 
           <div class="container">
-            {% block 'conteudo' %}{% endblock %}
+            {% block 'conteudo' %}
+            
+            
+            {% endblock %}
           </div>
 
           <footer class="footer">
