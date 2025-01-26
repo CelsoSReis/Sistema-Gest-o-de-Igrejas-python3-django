@@ -24,7 +24,7 @@
         <div class="card-body">
                     <!-- Modal -->
                     <div
-                      class="modal fade"
+                      class="modal fade modal-lg"
                       id="addRowModal"
                       tabindex="-1"
                       role="dialog"
@@ -34,8 +34,8 @@
                         <div class="modal-content">
                           <div class="modal-header border-0">
                             <h5 class="modal-title">
-                              <span class="fw-mediumbold"> New</span>
-                              <span class="fw-light"> Row </span>
+                              <span class="fw-mediumbold"> Novo</span>
+                              <span class="fw-light"> Membro </span>
                             </h5>
                             <button
                               type="button"
@@ -47,63 +47,85 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <p class="small">
-                              Create a new row using this form, make sure you
-                              fill them all
-                            </p>
-                            <form>
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <div class="form-group form-group-default">
-                                    <label>Name</label>
-                                    <input
-                                      id="addName"
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="fill name"
-                                    />
-                                  </div>
+                              <form class="row g-3" action="{% url 'membros' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="col-12">
+                                  <label for="inputName" class="form-label">Nome</label>
+                                  <input type="text" class="form-control" id="inputName" placeholder="Digite o nome..." name="nome" required>
                                 </div>
-                                <div class="col-md-6 pe-0">
-                                  <div class="form-group form-group-default">
-                                    <label>Position</label>
-                                    <input
-                                      id="addPosition"
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="fill position"
-                                    />
-                                  </div>
+                                
+                                <div class="col-md-4">
+                                  <label for="inputCPF" class="form-label">CPF</label>
+                                  <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF..." name="cpf">
+                                </div>
+                                <div class="col-3">
+                                  <label for="inputData" class="form-label">Data de Nascimento</label>
+                                  <input type="date" class="form-control" id="inputData" name="data_nascimento">
+                                </div>
+                                <div class="col-md-4">
+                                  <label for="inputSexo" class="form-label">Sexo</label>
+                                  <select id="inputSexo" name="sexo"class="form-select">
+                                    <option selected>Selecione...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                  </select>
+                                </div>
+                                <div class="col-5">
+                                  <label for="inputPhone" class="form-label">Telefone</label>
+                                  <input type="phone2numeric" class="form-control" id="inputPhone" placeholder="Digite o Nº de Telefone..." name="telefone">
                                 </div>
                                 <div class="col-md-6">
-                                  <div class="form-group form-group-default">
-                                    <label>Office</label>
-                                    <input
-                                      id="addOffice"
-                                      type="text"
-                                      class="form-control"
-                                      placeholder="fill office"
-                                    />
-                                  </div>
+                                  <label for="inputEmail4" class="form-label">Email</label>
+                                  <input type="email" class="form-control" id="inputEmail4" placeholder="Digite o e-mail..." name="email">
                                 </div>
-                              </div>
-                            </form>
-                          </div>
-                          <div class="modal-footer border-0">
-                            <button
-                              type="button"
-                              id="addRowButton"
-                              class="btn btn-primary"
-                            >
-                              Add
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-danger"
-                              data-dismiss="modal"
-                            >
-                              Close
-                            </button>
+                                <div class="col-12">
+                                  <label for="inputEndereco" class="form-label">Endereço</label>
+                                  <input type="text" class="form-control" id="inputEndereco" placeholder="Digite o endereço..." name="endereco">
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <label for="inputFoto" class="form-label">Foto (3x4)</label>
+                                  <input type="file" class="form-control" id="inputFoto" name="foto" accept="image/*">
+                                </div>
+                                <div class="col-md-3">
+                                  <label for="inputCargo" class="form-label">Cargo Ministerial</label>
+                                  <select id="inputCargo" class="form-select" name="cargo">
+                                    <option selected>Selecione...</option>
+                                    <option value="A">Auxiliar</option>
+                                    <option value="C">Congregado</option>
+                                    <option value="Cr">Crianças</option>
+                                    <option value="Da">Diaconisa</option>
+                                    <option value="D">Diácono</option>
+                                    <option value="E">Evangelista</option>
+                                    <option value="J">Jovem</option>
+                                    <option value="Mb">Membro</option>
+                                    <option value="Mi">Missionário(a)</option>
+                                    <option value="Pr">Pastor</option>
+                                    <option value="P">Presbítero</option>
+                                  </select>
+                                </div>
+                                <div class="col-3">
+                                  <label for="inputDataBat" class="form-label">Data de Batismo</label>
+                                  <input type="date" class="form-control" id="inputDataBat" name"data_batismo">
+                                </div>
+                                {% if messages %}
+                                        <br>
+                                        {% for message in messages %}
+                                            <div class="alert {{message.tags}}">
+                                                {{message}}
+                                            </div>
+                                        {% endfor %}
+                                {% endif %}
+                                <div class="modal-footer border-0">
+                                  <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                                    Salvar
+                                  </button>
+                                  
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                    Cancelar
+                                  </button>
+                                </div>
+                              </form>
                           </div>
                         </div>
                       </div>
@@ -114,6 +136,14 @@
                         id="add-row"
                         class="display table table-striped table-hover"
                       >
+                      {% if messages %}
+                                        <br>
+                                        {% for message in messages %}
+                                            <div class="alert {{message.tags}}">
+                                                {{message}}
+                                            </div>
+                                        {% endfor %}
+                                {% endif %}
                         <thead>
                           <tr>
                             <th>Nome</th>
@@ -133,119 +163,62 @@
                           </tr>
                         </tfoot>
                         <tbody>
-                          <tr>
-                            <td>Celso Santos dos Reis</td>
-                            <td>024.504.691-76</td>
-                            <td> 62 986263012</td>
-                            <td>Auxiliar</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Celso Santos dos Reis</td>
-                            <td>024.504.691-76</td>
-                            <td> 62 986263012</td>
-                            <td>Auxiliar</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Celso Santos dos Reis</td>
-                            <td>024.504.691-76</td>
-                            <td> 62 986263012</td>
-                            <td>Auxiliar</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Celso Santos dos Reis</td>
-                            <td>024.504.691-76</td>
-                            <td> 62 986263012</td>
-                            <td>Auxiliar</td>
-                            <td>
-                              <div class="form-button-action">
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-primary btn-lg"
-                                  data-original-title="Edit Task"
-                                >
-                                  <i class="fa fa-edit"></i>
-                                </button>
-                                <button
-                                  type="button"
-                                  data-bs-toggle="tooltip"
-                                  title=""
-                                  class="btn btn-link btn-danger"
-                                  data-original-title="Remove"
-                                >
-                                  <i class="fa fa-times"></i>
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          
+                          {% for membro in membros %}
+                            <tr>
+                              <td>{{membro.nome}}</td>
+                              <td>{{membro.cpf}}</td>
+                              <td> {{membro.telefone}}</td>
+                              <!--TODO:DESENVOLVER UMA VALIDAÇÃO DE DADOS PARA OS CARGOS-->
+                              <td>
+                                {% if membro.cargo == "Mb" %}
+                                  Membro
+                                {% elif membro.cargo == "A" %}
+                                  Auxiliar
+                                {% elif membro.cargo == "C" %}
+                                  Congregado
+                                {% elif membro.cargo == "Cr" %}
+                                  Crianças
+                                {% elif membro.cargo == "Da" %}
+                                  Diaconisa
+                                {% elif membro.cargo == "D" %}
+                                  Diácono
+                                {% elif membro.cargo == "E" %}
+                                  Evangelista
+                                {% elif membro.cargo == "J" %}
+                                  Jovem
+                                {% elif membro.cargo == "Mi" %}
+                                  Missionário(a)
+                                {% elif membro.cargo == "Pr" %}
+                                  Pastor
+                                {% elif membro.cargo == "P" %}
+                                  Presbítero
+                                {% endif %}
+                              </td>
+                              <td>
+                                <div class="form-button-action">
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-primary btn-lg"
+                                    data-original-title="Edit Task"
+                                  >
+                                    <i class="fa fa-edit"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="tooltip"
+                                    title=""
+                                    class="btn btn-link btn-danger"
+                                    data-original-title="Remove"
+                                  >
+                                    <i class="fa fa-times"></i>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                                                   
                         </tbody>
                       </table>
                     </div>
@@ -255,10 +228,7 @@
             </div>
           </div>
         </div>
-
-        
       </div>
-
     </div>
     
 
@@ -268,8 +238,8 @@
     <script src="{% static "geral/assets/js/plugin/datatables/datatables.min.js"%}"></script>
     <!-- Kaiadmin JS -->
     <script src="{% static "geral/assets/js/kaiadmin.min.js"%}"></script>
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="{% static "geral/assets/js/setting-demo2.js"%}"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! 
+    <script src="{% static "geral/assets/js/setting-demo2.js"%}"></script>-->
     <script>
       $(document).ready(function () {
         $("#basic-datatables").DataTable({});
