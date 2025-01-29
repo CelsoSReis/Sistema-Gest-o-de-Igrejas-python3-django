@@ -1,8 +1,12 @@
-from django.shortcuts import render, redirect
+from django.forms import ValidationError
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from .models import Membros
+
+
 
 @login_required(login_url='/usuarios/login')
 def membros(request):
@@ -59,3 +63,66 @@ def membros(request):
             print(f"Erro ao salvar o membro: {e}")
             messages.add_message(request, constants.ERROR, 'Erro ao cadastrar o membro. Tente novamente.')
             return redirect('/membros/')
+
+
+@login_required(login_url='/usuarios/login')
+def atualizar_membro(request, id):
+    # Busca o membro pelo ID ou retorna 404 se não existir
+    membro = get_object_or_404(Membros, id=id, pastor=request.user)
+
+    if request.method == "GET":
+        # Renderiza o formulário de edição com os dados atuais do membro
+        return render(request, 'editar_membro.html', {'membro': membro})
+
+    elif request.method == "POST":
+        # Obtém os dados do formulário
+        nome = request.POST.get('nome', '').strip()
+        sexo = request.POST.get('sexo', '').strip()
+        email = request.POST.get('email', '').strip()
+        telefone = request.POST.get('telefone', '').strip()
+        cpf = request.POST.get('cpf', '').strip()
+        endereco = request.POST.get('endereco', '').strip()
+        foto = request.FILES.get('foto')  # Obtém arquivo via request.FILES
+        data_batismo = request.POST.get('data_batismo', '').strip()
+        data_nascimento = request.POST.get('data_nascimento', '').strip()
+        cargo = request.POST.get('cargo', '').strip()
+
+        # Valida campos obrigatórios
+        if not nome or not sexo or not cargo:
+            messages.add_message(request, messages.ERROR, 'Preencha todos os campos obrigatórios.')
+            return redirect(f'/membros/editar/{id}/')
+
+        # Checa se o CPF já está cadastrado para outro membro (exceto o atual)
+        if Membros.objects.filter(cpf=cpf).exclude(id=id).exists():
+            messages.add_message(request, messages.ERROR, 'O CPF já está cadastrado para outro membro.')
+            return redirect(f'/membros/editar/{id}/')
+
+        # Atualiza os dados do membro
+        try:
+            membro.nome = nome
+            membro.sexo = sexo
+            membro.email = email
+            membro.telefone = telefone
+            membro.cpf = cpf
+            membro.endereco = endereco
+            if foto:  # Atualiza a foto apenas se uma nova foi enviada
+                membro.foto = foto
+            membro.data_batismo = data_batismo or None  # Tratar caso seja vazio
+            membro.data_nascimento = data_nascimento or None  # Tratar caso seja vazio
+            membro.cargo = cargo
+
+            # Salva as alterações no banco de dados
+            membro.save()
+
+            messages.add_message(request, messages.SUCCESS, 'Membro atualizado com sucesso!')
+            return redirect('/membros/')
+        except ValidationError as e:
+            # Log do erro para fins de depuração (opcional)
+            print(f"Erro ao atualizar o membro: {e}")
+            messages.add_message(request, messages.ERROR, 'Erro ao atualizar o membro. Verifique os dados.')
+            return redirect(f'/membros/editar/{id}/')
+        except Exception as e:
+            # Log do erro para fins de depuração (opcional)
+            print(f"Erro ao atualizar o membro: {e}")
+            messages.add_message(request, messages.ERROR, 'Erro ao atualizar o membro. Tente novamente.')
+            return redirect(f'/membros/editar/{id}/')
