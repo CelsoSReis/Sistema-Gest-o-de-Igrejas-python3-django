@@ -206,6 +206,37 @@
                       </div>
                     </div>
 
+                    <!--Modal informações do membro-->
+                  <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Informações sobre o Membro</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><p><strong>Nome: </strong> <span id="nomeMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>Sexo:</strong> <span id="sexoMembro"></span></p></li>
+                            <li class="list-group-item"> <p><strong>Email:</strong> <span id="emailMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>Telefone:</strong> <span id="telefoneMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>CPF:</strong> <span id="cpfMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>Endereço:</strong> <span id="enderecoMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>Data de Nascimento:</strong> <span id="dataNascimentoMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>Data de Batismo:</strong> <span id="dataBatismoMembro"></span></p></li>
+                            <li class="list-group-item"><p><strong>Cargo:</strong> <span id="cargoMembro"></span></p></li>
+                            
+                          </ul>
+                                 
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <!--FINAL Modal informações do membro-->
+
                     <div class="table-responsive">
                       <table
                         id="add-row"
@@ -283,16 +314,29 @@
                                     <i class="fa fa-edit"></i>
                                   </button>
                                 </a>
-                                  
-                                  <button
+                                <button
                                     type="button"
+                                    title="Informações"
+                                    class="btn btn-link btn-primary btn-lg btn-detalhes"
+                                    data-original-title="Edit Task"
+                                    data-id="{{ membro.id }}" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalDetalhes"
+                                  >
+                                    <i class="fa fa-info"></i>
+                                  </button>
+                                 <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}
+                                  <button
+                                    type="submit"
                                     data-bs-toggle="tooltip"
-                                    title=""
+                                    title="Excluir"
                                     class="btn btn-link btn-danger"
                                     data-original-title="Remove"
+                                    onclick="return confirm('Tem certeza que deseja excluir este membro?');"
                                   >
                                     <i class="fa fa-times"></i>
                                   </button>
+                                </form>
                                 </div>
                               </td>
                             </tr>
@@ -318,6 +362,8 @@
     <script src="{% static "geral/assets/js/kaiadmin.min.js"%}"></script>
     <!-- Kaiadmin DEMO methods, don't include it in your project! 
     <script src="{% static "geral/assets/js/setting-demo2.js"%}"></script>-->
+    <script src="{% static "geral/assets/js/core/jquery-3.7.1.min.js" %}"></script>
+    
     <script>
       $(document).ready(function () {
         $("#basic-datatables").DataTable({});
@@ -375,6 +421,41 @@
         });
         
       });
+      //botão detalhes do membro
+      $(document).ready(function() {
+        // Quando o botão "Ver Detalhes" é clicado
+        $('.btn-detalhes').on('click', function() {
+            var id = $(this).data('id'); // Obtém o ID do membro
+
+            // Faz uma requisição AJAX para obter os dados do membro
+            $.ajax({
+                url: '/membros/obter-dados/' + id + '/',
+                method: 'GET',
+                success: function(data) {
+                    // Preenche a modal com os dados obtidos
+                    $('#nomeMembro').text(data.nome);
+                    $('#sexoMembro').text(data.sexo);
+                    $('#emailMembro').text(data.email || 'N/A');
+                    $('#telefoneMembro').text(data.telefone || 'N/A');
+                    $('#cpfMembro').text(data.cpf || 'N/A');
+                    $('#enderecoMembro').text(data.endereco || 'N/A');
+                    $('#dataNascimentoMembro').text(data.data_nascimento || 'N/A');
+                    $('#dataBatismoMembro').text(data.data_batismo || 'N/A');
+                    $('#cargoMembro').text(data.cargo);
+
+                    // Atualiza a foto do membro (se existir)
+                    if (data.foto) {
+                        $('#fotoMembro').attr('src', data.foto);
+                    } else {
+                        $('#fotoMembro').attr('src', ''); // Remove a foto se não existir
+                    }
+                },
+                error: function() {
+                    alert('Erro ao carregar os dados do membro.');
+                }
+            });
+        });
+    });
 
       
     </script>

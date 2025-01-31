@@ -126,3 +126,53 @@ def atualizar_membro(request, id):
             print(f"Erro ao atualizar o membro: {e}")
             messages.add_message(request, messages.ERROR, 'Erro ao atualizar o membro. Tente novamente.')
             return redirect(f'/membros/editar/{id}/')
+        
+@login_required(login_url='/usuarios/login')
+def excluir_membro(request, id):
+    if request.method == "POST":
+        try:
+            # Busca o membro pelo ID e verifica se pertence ao pastor logado
+            membro = get_object_or_404(Membros, id=id, pastor=request.user)
+            
+            # Exclui o membro do banco de dados
+            membro.delete()
+            
+            # Mensagem de sucesso
+            messages.add_message(request, constants.SUCCESS, 'Membro excluído com sucesso!')
+        except Membros.DoesNotExist:
+            # Mensagem de erro se o membro não for encontrado
+            messages.add_message(request, constants.ERROR, 'Membro não encontrado.')
+        except Exception as e:
+            # Mensagem de erro genérico
+            print(f"Erro ao excluir o membro: {e}")
+            messages.add_message(request, constants.ERROR, 'Erro ao excluir o membro. Tente novamente.')
+        
+        # Redireciona de volta para a lista de membros
+        return redirect('/membros/')
+    
+#Exibir membros em uma modal
+@login_required(login_url='/usuarios/login')
+def obter_dados_membro(request, id):
+    try:
+        # Busca o membro pelo ID e verifica se pertence ao pastor logado
+        membro = Membros.objects.get(id=id, pastor=request.user)
+        
+        # Retorna os dados do membro em formato JSON
+        data = {
+            'id': membro.id,
+            'nome': membro.nome,
+            'sexo': membro.get_sexo_display(),
+            'email': membro.email,
+            'telefone': membro.telefone,
+            'cpf': membro.cpf,
+            'endereco': membro.endereco,
+            'foto': membro.foto.url if membro.foto else None,
+            'data_nascimento': membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else None,
+            'data_batismo': membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else None,
+            'cargo': membro.get_cargo_display(),
+        }
+        return JsonResponse(data)
+    except Membros.DoesNotExist:
+        return JsonResponse({'error': 'Membro não encontrado.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
