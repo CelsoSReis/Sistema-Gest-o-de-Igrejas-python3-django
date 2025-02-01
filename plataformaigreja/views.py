@@ -4,6 +4,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
 from .models import Membros
 
 
@@ -176,3 +181,70 @@ def obter_dados_membro(request, id):
         return JsonResponse({'error': 'Membro não encontrado.'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+
+@login_required(login_url='/usuarios/login')
+def gerar_carteirinha_pdf(request, id):
+    # Busca o membro pelo ID e verifica se pertence ao pastor logado
+    membro = get_object_or_404(Membros, id=id, pastor=request.user)
+
+    # Cria o objeto HttpResponse com o cabeçalho de PDF apropriado
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="carteirinha_{membro.nome}.pdf"'
+
+    # Cria o objeto PDF usando o ReportLab
+    pdf = SimpleDocTemplate(response, pagesize=A4)
+    styles = getSampleStyleSheet()
+    story = []
+
+    # Adiciona o título da carteirinha
+    titulo = Paragraph("Carteirinha de Membro", styles['Title'])
+    story.append(titulo)
+    story.append(Spacer(1, 12))
+
+    # Adiciona a foto do membro (se existir)
+    if membro.foto:
+        foto = Image(membro.foto.path, width=100, height=100)
+        foto.hAlign = 'CENTER'
+        story.append(foto)
+        story.append(Spacer(1, 12))
+
+    # Dados do membro
+    dados = [
+        ["Nome:", membro.nome],
+        ["Sexo:", membro.get_sexo_display()],
+        ["Email:", membro.email or "N/A"],
+        ["Telefone:", membro.telefone or "N/A"],
+        ["CPF:", membro.cpf or "N/A"],
+        ["Endereço:", membro.endereco or "N/A"],
+        ["Data de Nascimento:", membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else "N/A"],
+        ["Data de Batismo:", membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else "N/A"],
+        ["Cargo:", membro.get_cargo_display()],
+    ]
+
+    # Cria uma tabela com os dados do membro
+    tabela = Table(dados, colWidths=[100, 300])
+    tabela.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+
+    story.append(tabela)
+
+    # Gera o PDF
+    pdf.build(story)
+
+    return response
+
+@login_required(login_url='/usuarios/login')
+def visualizar_carteirinha(request, id):
+    # Busca o membro pelo ID e verifica se pertence ao pastor logado
+    membro = get_object_or_404(Membros, id=id, pastor=request.user)
+    
+    # Renderiza o template de visualização da carteirinha
+    return render(request, 'visualizar_carteirinha.html', {'membro': membro})
