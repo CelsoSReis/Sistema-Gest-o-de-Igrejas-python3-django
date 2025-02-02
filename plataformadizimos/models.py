@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from plataformaigreja.models import Membros
 
 
-class Dizimo(models.Model):
+class Dizimos(models.Model):
     membro = models.ForeignKey(Membros, on_delete=models.CASCADE)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     data_dizimo = models.DateField(auto_now_add=True)  # Data do dízimo (preenchida automaticamente)

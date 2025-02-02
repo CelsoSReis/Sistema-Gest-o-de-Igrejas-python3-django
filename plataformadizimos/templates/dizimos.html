@@ -43,19 +43,20 @@
                           <div class="modal-body">
                               <form class="row g-3" action="{% url 'dizimos' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                 <div class="col-md-4">
-                                  <label for="inputValor" class="form-label">Valor</label>
-                                  <input type="text" class="form-control" id="inputValor" placeholder="Digite o Valor..." name="cpf">
+                                  <label for="valor" class="form-label">Valor</label>
+                                  <input type="number" class="form-control" id="valor" step="0.01" name="valor" required>
                                 </div>
                                 <div class="col-3">
                                   <label for="inputData" class="form-label">Data</label>
                                   <input type="date" class="form-control" id="inputData" name="data_dizimo">
                                 </div>
                                 <div class="col-md-10">
-                                  <label for="inputNomeMembro" class="form-label">Nome do Membro</label>
-                                  <select id="inputNomeMembro" name="nomemembro"class="form-select">
+                                  <label for="membro" class="form-label">Nome do Membro</label>
+                                  <select id="membro" name="membro"class="form-select">
                                     <option selected>Selecione...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
+                                    {% for membro in membros %}
+                                      <option value="{{ membro.id }}">{{ membro.nome }}</option>
+                                    {% endfor %}
                                   </select>
                                 </div>
                                 
@@ -161,42 +162,17 @@
                           </tr>
                         </tfoot>
                         <tbody>
-                          {% for membro in membros %}
+                          {% for dizimo in dizimos %}
                             <tr>
-                              <td>{{membro.nome}}</td><!--Valor-->
-                              <td>{{membro.cpf | default:"000.000.000-00"}}</td><!--membro-->
-                              <td>{{membro.cpf | default:"000.000.000-00"}}</td><!--CPF-->
-                              <td>{{membro.cpf | default:"000.000.000-00"}}</td><!--data-->
+                              <td>R$ {{ dizimo.valor }}</td><!--Valor-->
+                              <td>{{ dizimo.membro.nome }}</td><!--membro-->
+                              <td>{{dizimo.membro.cpf}}</td><!--CPF-->
+                              <td>{{ dizimo.data_dizimo|date:"d/m/Y" }}</td><!--data-->
                               
-                              <!--TODO:DESENVOLVER UMA VALIDAÇÃO DE DADOS PARA OS CARGOS-->
-                              <td>
-                                {% if membro.cargo == "Mb" %}
-                                  Membro
-                                {% elif membro.cargo == "A" %}
-                                  Auxiliar
-                                {% elif membro.cargo == "C" %}
-                                  Congregado
-                                {% elif membro.cargo == "Cr" %}
-                                  Crianças
-                                {% elif membro.cargo == "Da" %}
-                                  Diaconisa
-                                {% elif membro.cargo == "D" %}
-                                  Diácono
-                                {% elif membro.cargo == "E" %}
-                                  Evangelista
-                                {% elif membro.cargo == "J" %}
-                                  Jovem
-                                {% elif membro.cargo == "Mi" %}
-                                  Missionário(a)
-                                {% elif membro.cargo == "Pr" %}
-                                  Pastor
-                                {% elif membro.cargo == "P" %}
-                                  Presbítero
-                                {% endif %}
-                              </td>
+                              
                               <td>
                                 <div class="form-button-action">
-                                  <a href="{% url 'editar_membro' membro.id %}">
+                                  <a href="#">
                                   <button
                                     type="button"
                                     title="Editar"
@@ -220,11 +196,11 @@
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  <a href="{% url 'visualizar_carteirinha' membro.id %}" class="btn btn-link btn-primary btn-lg" >
+                                  <a href="#" class="btn btn-link btn-primary btn-lg" >
                                     <i class="fas fa-address-card"></i>
                                   </a>
                                   
-                                 <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}
+                                 <form action="#" method="post">{% csrf_token %}
                                   <button
                                     type="submit"
                                     data-bs-toggle="tooltip"
