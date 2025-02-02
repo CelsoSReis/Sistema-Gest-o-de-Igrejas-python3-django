@@ -8,12 +8,13 @@
         .carteirinha {
             border: 2px solid #000;
             padding: 20px;
-            max-width: 600px;
+            max-width: 100%;
             margin: 0 auto;
             text-align: center;
         }
         .carteirinha img {
-            max-width: 150px;
+            max-width: 100%;
+            height: auto;
             border-radius: 50%;
         }
         .carteirinha h2 {
@@ -27,16 +28,27 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
+        @media (max-width: 600px) {
+            .carteirinha {
+                padding: 10px;
+            }
+            .carteirinha img {
+                max-width: 100px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="carteirinha">
             <h2>Carteirinha de Membro</h2>
+            {% if membro.layout_carteirinha %}
+                <img src="{{ membro.layout_carteirinha.url }}" alt="Layout da Carteirinha" style="width: 100%;">
+            {% endif %}
             {% if membro.foto %}
-                <img src="{{ membro.foto.url }}" alt="Foto do Membro">
+                <img src="{{ membro.foto.url }}" alt="Foto do Membro" style="max-width: 150px; border-radius: 50%;">
             {% else %}
-                <p>Sem foto</p>
+                <img src="/caminho/para/imagem_padrao.jpg" alt="Sem Foto" style="max-width: 150px; border-radius: 50%;">
             {% endif %}
             <table>
                 <tr>
@@ -49,27 +61,27 @@
                 </tr>
                 <tr>
                     <td><strong>Email:</strong></td>
-                    <td>{{ membro.email|default:"N/A" }}</td>
+                    <td>{{ membro.email|default:"Não Informado" }}</td>
                 </tr>
                 <tr>
                     <td><strong>Telefone:</strong></td>
-                    <td>{{ membro.telefone|default:"N/A" }}</td>
+                    <td>{{ membro.telefone|default:"Não Informado" }}</td>
                 </tr>
                 <tr>
                     <td><strong>CPF:</strong></td>
-                    <td>{{ membro.cpf|default:"N/A" }}</td>
+                    <td>{{ membro.cpf|default:"Não informado" }}</td>
                 </tr>
                 <tr>
                     <td><strong>Endereço:</strong></td>
-                    <td>{{ membro.endereco|default:"N/A" }}</td>
+                    <td>{{ membro.endereco|default:"Não informado" }}</td>
                 </tr>
                 <tr>
                     <td><strong>Data de Nascimento:</strong></td>
-                    <td>{{ membro.data_nascimento|date:"d/m/Y"|default:"N/A" }}</td>
+                    <td>{{ membro.data_nascimento|date:"d/m/Y"|default:"00/00/0000" }}</td>
                 </tr>
                 <tr>
                     <td><strong>Data de Batismo:</strong></td>
-                    <td>{{ membro.data_batismo|date:"d/m/Y"|default:"N/A" }}</td>
+                    <td>{{ membro.data_batismo|date:"d/m/Y"|default:"00/00/0000" }}</td>
                 </tr>
                 <tr>
                     <td><strong>Cargo:</strong></td>

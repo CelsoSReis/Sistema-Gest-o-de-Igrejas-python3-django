@@ -10,26 +10,26 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Membros</h4>
+              <h4 class="card-title">Dízimos</h4>
                 <button
                   class="btn btn-primary btn-round ms-auto"
                   data-bs-toggle="modal"
                   data-bs-target="#addRowModal"
                 >
                   <i class="fa fa-plus"></i>
-                  Novo Membro
+                  Novo Dízimo
                 </button>
             </div>
           </div>
         <div class="card-body">
-                    <!-- Modal Novo Membro-->
+                    <!-- Modal Novo Dízimo-->
                     <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header border-0">
                             <h5 class="modal-title">
                               <span class="fw-mediumbold"> Novo</span>
-                              <span class="fw-light"> Membro </span>
+                              <span class="fw-light"> Dízimo </span>
                             </h5>
                             <button
                               type="button"
@@ -41,67 +41,24 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                              <form class="row g-3" action="{% url 'membros' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                                <div class="col-12">
-                                  <label for="inputName" class="form-label">Nome</label>
-                                  <input type="text" class="form-control" id="inputName" placeholder="Digite o nome..." name="nome" required>
-                                </div>
-                                
+                              <form class="row g-3" action="{% url 'dizimos' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                 <div class="col-md-4">
-                                  <label for="inputCPF" class="form-label">CPF</label>
-                                  <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF..." name="cpf">
+                                  <label for="inputValor" class="form-label">Valor</label>
+                                  <input type="text" class="form-control" id="inputValor" placeholder="Digite o Valor..." name="cpf">
                                 </div>
                                 <div class="col-3">
-                                  <label for="inputData" class="form-label">Data de Nascimento</label>
-                                  <input type="date" class="form-control" id="inputData" name="data_nascimento">
+                                  <label for="inputData" class="form-label">Data</label>
+                                  <input type="date" class="form-control" id="inputData" name="data_dizimo">
                                 </div>
-                                <div class="col-md-4">
-                                  <label for="inputSexo" class="form-label">Sexo</label>
-                                  <select id="inputSexo" name="sexo"class="form-select">
+                                <div class="col-md-10">
+                                  <label for="inputNomeMembro" class="form-label">Nome do Membro</label>
+                                  <select id="inputNomeMembro" name="nomemembro"class="form-select">
                                     <option selected>Selecione...</option>
                                     <option value="M">Masculino</option>
                                     <option value="F">Feminino</option>
                                   </select>
                                 </div>
-                                <div class="col-5">
-                                  <label for="inputPhone" class="form-label">Telefone</label>
-                                  <input type="phone2numeric" class="form-control" id="inputPhone" placeholder="Digite o Nº de Telefone..." name="telefone">
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="inputEmail4" class="form-label">Email</label>
-                                  <input type="email" class="form-control" id="inputEmail4" placeholder="Digite o e-mail..." name="email">
-                                </div>
-                                <div class="col-12">
-                                  <label for="inputEndereco" class="form-label">Endereço</label>
-                                  <input type="text" class="form-control" id="inputEndereco" placeholder="Digite o endereço..." name="endereco">
-                                </div>
-
-
-                                <div class="col-md-6">
-                                  <label for="inputFoto" class="form-label">Foto (3x4)</label>
-                                  <input type="file" class="form-control" id="inputFoto" name="foto" accept="image/*">
-                                </div>
-                                <div class="col-md-3">
-                                  <label for="inputCargo" class="form-label">Cargo Ministerial</label>
-                                  <select id="inputCargo" class="form-select" name="cargo">
-                                    <option selected>Selecione...</option>
-                                    <option value="A">Auxiliar</option>
-                                    <option value="C">Congregado</option>
-                                    <option value="Cr">Crianças</option>
-                                    <option value="Da">Diaconisa</option>
-                                    <option value="D">Diácono</option>
-                                    <option value="E">Evangelista</option>
-                                    <option value="J">Jovem</option>
-                                    <option value="Mb">Membro</option>
-                                    <option value="Mi">Missionário(a)</option>
-                                    <option value="Pr">Pastor</option>
-                                    <option value="P">Presbítero</option>
-                                  </select>
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputDataBat" class="form-label">Data de Batismo</label>
-                                  <input type="date" class="form-control" id="inputDataBat" name"data_batismo">
-                                </div>
+                                
                                 <div class="modal-footer border-0">
                                   <button type="submit" id="salvarRowButton" class="btn btn-primary">
                                     Salvar
@@ -117,15 +74,15 @@
                       </div>
                     </div> 
                     
-                    <!-- Modal Editar Membro-->
+                    <!-- Modal Editar Dizimo-->
 
-                    <div class="modal fade modal-lg" id="editarMembroModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade modal-lg" id="editarDizimoModal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header border-0">
                             <h5 class="modal-title">
                               <span class="fw-mediumbold"> Editar</span>
-                              <span class="fw-light"> Membro </span>
+                              <span class="fw-light"> Dízimo </span>
                             </h5>
                             <button
                               type="button"
@@ -139,67 +96,32 @@
                           <div class="modal-body">
                               <form class="row g-3" id="formEditar" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                 <input type="hidden" id="id" name="id">                                
-                                <div class="col-12">
-                                  <label for="inputName" class="form-label">Nome</label>
-                                  <input type="text" class="form-control" id="nome" name="nome" required>
-                                </div>
-
-                                
                                 <div class="col-md-4">
-                                  <label for="inputCPF" class="form-label">CPF</label>
-                                  <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF..." name="cpf">
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputData" class="form-label">Data de Nascimento</label>
-                                  <input type="date" class="form-control" id="inputData" name="data_nascimento">
-                                </div>
-                                <div class="col-md-4">
-                                  <label for="inputSexo" class="form-label">Sexo</label>
-                                  <select id="inputSexo" name="sexo"class="form-select">
-                                    <option selected>Selecione...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                  </select>
-                                </div>
-                                <div class="col-5">
-                                  <label for="inputPhone" class="form-label">Telefone</label>
-                                  <input type="phone2numeric" class="form-control" id="inputPhone" placeholder="Digite o Nº de Telefone..." name="telefone">
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="inputEmail4" class="form-label">Email</label>
-                                  <input type="email" class="form-control" id="inputEmail4" placeholder="Digite o e-mail..." name="email">
-                                </div>
-                                <div class="col-12">
-                                  <label for="inputEndereco" class="form-label">Endereço</label>
-                                  <input type="text" class="form-control" id="inputEndereco" placeholder="Digite o endereço..." name="endereco">
-                                </div>
-
-
-                                <div class="col-md-6">
-                                  <label for="inputFoto" class="form-label">Foto (3x4)</label>
-                                  <input type="file" class="form-control" id="inputFoto" name="foto" accept="image/*">
-                                </div>
-                                <div class="col-md-3">
-                                  <label for="inputCargo" class="form-label">Cargo Ministerial</label>
-                                  <select id="inputCargo" class="form-select" name="cargo">
-                                    {% for value, label in Membros.choices_cargo %}
-                                      <option value="{{ value }}">{{ label }}</option>
-                                    {% endfor %}
-                                  </select>
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputDataBat" class="form-label">Data de Batismo</label>
-                                  <input type="date" class="form-control" id="inputDataBat" name"data_batismo">
-                                </div>
-                                <div class="modal-footer border-0">
-                                  <button type="submit" id="btnSalvar" class="btn btn-primary">
-                                    Salvar
-                                  </button>
+                                    <label for="inputValor" class="form-label">Valor</label>
+                                    <input type="text" class="form-control" id="inputValor" placeholder="Digite o Valor..." name="cpf">
+                                  </div>
+                                  <div class="col-3">
+                                    <label for="inputData" class="form-label">Data</label>
+                                    <input type="date" class="form-control" id="inputData" name="data_dizimo">
+                                  </div>
+                                  <div class="col-md-10">
+                                    <label for="inputNomeMembro" class="form-label">Nome do Membro</label>
+                                    <select id="inputNomeMembro" name="nomemembro"class="form-select">
+                                      <option selected>Selecione...</option>
+                                      <option value="M">Masculino</option>
+                                      <option value="F">Feminino</option>
+                                    </select>
+                                  </div>
                                   
-                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                    Cancelar
-                                  </button>
-                                </div>
+                                  <div class="modal-footer border-0">
+                                    <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                                      Salvar
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                      Cancelar
+                                    </button>
+                                  </div>
                               </form>
                           </div>
                         </div>
@@ -222,28 +144,30 @@
                                 {% endif %}
                         <thead>
                           <tr>
-                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Membro</th>
                             <th>CPF</th>
-                            <!--<th>Telefone</th>-->
-                            <th>CARGO</th>
+                            <th>Data</th>
                             <th style="width: 10%">Ações</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Membro</th>
                             <th>CPF</th>
-                            <!--<th>Telefone</th>-->
-                            <th>Cargo</th>
+                            <th>Data</th>
                             <th>Ações</th>
                           </tr>
                         </tfoot>
                         <tbody>
                           {% for membro in membros %}
                             <tr>
-                              <td>{{membro.nome}}</td>
-                              <td>{{membro.cpf | default:"000.000.000-00"}}</td>
-                              <!--<td> {{membro.telefone | default:"(00) 00000-0000"}}</td>-->
+                              <td>{{membro.nome}}</td><!--Valor-->
+                              <td>{{membro.cpf | default:"000.000.000-00"}}</td><!--membro-->
+                              <td>{{membro.cpf | default:"000.000.000-00"}}</td><!--CPF-->
+                              <td>{{membro.cpf | default:"000.000.000-00"}}</td><!--data-->
+                              
                               <!--TODO:DESENVOLVER UMA VALIDAÇÃO DE DADOS PARA OS CARGOS-->
                               <td>
                                 {% if membro.cargo == "Mb" %}

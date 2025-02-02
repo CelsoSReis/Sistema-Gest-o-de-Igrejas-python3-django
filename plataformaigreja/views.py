@@ -5,13 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import HttpResponse
+from reportlab.lib.pagesizes import mm # Importar a função cm para facilitar cálculos
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
 from .models import Membros
-
-
 
 @login_required(login_url='/usuarios/login')
 def membros(request):
@@ -112,9 +111,9 @@ def atualizar_membro(request, id):
             membro.endereco = endereco
             if foto:  # Atualiza a foto apenas se uma nova foi enviada
                 membro.foto = foto
-            membro.data_batismo = data_batismo or None  # Tratar caso seja vazio
-            membro.data_nascimento = data_nascimento or None  # Tratar caso seja vazio
-            membro.cargo = cargo
+                membro.data_batismo = data_batismo or None  # Tratar caso seja vazio
+                membro.data_nascimento = data_nascimento or None  # Tratar caso seja vazio
+                membro.cargo = cargo
 
             # Salva as alterações no banco de dados
             membro.save()
@@ -183,55 +182,54 @@ def obter_dados_membro(request, id):
         return JsonResponse({'error': str(e)}, status=500)
     
 
+# Tamanho da carteirinha em milímetros (8,6 cm = 86 mm, 5,5 cm = 55 mm)
+TAMANHO_CARTEIRINHA = (86 * mm, 55 * mm)
+
 @login_required(login_url='/usuarios/login')
 def gerar_carteirinha_pdf(request, id):
-    # Busca o membro pelo ID e verifica se pertence ao pastor logado
-    membro = get_object_or_404(Membros, id=id, pastor=request.user)
 
-    # Cria o objeto HttpResponse com o cabeçalho de PDF apropriado
+    membro = get_object_or_404(Membros, id=id, pastor=request.user)
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="carteirinha_{membro.nome}.pdf"'
 
-    # Cria o objeto PDF usando o ReportLab
-    pdf = SimpleDocTemplate(response, pagesize=A4)
+    # Usa o tamanho personalizado da carteirinha
+    pdf = SimpleDocTemplate(response, pagesize=TAMANHO_CARTEIRINHA)
     styles = getSampleStyleSheet()
     story = []
 
-    # Adiciona o título da carteirinha
-    titulo = Paragraph("Carteirinha de Membro", styles['Title'])
-    story.append(titulo)
-    story.append(Spacer(1, 12))
+    # Adiciona o layout da carteirinha como fundo (se existir)
+    if membro.layout_carteirinha:
+        layout = Image(membro.layout_carteirinha.path, width=TAMANHO_CARTEIRINHA[0], height=TAMANHO_CARTEIRINHA[1])
+        story.append(layout)
 
     # Adiciona a foto do membro (se existir)
     if membro.foto:
-        foto = Image(membro.foto.path, width=100, height=100)
+        foto = Image(membro.foto.path, width=20 * mm, height=20 * mm)  # Tamanho da foto: 2 cm x 2 cm
         foto.hAlign = 'CENTER'
         story.append(foto)
-        story.append(Spacer(1, 12))
+        story.append(Spacer(1, 5 * mm))  # Espaçamento de 0,5 cm
 
     # Dados do membro
     dados = [
         ["Nome:", membro.nome],
         ["Sexo:", membro.get_sexo_display()],
-        ["Email:", membro.email or "N/A"],
-        ["Telefone:", membro.telefone or "N/A"],
-        ["CPF:", membro.cpf or "N/A"],
-        ["Endereço:", membro.endereco or "N/A"],
-        ["Data de Nascimento:", membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else "N/A"],
-        ["Data de Batismo:", membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else "N/A"],
+        ["Email:", membro.email or "Não informado"],
+        ["Telefone:", membro.telefone or "Não informado"],
+        ["CPF:", membro.cpf or "Não informado"],
+        ["Endereço:", membro.endereco or "Não informado"],
+        ["Data de Nascimento:", membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else "00/00/0000"],
+        ["Data de Batismo:", membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else "00/00/0000"],
         ["Cargo:", membro.get_cargo_display()],
     ]
 
     # Cria uma tabela com os dados do membro
-    tabela = Table(dados, colWidths=[100, 300])
+    tabela = Table(dados, colWidths=[20 * mm, 60 * mm])  # Largura das colunas
     tabela.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),  # Tamanho da fonte
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),  # Borda da tabela
     ]))
 
     story.append(tabela)
@@ -240,6 +238,7 @@ def gerar_carteirinha_pdf(request, id):
     pdf.build(story)
 
     return response
+
 
 @login_required(login_url='/usuarios/login')
 def visualizar_carteirinha(request, id):

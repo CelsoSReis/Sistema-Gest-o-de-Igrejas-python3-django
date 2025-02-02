@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios',
     'plataformaigreja',
+    'plataformadizimos',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +149,5 @@ MESSAGE_TAGS = {
 }
 
 # Email backend
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST_USER = "celsosr87@gmail.com"
