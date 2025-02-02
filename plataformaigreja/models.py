@@ -25,9 +25,10 @@ class Membros(models.Model):
     data_nascimento = models.DateField(null=True, blank=True)
     data_batismo = models.DateField(null=True, blank=True)
     cargo = models.CharField(max_length=2, choices=choices_cargo)
-    pastor = models.ForeignKey(User, on_delete=models.CASCADE)
-    #layout da carteirinha
-    layout_carteirinha = models.ImageField(upload_to="layout_carteirinhas", null=True, blank=True)
+    pastor = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.nome

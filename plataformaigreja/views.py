@@ -5,11 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import HttpResponse
-from reportlab.lib.pagesizes import mm # Importar a função cm para facilitar cálculos
-from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+
 from .models import Membros
 
 @login_required(login_url='/usuarios/login')
@@ -180,70 +176,3 @@ def obter_dados_membro(request, id):
         return JsonResponse({'error': 'Membro não encontrado.'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-    
-
-# Tamanho da carteirinha em milímetros (8,6 cm = 86 mm, 5,5 cm = 55 mm)
-TAMANHO_CARTEIRINHA = (86 * mm, 55 * mm)
-
-@login_required(login_url='/usuarios/login')
-def gerar_carteirinha_pdf(request, id):
-
-    membro = get_object_or_404(Membros, id=id, pastor=request.user)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="carteirinha_{membro.nome}.pdf"'
-
-    # Usa o tamanho personalizado da carteirinha
-    pdf = SimpleDocTemplate(response, pagesize=TAMANHO_CARTEIRINHA)
-    styles = getSampleStyleSheet()
-    story = []
-
-    # Adiciona o layout da carteirinha como fundo (se existir)
-    if membro.layout_carteirinha:
-        layout = Image(membro.layout_carteirinha.path, width=TAMANHO_CARTEIRINHA[0], height=TAMANHO_CARTEIRINHA[1])
-        story.append(layout)
-
-    # Adiciona a foto do membro (se existir)
-    if membro.foto:
-        foto = Image(membro.foto.path, width=20 * mm, height=20 * mm)  # Tamanho da foto: 2 cm x 2 cm
-        foto.hAlign = 'CENTER'
-        story.append(foto)
-        story.append(Spacer(1, 5 * mm))  # Espaçamento de 0,5 cm
-
-    # Dados do membro
-    dados = [
-        ["Nome:", membro.nome],
-        ["Sexo:", membro.get_sexo_display()],
-        ["Email:", membro.email or "Não informado"],
-        ["Telefone:", membro.telefone or "Não informado"],
-        ["CPF:", membro.cpf or "Não informado"],
-        ["Endereço:", membro.endereco or "Não informado"],
-        ["Data de Nascimento:", membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else "00/00/0000"],
-        ["Data de Batismo:", membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else "00/00/0000"],
-        ["Cargo:", membro.get_cargo_display()],
-    ]
-
-    # Cria uma tabela com os dados do membro
-    tabela = Table(dados, colWidths=[20 * mm, 60 * mm])  # Largura das colunas
-    tabela.setStyle(TableStyle([
-        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 0), (-1, -1), 8),  # Tamanho da fonte
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),  # Borda da tabela
-    ]))
-
-    story.append(tabela)
-
-    # Gera o PDF
-    pdf.build(story)
-
-    return response
-
-
-@login_required(login_url='/usuarios/login')
-def visualizar_carteirinha(request, id):
-    # Busca o membro pelo ID e verifica se pertence ao pastor logado
-    membro = get_object_or_404(Membros, id=id, pastor=request.user)
-    
-    # Renderiza o template de visualização da carteirinha
-    return render(request, 'visualizar_carteirinha.html', {'membro': membro})

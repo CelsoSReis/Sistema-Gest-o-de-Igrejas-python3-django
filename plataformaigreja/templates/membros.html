@@ -296,7 +296,7 @@
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  <a href="{% url 'visualizar_carteirinha' membro.id %}" class="btn btn-link btn-primary btn-lg" >
+                                  <a href="" class="btn btn-link btn-primary btn-lg" >
                                     <i class="fas fa-address-card"></i>
                                   </a>
                                   
@@ -410,7 +410,10 @@
 
         // Add Row
         $("#add-row").DataTable({
-          pageLength: 5,
+          pageLength: 10,
+          "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        }
         });
 
         var action =
