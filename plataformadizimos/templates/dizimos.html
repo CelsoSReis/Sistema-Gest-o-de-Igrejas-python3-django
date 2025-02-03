@@ -46,10 +46,6 @@
                                   <label for="valor" class="form-label">Valor</label>
                                   <input type="number" class="form-control" id="valor" step="0.01" name="valor" required>
                                 </div>
-                                <div class="col-3">
-                                  <label for="inputData" class="form-label">Data</label>
-                                  <input type="date" class="form-control" id="inputData" name="data_dizimo">
-                                </div>
                                 <div class="col-md-10">
                                   <label for="membro" class="form-label">Nome do Membro</label>
                                   <select id="membro" name="membro"class="form-select">
@@ -95,22 +91,22 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                              <form class="row g-3" id="formEditar" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                                <input type="hidden" id="id" name="id">                                
+                              <form class="row g-3" id="editDizimoForm" method="POST">{% csrf_token %}
+                                <input type="hidden" name="dizimo_id" id="editDizimoId">                                
                                 <div class="col-md-4">
-                                    <label for="inputValor" class="form-label">Valor</label>
-                                    <input type="text" class="form-control" id="inputValor" placeholder="Digite o Valor..." name="cpf">
+                                    <label for="editValor" class="form-label">Valor</label>
+                                    <input type="number" class="form-control" step="0.01" name="valor" id="editValor" required>
                                   </div>
                                   <div class="col-3">
                                     <label for="inputData" class="form-label">Data</label>
                                     <input type="date" class="form-control" id="inputData" name="data_dizimo">
                                   </div>
                                   <div class="col-md-10">
-                                    <label for="inputNomeMembro" class="form-label">Nome do Membro</label>
-                                    <select id="inputNomeMembro" name="nomemembro"class="form-select">
-                                      <option selected>Selecione...</option>
-                                      <option value="M">Masculino</option>
-                                      <option value="F">Feminino</option>
+                                    <label for="editMembro" class="form-label">Nome do Membro</label>
+                                    <select name="membro" id="editMembro" class="form-select" required>
+                                      {% for membro in membros %}
+                                        <option value="{{ membro.id }}">{{ membro.nome }}</option>
+                                      {% endfor %}
                                     </select>
                                   </div>
                                   
@@ -179,7 +175,10 @@
                                     class="btn btn-link btn-primary btn-lg"
                                     data-original-title="Edit Task"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#editarMembroModal"
+                                    data-bs-target="#editarDizimoModal"
+                                    data-id="{{ dizimo.id }}"
+                                    data-membro="{{ dizimo.membro.id }}"
+                                    data-valor="{{ dizimo.valor }}"
                                   >
                                     <i class="fa fa-edit"></i>
                                   </button>
@@ -272,6 +271,25 @@
     <script src="{% static "geral/assets/js/setting-demo2.js"%}"></script>-->
     <script src="{% static "geral/assets/js/core/jquery-3.7.1.min.js" %}"></script>
     
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll(".edit-btn").forEach(button => {
+              button.addEventListener("click", function () {
+                  let id = this.dataset.id;
+                  let membro = this.dataset.membro;
+                  let valor = this.dataset.valor;
+  
+                  document.getElementById("editDizimoId").value = id;
+                  document.getElementById("editMembro").value = membro;
+                  document.getElementById("editValor").value = valor;
+  
+                  document.getElementById("editDizimoForm").action = `/dizimos/editar/${id}/`;
+              });
+          });
+      });
+  </script>
+
     <script>
       $(document).ready(function () {
         $("#basic-datatables").DataTable({});
@@ -367,7 +385,5 @@
             });
         });
     });
-
-      
     </script>
 {% endblock %}
