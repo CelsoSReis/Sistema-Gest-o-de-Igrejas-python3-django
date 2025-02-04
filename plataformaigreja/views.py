@@ -9,6 +9,11 @@ from django.http import HttpResponse
 from .models import Membros
 
 @login_required(login_url='/usuarios/login')
+def dashboard_igreja(request):
+    # Renderiza página dashboard
+    return render(request, 'dashboard.html')
+
+@login_required(login_url='/usuarios/login')
 def membros(request):
     if request.method == "GET":
         #busca membros do pastor logado

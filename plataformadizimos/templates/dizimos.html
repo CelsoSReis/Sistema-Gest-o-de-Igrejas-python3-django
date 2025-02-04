@@ -73,7 +73,7 @@
                     
                     <!-- Modal Editar Dizimo-->
 
-                    <div class="modal fade modal-lg" id="editarDizimoModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade modal-lg" id="editarDizimoModal" tabindex="-1" aria-labelledby="editarDizimoModalLabel" role="dialog" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header border-0">
@@ -91,8 +91,8 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                              <form class="row g-3" id="editDizimoForm" method="POST">{% csrf_token %}
-                                <input type="hidden" name="dizimo_id" id="editDizimoId">                                
+                              <form class="row g-3" id="editarDizimoForm"  method="POST">{% csrf_token %}
+                                <input type="hidden" id="dizimoId" name="id">                              
                                 <div class="col-md-4">
                                     <label for="editValor" class="form-label">Valor</label>
                                     <input type="number" class="form-control" step="0.01" name="valor" id="editValor" required>
@@ -172,13 +172,12 @@
                                   <button
                                     type="button"
                                     title="Editar"
-                                    class="btn btn-link btn-primary btn-lg"
+                                    class="btn btn-link btn-primary btn-lg editar-dizimo"
                                     data-original-title="Edit Task"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editarDizimoModal"
+                                    data-target="#editarDizimoModal"
                                     data-id="{{ dizimo.id }}"
-                                    data-membro="{{ dizimo.membro.id }}"
-                                    data-valor="{{ dizimo.valor }}"
                                   >
                                     <i class="fa fa-edit"></i>
                                   </button>

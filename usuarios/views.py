@@ -57,7 +57,7 @@ def cadastro(request):
 def logar(request):
     if request.method == "GET":
         if request.user.is_authenticated:
-            return redirect('/')
+            return redirect('/plataformaigreja/dashboard_igreja')
         return render(request, 'login.html')
     else:
         username = request.POST.get('username')
