@@ -1,0 +1,40 @@
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+    
+{% endblock 'head' %}
+{% block 'conteudo' %}
+<div class="container mt-4">
+    <h2 class="text-center">Editar Dízimo</h2>
+
+    {% if messages %}
+    <div class="alert alert-success">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="membro" class="form-label">Membro</label>
+            <select name="membro" id="membro" class="form-control" required>
+                {% for membro in membros %}
+                <option value="{{ membro.id }}" {% if membro.id == dizimo.membro.id %}selected{% endif %}>
+                    {{ membro.nome }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="valor" class="form-label">Valor (R$) {{ dizimo.valor }}</label>
+            <input type="number" name="valor" id="valor" class="form-control" value="{{ dizimo.valor }}" required>
+        </div>
+        <div class="d-flex justify-content-between">
+            <a href="/dizimos/" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

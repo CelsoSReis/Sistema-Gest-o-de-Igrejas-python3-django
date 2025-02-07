@@ -70,61 +70,6 @@
                         </div>
                       </div>
                     </div> 
-                    
-                    <!-- Modal Editar Dizimo-->
-
-                    <div class="modal fade modal-lg" id="editarDizimoModal" tabindex="-1" aria-labelledby="editarDizimoModalLabel" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header border-0">
-                            <h5 class="modal-title">
-                              <span class="fw-mediumbold"> Editar</span>
-                              <span class="fw-light"> Dízimo </span>
-                            </h5>
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="modal"
-                              aria-label="Close"
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                              <form class="row g-3" id="editarDizimoForm"  method="POST">{% csrf_token %}
-                                <input type="hidden" id="dizimoId" name="id">                              
-                                <div class="col-md-4">
-                                    <label for="editValor" class="form-label">Valor</label>
-                                    <input type="number" class="form-control" step="0.01" name="valor" id="editValor" required>
-                                  </div>
-                                  <div class="col-3">
-                                    <label for="inputData" class="form-label">Data</label>
-                                    <input type="date" class="form-control" id="inputData" name="data_dizimo">
-                                  </div>
-                                  <div class="col-md-10">
-                                    <label for="editMembro" class="form-label">Nome do Membro</label>
-                                    <select name="membro" id="editMembro" class="form-select" required>
-                                      {% for membro in membros %}
-                                        <option value="{{ membro.id }}">{{ membro.nome }}</option>
-                                      {% endfor %}
-                                    </select>
-                                  </div>
-                                  
-                                  <div class="modal-footer border-0">
-                                    <button type="submit" id="salvarRowButton" class="btn btn-primary">
-                                      Salvar
-                                    </button>
-                                    
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                      Cancelar
-                                    </button>
-                                  </div>
-                              </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
 
                     <div class="table-responsive">
                       <table
@@ -168,53 +113,36 @@
                               
                               <td>
                                 <div class="form-button-action">
-                                  <a href="#">
+                                  <form action="" method="POST" style="display:inline;">
+
+                                  <a href="{% url 'editar_dizimo' dizimo.id %}">
                                   <button
                                     type="button"
                                     title="Editar"
-                                    class="btn btn-link btn-primary btn-lg editar-dizimo"
+                                    class="btn btn-primary btn-sm editar-dizimo"
                                     data-original-title="Edit Task"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editarDizimoModal"
-                                    data-target="#editarDizimoModal"
-                                    data-id="{{ dizimo.id }}"
                                   >
-                                    <i class="fa fa-edit"></i>
+                                    Editar
                                   </button>
                                 </a>
-                                <button
-                                    type="button"
-                                    title="Informações"
-                                    class="btn btn-link btn-primary btn-lg btn-detalhes"
-                                    data-original-title="Edit Task"
-                                    data-id="{{ membro.id }}" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#modalDetalhes"
-                                  >
-                                    <i class="fa fa-info"></i>
-                                  </button>
-
-                                  <a href="#" class="btn btn-link btn-primary btn-lg" >
-                                    <i class="fas fa-address-card"></i>
-                                  </a>
+                              </form>
+                    
                                   
-                                 <form action="#" method="post">{% csrf_token %}
-                                  <button
-                                    type="submit"
-                                    data-bs-toggle="tooltip"
-                                    title="Excluir"
-                                    class="btn btn-link btn-danger"
-                                    data-original-title="Remove"
-                                    onclick="return confirm('Tem certeza que deseja excluir este membro?');"
-                                  >
-                                    <i class="fa fa-times"></i>
-                                  </button>
+                                  <!-- Botão de exclusão com alerta de confirmação -->
+                                  <form action="{% url 'excluir_dizimo' dizimo.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button 
+                                      type="submit" 
+                                      class="btn btn-danger btn-sm" 
+                                      onclick="return confirm('Tem certeza que deseja excluir este dízimo?')">
+                                      Excluir
+                                    </button>
+                                  </form>
                                 </form>
                                 </div>
                               </td>
                             </tr>
-
-
+                            
                     <!--Modal informações do membro-->
                   <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -247,9 +175,14 @@
                   </div>
                     <!--FINAL Modal informações do membro-->
                           {% endfor %}
-                                                   
+                                                  
                         </tbody>
+                        
                       </table>
+                      <div class="alert alert-info">
+                        <strong>{{ data_atual|date:"F" }} - {{ data_atual|date:"d/m/Y" }}</strong> 
+                        <br/>Saldo: R$ {{ total_dizimos|floatformat:2 }}
+                      </div>
                     </div>
                   </div>
                 </div>
