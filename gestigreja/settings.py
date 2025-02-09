@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'usuarios',
     'plataformaigreja',
     'plataformadizimos',
+    'plataformaofertas',
 ]
 
 MIDDLEWARE = [
