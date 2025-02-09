@@ -107,7 +107,7 @@
                                 <div class="form-button-action">
                                   <form action="" method="POST" style="display:inline;">
 
-                                  <a href="$#">
+                                  <a href="{% url 'editar_oferta' oferta.id %}">
                                   <button
                                     type="button"
                                     title="Editar"
@@ -121,12 +121,12 @@
                     
                                   
                                   <!-- Botão de exclusão com alerta de confirmação -->
-                                  <form action="#" method="POST" style="display:inline;">
+                                  <form action="{% url 'excluir_oferta' oferta.id %}" method="POST" style="display:inline;">
                                     {% csrf_token %}
                                     <button 
                                       type="submit" 
                                       class="btn btn-danger btn-sm" 
-                                      onclick="return confirm('Tem certeza que deseja excluir este dízimo?')">
+                                      onclick="return confirm('Tem certeza que deseja excluir esta oferta?')">
                                       Excluir
                                     </button>
                                   </form>
@@ -172,8 +172,9 @@
                         
                       </table>
                       <div class="alert alert-info">
-                        <strong>{{ data_atual|date:"F" }} - {{ data_atual|date:"d/m/Y" }}</strong> 
-                        <br/>Saldo: R$ {{ total_dizimos|floatformat:2 }}
+                        <!-- Exibe a data atual -->
+                        <p>Data Atual: {{ data_atual }}</p>
+                        <p>Total de Ofertas do Mês: R$ {{ total_ofertas }}</p>
                       </div>
                     </div>
                   </div>

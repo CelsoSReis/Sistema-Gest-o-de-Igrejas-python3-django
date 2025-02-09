@@ -1,0 +1,52 @@
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+    
+{% endblock 'head' %}
+{% block 'conteudo' %}
+        <div class="container">
+          <div class="page-inner">
+            <div class="row g-3">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">Editar Oferta</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-12">
+                            <form class="row g-3" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                                <div class="col-3">
+                                    <label for="data_oferta" class="form-label">Data da Oferta:</label>
+                                    <input type="date" class="form-control" name="data_oferta" id="data_oferta" value="{{ oferta.data_oferta|date:'Y-m-d' }}" required>
+                                </div>
+                                <div class="col-5">
+                                    <label for="valor" class="form-label">Valor (R$):</label>
+                                    <input type="number" class="form-control" name="valor" id="valor" value="{{ oferta.valor }}" required step="0.01">
+                                </div>
+                                <div class="col-12">
+                                    <label for="descricao" class="form-label">Descrição:</label>
+                                    <!--<input type="text" class="form-control" id="descricao" placeholder="Digite a descrição:..." name="descricao">-->
+                                    <textarea class="form-control" aria-label="With textarea" name="descricao" id="descricao" value="{{ oferta.descricao }}" required>{{ oferta.descricao }}</textarea>
+                                </div>
+
+                                <div class="modal-footer border-0">
+                                    <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                                    Salvar Alterações
+                                    </button>
+                                    
+                                    <a href="{% url 'ofertas' %}" class="btn btn-danger">
+                                        Voltar
+                                      </a>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}

@@ -2,11 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Oferta(models.Model):
-    OPCOES_DESTINO = [
-        ('culto', 'Culto'),
-        ('evento', 'Evento'),
-        ('escola_dominical', 'Escola Dominical'),
-    ]
 
     pastor = models.ForeignKey(User, on_delete=models.CASCADE)
     data_oferta = models.DateField()
