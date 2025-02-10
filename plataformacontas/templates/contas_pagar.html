@@ -14,7 +14,7 @@
                 <button
                   class="btn btn-primary btn-round ms-auto"
                   data-bs-toggle="modal"
-                  data-bs-target="#addRowModal"
+                  data-bs-target="#cadastroContaModal"
                 >
                   <i class="fa fa-plus"></i>
                   Adicionar Conta
@@ -23,13 +23,13 @@
           </div>
         <div class="card-body">
                     <!-- Modal Novo Membro-->
-                    <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade modal-lg" id="cadastroContaModal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header border-0">
                             <h5 class="modal-title">
-                              <span class="fw-mediumbold"> Novo</span>
-                              <span class="fw-light"> Membro </span>
+                              <span class="fw-mediumbold"> Cadastrar</span>
+                              <span class="fw-light"> Conta </span>
                             </h5>
                             <button
                               type="button"
@@ -41,67 +41,51 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                              <form class="row g-3" action="{% url 'membros' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                              <form class="row g-3" action="{% url 'contas_pagar' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                 <div class="col-12">
-                                  <label for="inputName" class="form-label">Nome</label>
-                                  <input type="text" class="form-control" id="inputName" placeholder="Digite o nome..." name="nome" required>
+                                  <label for="fornecedor" class="form-label">Fornecedor</label>
+                                  <input type="text" class="form-control" id="fornecedor" placeholder="Digite o nome do fornecedor..." name="fornecedor" required>
+                                </div>
+
+                                <div class="col-3">
+                                    <label for="valor" class="form-label">Valor (R$):</label>
+                                    <input type="number" class="form-control" step="0.01" id="valor" name="valor" required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="quantidade_parcelas" class="form-label">Parcelas:</label>
+                                    <select id="quantidade_parcelas" class="form-select" name="quantidade_parcelas">
+                                      <option selected>Selecione...</option>
+                                      <option value="1">1x</option>
+                                      <option value="2">2x</option>
+                                      <option value="3">3x</option>
+                                      <option value="4">4x</option>
+                                      <option value="5">5x</option>
+                                      <option value="6">6x</option>
+                                      <option value="7">7x</option>
+                                      <option value="8">8x</option>
+                                      <option value="9">9x</option>
+                                      <option value="10">10x</option>
+                                      <option value="11">11x</option>
+                                      <option value="12">12x</option>
+                                    </select>
+                                  </div>
+                                
+                                <div class="col-3">
+                                    <label for="data_vencimento" class="form-label">Data de Vencimento:</label>
+                                    <input type="date" class="form-control" step="0.01" id="data_vencimento" name="data_vencimento" required>
+                                </div>
+
+                                <div class="col-md-12">
+                                  <label for="descricao" class="form-label">Descrição</label>
+                                  <textarea class="form-control" id="descricao" placeholder="Descrição da conta..." name="descricao" required></textarea>
                                 </div>
                                 
-                                <div class="col-md-4">
-                                  <label for="inputCPF" class="form-label">CPF</label>
-                                  <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF..." name="cpf">
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputData" class="form-label">Data de Nascimento</label>
-                                  <input type="date" class="form-control" id="inputData" name="data_nascimento">
-                                </div>
-                                <div class="col-md-4">
-                                  <label for="inputSexo" class="form-label">Sexo</label>
-                                  <select id="inputSexo" name="sexo"class="form-select">
-                                    <option selected>Selecione...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                  </select>
-                                </div>
-                                <div class="col-5">
-                                  <label for="inputPhone" class="form-label">Telefone</label>
-                                  <input type="phone2numeric" class="form-control" id="inputPhone" placeholder="Digite o Nº de Telefone..." name="telefone">
-                                </div>
                                 <div class="col-md-6">
-                                  <label for="inputEmail4" class="form-label">Email</label>
-                                  <input type="email" class="form-control" id="inputEmail4" placeholder="Digite o e-mail..." name="email">
+                                  <label for="arquivo" class="form-label">Anexo</label>
+                                  <input type="file" class="form-control" id="arquivo" name="arquivo">
                                 </div>
-                                <div class="col-12">
-                                  <label for="inputEndereco" class="form-label">Endereço</label>
-                                  <input type="text" class="form-control" id="inputEndereco" placeholder="Digite o endereço..." name="endereco">
-                                </div>
-
-
-                                <div class="col-md-6">
-                                  <label for="inputFoto" class="form-label">Foto (3x4)</label>
-                                  <input type="file" class="form-control" id="inputFoto" name="foto" accept="image/*">
-                                </div>
-                                <div class="col-md-3">
-                                  <label for="inputCargo" class="form-label">Cargo Ministerial</label>
-                                  <select id="inputCargo" class="form-select" name="cargo">
-                                    <option selected>Selecione...</option>
-                                    <option value="A">Auxiliar</option>
-                                    <option value="C">Congregado</option>
-                                    <option value="Cr">Crianças</option>
-                                    <option value="Da">Diaconisa</option>
-                                    <option value="D">Diácono</option>
-                                    <option value="E">Evangelista</option>
-                                    <option value="J">Jovem</option>
-                                    <option value="Mb">Membro</option>
-                                    <option value="Mi">Missionário(a)</option>
-                                    <option value="Pr">Pastor</option>
-                                    <option value="P">Presbítero</option>
-                                  </select>
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputDataBat" class="form-label">Data de Batismo</label>
-                                  <input type="date" class="form-control" id="inputDataBat" name"data_batismo">
-                                </div>
+                                
                                 <div class="modal-footer border-0">
                                   <button type="submit" id="salvarRowButton" class="btn btn-primary">
                                     Salvar
@@ -117,94 +101,8 @@
                       </div>
                     </div> 
                     
-                    <!-- Modal Editar Membro-->
+                    <!-- Modal Editar Conta-->
 
-                    <div class="modal fade modal-lg" id="editarMembroModal" tabindex="-1" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header border-0">
-                            <h5 class="modal-title">
-                              <span class="fw-mediumbold"> Editar</span>
-                              <span class="fw-light"> Membro </span>
-                            </h5>
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="modal"
-                              aria-label="Close"
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                              <form class="row g-3" id="formEditar" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                                <input type="hidden" id="id" name="id">                                
-                                <div class="col-12">
-                                  <label for="inputName" class="form-label">Nome</label>
-                                  <input type="text" class="form-control" id="nome" name="nome" required>
-                                </div>
-
-                                
-                                <div class="col-md-4">
-                                  <label for="inputCPF" class="form-label">CPF</label>
-                                  <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF..." name="cpf">
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputData" class="form-label">Data de Nascimento</label>
-                                  <input type="date" class="form-control" id="inputData" name="data_nascimento">
-                                </div>
-                                <div class="col-md-4">
-                                  <label for="inputSexo" class="form-label">Sexo</label>
-                                  <select id="inputSexo" name="sexo"class="form-select">
-                                    <option selected>Selecione...</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                  </select>
-                                </div>
-                                <div class="col-5">
-                                  <label for="inputPhone" class="form-label">Telefone</label>
-                                  <input type="phone2numeric" class="form-control" id="inputPhone" placeholder="Digite o Nº de Telefone..." name="telefone">
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="inputEmail4" class="form-label">Email</label>
-                                  <input type="email" class="form-control" id="inputEmail4" placeholder="Digite o e-mail..." name="email">
-                                </div>
-                                <div class="col-12">
-                                  <label for="inputEndereco" class="form-label">Endereço</label>
-                                  <input type="text" class="form-control" id="inputEndereco" placeholder="Digite o endereço..." name="endereco">
-                                </div>
-
-
-                                <div class="col-md-6">
-                                  <label for="inputFoto" class="form-label">Foto (3x4)</label>
-                                  <input type="file" class="form-control" id="inputFoto" name="foto" accept="image/*">
-                                </div>
-                                <div class="col-md-3">
-                                  <label for="inputCargo" class="form-label">Cargo Ministerial</label>
-                                  <select id="inputCargo" class="form-select" name="cargo">
-                                    {% for value, label in Membros.choices_cargo %}
-                                      <option value="{{ value }}">{{ label }}</option>
-                                    {% endfor %}
-                                  </select>
-                                </div>
-                                <div class="col-3">
-                                  <label for="inputDataBat" class="form-label">Data de Batismo</label>
-                                  <input type="date" class="form-control" id="inputDataBat" name"data_batismo">
-                                </div>
-                                <div class="modal-footer border-0">
-                                  <button type="submit" id="btnSalvar" class="btn btn-primary">
-                                    Salvar
-                                  </button>
-                                  
-                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                    Cancelar
-                                  </button>
-                                </div>
-                              </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
 
                     <div class="table-responsive">
@@ -222,57 +120,39 @@
                                 {% endif %}
                         <thead>
                           <tr>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <!--<th>Telefone</th>-->
-                            <th>CARGO</th>
+                            <th>Fornecedor</th>
+                           <!--<th>Descrição</th>-->
+                            <th>Valor</th>
+                            <th>Data de Vencimento</th>
+                            <th>Parcelas</th>
+                            <th>Anexo</th>
                             <th style="width: 10%">Ações</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <!--<th>Telefone</th>-->
-                            <th>Cargo</th>
-                            <th>Ações</th>
+                            <!--Foorter table-->
                           </tr>
                         </tfoot>
                         <tbody>
-                          {% for membro in membros %}
+                            {% for conta in contas %}
                             <tr>
-                              <td>{{membro.nome}}</td>
-                              <td>{{membro.cpf | default:"000.000.000-00"}}</td>
+                              <td>{{ conta.fornecedor }}</td>
+                              <!--<td>{{ conta.descricao }}</td>-->
+                              <td>R$ {{ conta.valor }}</td>
+                              <td>{{ conta.data_vencimento }}</td>
+                              <td>{{ conta.quantidade_parcelas }}x</td>
                               <!--<td> {{membro.telefone | default:"(00) 00000-0000"}}</td>-->
-                              <!--TODO:DESENVOLVER UMA VALIDAÇÃO DE DADOS PARA OS CARGOS-->
                               <td>
-                                {% if membro.cargo == "Mb" %}
-                                  Membro
-                                {% elif membro.cargo == "A" %}
-                                  Auxiliar
-                                {% elif membro.cargo == "C" %}
-                                  Congregado
-                                {% elif membro.cargo == "Cr" %}
-                                  Crianças
-                                {% elif membro.cargo == "Da" %}
-                                  Diaconisa
-                                {% elif membro.cargo == "D" %}
-                                  Diácono
-                                {% elif membro.cargo == "E" %}
-                                  Evangelista
-                                {% elif membro.cargo == "J" %}
-                                  Jovem
-                                {% elif membro.cargo == "Mi" %}
-                                  Missionário(a)
-                                {% elif membro.cargo == "Pr" %}
-                                  Pastor
-                                {% elif membro.cargo == "P" %}
-                                  Presbítero
+                                {% if conta.arquivo %}
+                                <a href="{{ conta.arquivo.url }}" target="_blank">Baixar</a>
+                                {% else %}
+                                Nenhum
                                 {% endif %}
                               </td>
                               <td>
                                 <div class="form-button-action">
-                                  <a href="{% url 'editar_membro' membro.id %}">
+                                  <a href="#">
                                   <button
                                     type="button"
                                     title="Editar"
@@ -289,18 +169,14 @@
                                     title="Informações"
                                     class="btn btn-link btn-primary btn-lg btn-detalhes"
                                     data-original-title="Edit Task"
-                                    data-id="{{ membro.id }}" 
+                                    data-id="#" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#modalDetalhes"
                                   >
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  <a href="" class="btn btn-link btn-primary btn-lg" >
-                                    <i class="fas fa-address-card"></i>
-                                  </a>
-                                  
-                                 <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}
+                                 <form action="#" method="post">{% csrf_token %}
                                   <button
                                     type="submit"
                                     data-bs-toggle="tooltip"

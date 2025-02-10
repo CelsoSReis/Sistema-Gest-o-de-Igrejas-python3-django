@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import HttpResponse
-
 from .models import Membros
 
 @login_required(login_url='/usuarios/login')
