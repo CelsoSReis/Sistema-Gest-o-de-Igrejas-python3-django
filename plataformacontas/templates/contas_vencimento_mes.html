@@ -1,0 +1,28 @@
+<h2>Contas a Vencer no Mês Atual</h2>
+
+{% if contas_vencendo %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Fornecedor</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data de Vencimento</th>
+            <th>Parcelas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for conta in contas_vencendo %}
+        <tr>
+            <td>{{ conta.fornecedor }}</td>
+            <td>{{ conta.descricao }}</td>
+            <td>R$ {{ conta.valor }}</td>
+            <td>{{ conta.data_vencimento|date:"d/m/Y" }}</td>
+            <td>{{ conta.quantidade_parcelas }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Não há contas vencendo este mês.</p>
+{% endif %}
