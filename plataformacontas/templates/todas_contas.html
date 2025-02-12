@@ -4,13 +4,13 @@
     
 {% endblock 'head' %}
 {% block 'conteudo' %}
-<div class="container">
+  <div class="container">
     <div class="page-inner">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Contas Vencidas</h4>
+              <h4 class="card-title">Contas</h4><br/>
                 <button
                   class="btn btn-primary ms-auto btn-sm me-md-2"
                   data-bs-toggle="modal"
@@ -33,10 +33,11 @@
                 </div>
               </div>
             </div>
-            <h6><span class="badge bg-secondary">Valor Total:</strong> R$ {{ total_contas_vencidas|floatformat:2 }}</span></h6>
+            <h6><span class="badge bg-secondary">Valor Total:</strong> R$ {{ total_geral|floatformat:2 }}</span></h6>
           </div>
+          
         <div class="card-body">
-                    <!-- Modal Novo Membro-->
+                    <!-- Modal Nova Conta-->
                     <div class="modal fade modal-lg" id="cadastroContaModal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -117,22 +118,19 @@
                     
                     <!-- Modal Editar Conta-->
 
-
-
                     <div class="table-responsive">
-                    {% if contas %}
                       <table
                         id="add-row"
                         class="display table table-striped table-hover"
                       >
-                        {% if messages %}
-                            <br>
-                            {% for message in messages %}
-                                <div class="alert {{message.tags}}">
-                                    {{message}}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+                      {% if messages %}
+                                        <br>
+                                        {% for message in messages %}
+                                            <div class="alert {{message.tags}}">
+                                                {{message}}
+                                            </div>
+                                        {% endfor %}
+                                {% endif %}
                         <thead>
                           <tr>
                             <th>Fornecedor</th>
@@ -151,7 +149,7 @@
                         </tfoot>
                         <tbody>
                             {% for conta in contas %}
-                            <tr style="color: red;">
+                            <tr>
                               <td>{{ conta.fornecedor }}</td>
                               <!--<td>{{ conta.descricao }}</td>-->
                               <td>R$ {{ conta.valor }}</td>
@@ -193,11 +191,11 @@
                                   </button>
 
                                   <form action="{% url 'excluir_conta' conta.id %}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta conta?');">
-                                  {% csrf_token %}
-                                    <button type="submit" class="btn-sm" style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                        Excluir
-                                    </button>
-                                  </form>
+                                    {% csrf_token %}
+                                      <button type="submit" class="btn-sm" style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                          Excluir
+                                      </button>
+                                    </form>
                                 </div>
                               </td>
                             </tr>
@@ -227,14 +225,11 @@
                       </div>
                     </div>
                   </div>
-                    <!--FINAL Modal informações do membro-->
+                    <!--FINAL Modal informações da conta-->
                           {% endfor %}
                                                    
                         </tbody>
                       </table>
-                    {% else %}
-                        <p>Nenhuma conta vencida encontrada.</p>
-                    {% endif %}
                     </div>
                   </div>
                 </div>
@@ -315,8 +310,5 @@
         });
         
       });
-     
-
-      
     </script>
 {% endblock %}

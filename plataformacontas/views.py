@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import ContaPagar
 from datetime import datetime
 from django.utils.timezone import now
-
+from django.db.models import Sum
 
 
 @login_required(login_url='/usuarios/login')
@@ -36,7 +36,23 @@ def contas_pagar(request):
 
     contas = ContaPagar.objects.filter(pastor=request.user).order_by("-data_vencimento")
 
-    return render(request, "contas_pagar.html", {"contas": contas})
+    # Obtém o mês e ano atuais
+    mes_atual = datetime.now().month
+    ano_atual = datetime.now().year
+
+    # Filtra as contas do mês atual
+    contas = ContaPagar.objects.filter(
+        pastor=request.user,
+        data_vencimento__month=mes_atual,
+        data_vencimento__year=ano_atual
+    )
+
+    # Calcula o total das contas do mês atual
+    total_contas_mes = contas.aggregate(total=Sum('valor'))['total'] or 0
+
+    
+
+    return render(request, "contas_pagar.html", {"contas": contas, "total_contas_mes": total_contas_mes})
 
 @login_required(login_url='/usuarios/login')
 def contas_vencimento_mes_atual(request):
@@ -61,4 +77,39 @@ def contas_vencidas(request):
     # Filtra as contas vencidas (vencimento antes de hoje)
     contas = ContaPagar.objects.filter(pastor=request.user, data_vencimento__lt=data_atual).order_by("data_vencimento")
 
-    return render(request, "contas_vencidas.html", {"contas": contas})
+    # Obtém a data atual
+    data_atual = datetime.now().date()
+
+    # Filtra as contas vencidas
+    contas_vencidas = ContaPagar.objects.filter(pastor=request.user, data_vencimento__lt=data_atual)
+
+    # Soma total das contas vencidas
+    total_contas_vencidas = contas_vencidas.aggregate(total=Sum('valor'))['total'] or 0
+
+
+    return render(request, "contas_vencidas.html", {"contas": contas, "total_contas_vencidas": total_contas_vencidas})
+
+@login_required(login_url='/usuarios/login')
+def excluir_conta(request, conta_id):
+    conta = get_object_or_404(ContaPagar, id=conta_id, pastor=request.user)
+
+    if request.method == "POST":
+        conta.delete()
+        messages.success(request, "Conta excluída com sucesso!")
+        return redirect("/contas_pagar/")
+
+    messages.error(request, "Erro ao excluir a conta.")
+    return redirect("/contas_pagar/")
+
+@login_required(login_url='/usuarios/login')
+def todas_contas(request):
+    # Obtém todas as contas do usuário ordenadas por data de criação (mais recente primeiro)
+    contas = ContaPagar.objects.filter(pastor=request.user).order_by("-data_criacao")
+
+    # Calcula o total geral de todas as contas
+    total_geral = contas.aggregate(Sum('valor'))['valor__sum'] or 0
+
+    return render(request, "todas_contas.html", {
+        "contas": contas,
+        "total_geral": total_geral
+    })

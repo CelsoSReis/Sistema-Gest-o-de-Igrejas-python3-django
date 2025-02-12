@@ -1,28 +1,320 @@
-<h2>Contas a Vencer no Mês Atual</h2>
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+    
+{% endblock 'head' %}
+{% block 'conteudo' %}
+<div class="container">
+    <div class="page-inner">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex align-items-center">
+              <h4 class="card-title">Contas Mês Atual</h4>
+                <button
+                  class="btn btn-primary ms-auto btn-sm me-md-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#cadastroContaModal"
+                >
+                  <i class="fa fa-plus"></i>
+                  Adicionar Conta
+                </button>
+               
+              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtrar
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a class="dropdown-item" href="{% url 'todas_contas' %}">Todas</a></li>
+                    <li><a class="dropdown-item" href="{% url 'contas_vencimento_mes_atual' %}">À Vencer no Mês Atual</a></li>
+                    <li><a class="dropdown-item" href="{% url 'contas_vencidas' %}">Vencidas</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="card-body">
+                    <!-- Modal Novo Membro-->
+                    <div class="modal fade modal-lg" id="cadastroContaModal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header border-0">
+                            <h5 class="modal-title">
+                              <span class="fw-mediumbold"> Cadastrar</span>
+                              <span class="fw-light"> Conta </span>
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                              <form class="row g-3" action="{% url 'contas_pagar' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="col-12">
+                                  <label for="fornecedor" class="form-label">Fornecedor</label>
+                                  <input type="text" class="form-control" id="fornecedor" placeholder="Digite o nome do fornecedor..." name="fornecedor" required>
+                                </div>
 
-{% if contas_vencendo %}
-<table border="1">
-    <thead>
-        <tr>
-            <th>Fornecedor</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Data de Vencimento</th>
-            <th>Parcelas</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for conta in contas_vencendo %}
-        <tr>
-            <td>{{ conta.fornecedor }}</td>
-            <td>{{ conta.descricao }}</td>
-            <td>R$ {{ conta.valor }}</td>
-            <td>{{ conta.data_vencimento|date:"d/m/Y" }}</td>
-            <td>{{ conta.quantidade_parcelas }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-    <p>Não há contas vencendo este mês.</p>
-{% endif %}
+                                <div class="col-3">
+                                    <label for="valor" class="form-label">Valor (R$):</label>
+                                    <input type="number" class="form-control" step="0.01" id="valor" name="valor" required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="quantidade_parcelas" class="form-label">Parcelas:</label>
+                                    <select id="quantidade_parcelas" class="form-select" name="quantidade_parcelas">
+                                      <option selected>Selecione...</option>
+                                      <option value="1">1x</option>
+                                      <option value="2">2x</option>
+                                      <option value="3">3x</option>
+                                      <option value="4">4x</option>
+                                      <option value="5">5x</option>
+                                      <option value="6">6x</option>
+                                      <option value="7">7x</option>
+                                      <option value="8">8x</option>
+                                      <option value="9">9x</option>
+                                      <option value="10">10x</option>
+                                      <option value="11">11x</option>
+                                      <option value="12">12x</option>
+                                    </select>
+                                  </div>
+                                
+                                <div class="col-3">
+                                    <label for="data_vencimento" class="form-label">Data de Vencimento:</label>
+                                    <input type="date" class="form-control" step="0.01" id="data_vencimento" name="data_vencimento" required>
+                                </div>
+
+                                <div class="col-md-12">
+                                  <label for="descricao" class="form-label">Descrição</label>
+                                  <textarea class="form-control" id="descricao" placeholder="Descrição da conta..." name="descricao" required></textarea>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                  <label for="arquivo" class="form-label">Anexo</label>
+                                  <input type="file" class="form-control" id="arquivo" name="arquivo">
+                                </div>
+                                
+                                <div class="modal-footer border-0">
+                                  <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                                    Salvar
+                                  </button>
+                                  
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                    Cancelar
+                                  </button>
+                                </div>
+                              </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                    
+                    <!-- Modal Editar Conta-->
+
+
+
+                    <div class="table-responsive">
+                    {% if contas_vencendo %}
+                      <table
+                        id="add-row"
+                        class="display table table-striped table-hover"
+                      >
+                        {% if messages %}
+                            <br>
+                            {% for message in messages %}
+                                <div class="alert {{message.tags}}">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <thead>
+                          <tr>
+                            <th>Fornecedor</th>
+                           <!--<th>Descrição</th>-->
+                            <th>Valor</th>
+                            <th>Data de Vencimento</th>
+                            <th>Parcelas</th>
+                            <th>Anexo</th>
+                            <th style="width: 10%">Ações</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <tr>
+                            <!--Foorter table-->
+                          </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for conta in contas_vencendo %}
+                            <tr style="color: red;">
+                              <td>{{ conta.fornecedor }}</td>
+                              <!--<td>{{ conta.descricao }}</td>-->
+                              <td>R$ {{ conta.valor }}</td>
+                              <td>{{ conta.data_vencimento }}</td>
+                              <td>{{ conta.quantidade_parcelas }}x</td>
+                              <!--<td> {{membro.telefone | default:"(00) 00000-0000"}}</td>-->
+                              <td>
+                                {% if conta.arquivo %}
+                                <a href="{{ conta.arquivo.url }}" target="_blank">Baixar</a>
+                                {% else %}
+                                Nenhum
+                                {% endif %}
+                              </td>
+                              <td>
+                                <div class="form-button-action">
+                                  <a href="#">
+                                  <button
+                                    type="button"
+                                    title="Editar"
+                                    class="btn btn-link btn-primary btn-lg"
+                                    data-original-title="Edit Task"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editarMembroModal"
+                                  >
+                                    <i class="fa fa-edit"></i>
+                                  </button>
+                                </a>
+                                <button
+                                    type="button"
+                                    title="Informações"
+                                    class="btn btn-link btn-primary btn-lg btn-detalhes"
+                                    data-original-title="Edit Task"
+                                    data-id="#"
+                                    data-modal="modal-{{ conta.id }}" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modal-{{ conta.id }}"
+                                  >
+                                    <i class="fa fa-info"></i>
+                                  </button>
+
+                                  <form action="{% url 'excluir_conta' conta.id %}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta conta?');">
+                                    {% csrf_token %}
+                                      <button type="submit" class="btn-sm" style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                          Excluir
+                                      </button>
+                                    </form>
+                                </div>
+                              </td>
+                            </tr>
+
+
+                    <!--Modal informações do membro-->
+                    <div class="modal fade" id="modal-{{ conta.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Informações sobre a Conta</h5>
+                          <button type="button" class="btn-close" data-close="modal-{{ conta.id }}" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group">
+                                <li class="list-group-item"><p><strong>Fornecedor: </strong> <span>{{ conta.fornecedor }}</span></p></li>
+                                <li class="list-group-item"><p><strong>Valor: </strong> <span>R$ {{ conta.valor }}</span></p></li>
+                                <li class="list-group-item"><p><strong>Descrição: </strong> <span>{{ conta.descricao }}</span></p></li>
+                                <li class="list-group-item"><p><strong>Data de Vencimento: </strong> <span>{{ conta.data_vencimento|date:"d/m/Y" }}</span></p></li>
+                                <li class="list-group-item"><p><strong>Parcelas: </strong> <span>{{ conta.quantidade_parcelas }}x</span></p></li>
+                              </ul>
+                                 
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <!--FINAL Modal informações da conta-->
+                          {% endfor %}
+                                                   
+                        </tbody>
+                      </table>
+                    {% else %}
+                    <p>Não há contas vencendo este mês!</p>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- jQuery Scrollbar --> 
+    <script src="{% static "geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"%}"></script>
+     <!--Datatables -->
+    <script src="{% static "geral/assets/js/plugin/datatables/datatables.min.js"%}"></script>
+    <!-- Kaiadmin JS -->
+    <script src="{% static "geral/assets/js/kaiadmin.min.js"%}"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! 
+    <script src="{% static "geral/assets/js/setting-demo2.js"%}"></script>-->
+    <script src="{% static "geral/assets/js/core/jquery-3.7.1.min.js" %}"></script>
+    
+    <script>
+      $(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+
+        $("#multi-filter-select").DataTable({
+          pageLength: 5,
+          initComplete: function () {
+            this.api()
+              .columns()
+              .every(function () {
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+        });
+
+        // Add Row
+        $("#add-row").DataTable({
+          pageLength: 10,
+          "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        }
+        });
+
+        var action =
+          '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $("#addRowButton").click(function () {
+          $("#add-row")
+            .dataTable()
+            .fnAddData([
+              $("#addName").val(),
+              $("#addPosition").val(),
+              $("#addOffice").val(),
+              action,
+            ]);
+          $("#addRowModal").modal("hide");
+        });
+        
+      });
+
+      
+    </script>
+{% endblock %}
