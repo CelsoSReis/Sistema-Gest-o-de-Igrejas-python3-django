@@ -66,8 +66,27 @@ def contas_vencimento_mes_atual(request):
         data_vencimento__month=mes_atual,
         data_vencimento__year=ano_atual
     ).order_by("data_vencimento")
+    #soma saldo contas vencidas
+    hoje = datetime.today()
+    mes_atual = hoje.month
+    ano_atual = hoje.year
 
-    return render(request, "contas_vencimento_mes.html", {"contas_vencendo": contas_vencendo})
+    # Filtra contas com vencimento no mês e ano atuais
+    contas_mes = ContaPagar.objects.filter(
+        pastor=request.user,
+        data_vencimento__month=mes_atual,
+        data_vencimento__year=ano_atual
+    )
+
+    # Soma total das contas do mês atual
+    total_mes = contas_mes.aggregate(Sum('valor'))['valor__sum'] or 0
+
+    return render(request, "contas_vencimento_mes.html", {
+        "contas_vencendo": contas_vencendo,
+        "contas_mes": contas_mes,
+        "total_mes": total_mes
+    })
+
 
 @login_required(login_url='/usuarios/login')
 def contas_vencidas(request):
@@ -113,3 +132,29 @@ def todas_contas(request):
         "contas": contas,
         "total_geral": total_geral
     })
+
+#editar Contas
+@login_required(login_url='/usuarios/login')
+def editar_conta(request, conta_id):
+    conta = get_object_or_404(ContaPagar, id=conta_id, pastor=request.user)
+
+    if request.method == "POST":
+        conta.fornecedor = request.POST.get("fornecedor")
+        conta.descricao = request.POST.get("descricao")
+        conta.valor = request.POST.get("valor")
+        conta.data_vencimento = request.POST.get("data_vencimento")
+        conta.quantidade_parcelas = request.POST.get("quantidade_parcelas")
+
+        if 'arquivo' in request.FILES:
+            conta.arquivo = request.FILES['arquivo']
+
+        # Validação básica
+        if not conta.fornecedor or not conta.descricao or not conta.valor or not conta.data_vencimento:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return redirect(f"/contas_pagar/editar/{conta_id}/")
+
+        conta.save()
+        messages.success(request, "Conta atualizada com sucesso!")
+        return redirect("{% url 'contas/todas_contas/' %}")
+
+    return render(request, "editar_conta.html", {"conta": conta})
