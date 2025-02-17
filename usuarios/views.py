@@ -68,7 +68,7 @@ def logar(request):
         if user:
             login(request, user)
 						# Acontecerá um erro ao redirecionar por enquanto
-            return redirect('/')
+            return redirect('dashboard_igreja')
         else:
             messages.add_message(request, constants.ERROR, 'Usuario ou senha inválidos')
             return redirect('/usuarios/login')

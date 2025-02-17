@@ -4,13 +4,13 @@
     
 {% endblock 'head' %}
 {% block 'conteudo' %}
-  <div class="container">
+<div class="container">
     <div class="page-inner">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Contas</h4><br/>
+              <h4 class="card-title">Contas Pagas</h4>
                 <button
                   class="btn btn-primary ms-auto btn-sm me-md-2"
                   data-bs-toggle="modal"
@@ -29,16 +29,14 @@
                     <li><a class="dropdown-item" href="{% url 'todas_contas' %}">Todas</a></li>
                     <li><a class="dropdown-item" href="{% url 'contas_vencimento_mes_atual' %}">À Vencer no Mês Atual</a></li>
                     <li><a class="dropdown-item" href="{% url 'contas_vencidas' %}">Vencidas</a></li>
-                    <li><a class="dropdown-item" href="{% url 'contas_pagas' %}">Pagas</a></li>
                   </ul>
                 </div>
               </div>
             </div>
-            <h6><span class="badge bg-secondary">Valor Total:</strong> R$ {{ total_geral|floatformat:2 }}</span></h6>
+            <h6><span class="badge bg-secondary">Valor Total:</strong> R$ {{ total_contas_pagas|floatformat:2 }}</span></h6>
           </div>
-          
         <div class="card-body">
-                    <!-- Modal Nova Conta-->
+                    <!-- Modal Novo Membro-->
                     <div class="modal fade modal-lg" id="cadastroContaModal" tabindex="-1" role="dialog" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -119,19 +117,22 @@
                     
                     <!-- Modal Editar Conta-->
 
+
+
                     <div class="table-responsive">
+                    {% if contas %}
                       <table
                         id="add-row"
                         class="display table table-striped table-hover"
                       >
-                      {% if messages %}
-                                        <br>
-                                        {% for message in messages %}
-                                            <div class="alert {{message.tags}}">
-                                                {{message}}
-                                            </div>
-                                        {% endfor %}
-                                {% endif %}
+                        {% if messages %}
+                            <br>
+                            {% for message in messages %}
+                                <div class="alert {{message.tags}}">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                         <thead>
                           <tr>
                             <th>Fornecedor</th>
@@ -140,7 +141,7 @@
                             <th>Data de Vencimento</th>
                             <th>Status</th>
                             <th>Anexo</th>
-                            <th style="width: 10%">Ações</th>
+                            <!--<th style="width: 10%">Ações</th>-->
                           </tr>
                         </thead>
                         <tfoot>
@@ -150,27 +151,22 @@
                         </tfoot>
                         <tbody>
                             {% for conta in contas %}
-                            <tr>
+                            <tr style="color: red;">
                               <td>{{ conta.fornecedor }}</td>
                               <!--<td>{{ conta.descricao }}</td>-->
                               <td>R$ {{ conta.valor }}</td>
                               <td>{{ conta.data_vencimento }}</td>
-                              <td>
-                                {% if conta.status == 'pendente' %}
-                                    <span class="badge bg-warning">Pendente</span>
-                                {% else %}
-                                    <span class="badge bg-success">Paga</span>
-                                {% endif %}
-                              </td>
-                              <!--<td> {{membro.telefone | default:"(00) 00000-0000"}}</td>-->
-                              <td>
+                              <!--<td>{{ conta.quantidade_parcelas }}x</td>
+                              <td> {{membro.telefone | default:"(00) 00000-0000"}}</td>
+                              <td>-->
                                 {% if conta.arquivo %}
                                 <a href="{{ conta.arquivo.url }}" target="_blank">Baixar</a>
                                 {% else %}
                                 Nenhum
                                 {% endif %}
                               </td>
-                              <td>
+                              <td><span class="badge bg-success">Paga</span></td>
+                              <!--<td>
                                 <div class="form-button-action">
                                   <a href="{% url 'editar_conta' conta.id %}">
                                   <button
@@ -197,28 +193,14 @@
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  {% if conta.status == 'pendente' %}
-                                  <form>
-                                      <a href="{% url 'pagar_conta' conta.id %}"><button
-                                        type="button"
-                                        title="Pagar"
-                                        class="btn btn-success btn-sm" 
-                                        style="color: white; padding: 5px 10px; border: none; cursor: pointer;"
-                                      >
-                                        Pagar
-                                      </button>
-                                      </a>
-                                    </form>
-                                  {% endif %}
-
                                   <form action="{% url 'excluir_conta' conta.id %}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta conta?');">
-                                    {% csrf_token %}
-                                      <button type="submit" class="btn-sm" style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                          Excluir
-                                      </button>
-                                    </form>
+                                  {% csrf_token %}
+                                    <button type="submit" class="btn-sm" style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                        Excluir
+                                    </button>
+                                  </form>
                                 </div>
-                              </td>
+                              </td>-->
                             </tr>
 
 
@@ -246,11 +228,14 @@
                       </div>
                     </div>
                   </div>
-                    <!--FINAL Modal informações da conta-->
+                    <!--FINAL Modal informações do membro-->
                           {% endfor %}
                                                    
                         </tbody>
                       </table>
+                    {% else %}
+                        <p>Nenhuma conta vencida encontrada.</p>
+                    {% endif %}
                     </div>
                   </div>
                 </div>
@@ -331,5 +316,8 @@
         });
         
       });
+     
+
+      
     </script>
 {% endblock %}

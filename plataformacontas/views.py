@@ -158,3 +158,31 @@ def editar_conta(request, conta_id):
         return redirect("/contas/todas_contas/")
 
     return render(request, "editar_conta.html", {"conta": conta})
+
+@login_required(login_url='/usuarios/login')
+def pagar_conta(request, conta_id):
+    conta = get_object_or_404(ContaPagar, id=conta_id, pastor=request.user)
+
+    if conta.status == 'paga':
+        messages.warning(request, "Esta conta já foi paga.")
+    else:
+        conta.status = 'paga'
+        conta.save()
+        messages.success(request, "Conta marcada como paga com sucesso!")
+
+    return redirect("todas_contas")
+# Exibir contas pagas
+@login_required(login_url='/usuarios/login')
+def contas_pagas(request):
+    contas = ContaPagar.objects.filter(pastor=request.user, status='paga').order_by("-data_vencimento")
+
+    # Soma total das contas pagas
+    total_contas_pagas = contas.aggregate(total=Sum('valor'))['total'] or 0.00
+
+    return render(request, "contas_pagas.html", {"contas": contas, "total_contas_pagas": total_contas_pagas})
+
+@login_required(login_url='/usuarios/login')
+def listar_contas(request):
+    contas = ContaPagar.objects.filter(pastor=request.user).order_by('status', 'data_vencimento')
+
+    return render(request, "contas.html", {"contas": contas})

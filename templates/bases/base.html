@@ -51,7 +51,7 @@
           <div class="sidebar-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-              <a href="#" class="logo">
+              <a href="{% url 'dashboard_igreja' %}" class="logo">
                 <img
                   src="{% static 'geral/assets/img/kaiadmin/logorw.svg'%}"
                   alt="navbar brand"
@@ -76,11 +76,9 @@
           <div class="sidebar-wrapper scrollbar scrollbar-inner">
             <div class="sidebar-content">
               <ul class="nav nav-secondary">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a
-                    data-bs-toggle="collapse"
-                    href="#"
-                    class="collapsed"
+                    href="{% url 'dashboard_igreja' %}"
                     aria-expanded="false"
                   >
                     <i class="fas fa-home"></i>
