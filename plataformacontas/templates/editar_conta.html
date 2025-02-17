@@ -7,48 +7,44 @@
 <div class="container mt-4">
     <h2 class="text-center">Editar Conta</h2>
 
-    <form method="POST" enctype="multipart/form-data" class="mt-3">
+    <form class="row g-3" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-
-        <div class="mb-3">
-            <label class="form-label">Fornecedor</label>
-            <input type="text" name="fornecedor" class="form-control" value="{{ conta.fornecedor }}" required>
+        <div class="col-md-6">
+          <label for="inputFornecedor" class="form-label">Fornecedor</label>
+          <input type="text" class="form-control" id="inputFornecedor" name="fornecedor" value="{{ conta.fornecedor }}"  required>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Descrição</label>
-            <input type="text" name="descricao" class="form-control" value="{{ conta.descricao }}" required>
+        <div class="col-md-6">
+            <label for="valor" class="form-label">Valor</label>
+            <input type="number" class="form-control" name="valor" step="0.01" id="valor" value="{{ conta.valor}}" required>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Valor</label>
-            <input type="number" name="valor" class="form-control" value="{{ conta.valor }}" step="0.01" required>
+        <div class="col-12">
+            <label for="descricao" class="form-label">Descrição</label>
+            <input type="text" class="form-control" name="descricao" id="descricao" value="{{ conta.descricao }}" required>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Data de Vencimento</label>
-            <input type="date" name="data_vencimento" class="form-control" value="{{ conta.data_vencimento|date:'Y-m-d' }}" required>
+        <div class="col-md-6">
+          <label for="data_vencimento" class="form-label">Data de Vencimento</label>
+          <input type="date" class="form-control" name="data_vencimento" value="{{ conta.data_vencimento|date:'Y-m-d' }}" id="data_vencimento">
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Quantidade de Parcelas</label>
-            <select name="quantidade_parcelas" class="form-select" required>
-                {% for i in "123456789"|make_list %}
-                <option value="{{ i }}" {% if conta.quantidade_parcelas == i %}selected{% endif %}>{{ i }}</option>
-                {% endfor %}
-            </select>
+        <div class="col-md-4">
+          <label for="quantidade_parcelas" class="form-label">Quantidade de Parcelas</label>
+          <select name="quantidade_parcelas" id="quantidade_parcelas" class="form-select">
+            {% for i in "123456789"|make_list %}
+              <option value="{{ i }}" {% if conta.quantidade_parcelas == i %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+          </select>
         </div>
-
+        
         <div class="mb-3">
-            <label class="form-label">Anexo (opcional)</label>
-            <input type="file" name="arquivo" class="form-control">
-            {% if conta.arquivo %}
-                <p>Arquivo atual: <a href="{{ conta.arquivo.url }}" target="_blank">Visualizar</a></p>
-            {% endif %}
+          <label class="form-label">Anexo (opcional)</label>
+          <input type="file" name="arquivo" class="form-control">
+          {% if conta.arquivo %}
+              <p>Arquivo atual: <a href="{{ conta.arquivo.url }}" target="_blank">Visualizar</a></p>
+          {% endif %}
+      </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-success">Salvar Alterações</button>
+          <a href="{% url 'todas_contas' %}" class="btn btn-secondary">Cancelar</a>
         </div>
-
-        <button type="submit" class="btn btn-success">Salvar Alterações</button>
-        <a href="{% url 'todas_contas' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+      </form>
 </div>
 {% endblock %}

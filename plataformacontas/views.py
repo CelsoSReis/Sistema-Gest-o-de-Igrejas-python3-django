@@ -155,6 +155,6 @@ def editar_conta(request, conta_id):
 
         conta.save()
         messages.success(request, "Conta atualizada com sucesso!")
-        return redirect("{% url 'contas/todas_contas/' %}")
+        return redirect("/contas/todas_contas/")
 
     return render(request, "editar_conta.html", {"conta": conta})
