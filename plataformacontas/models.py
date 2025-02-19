@@ -14,7 +14,11 @@ class ContaPagar(models.Model):
     quantidade_parcelas = models.PositiveIntegerField(default=1)  # Número de parcelas
     arquivo = models.FileField(upload_to="contas_a_pagar/", blank=True, null=True)  # Upload de arquivo
     data_criacao = models.DateTimeField(auto_now_add=True)  # Data de criação
-    status = models.IntegerField(choices=STATUS_CHOICES, default=0)  # Padrão: Pendente
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)  # Pendente como padrão
+
+    class Meta:
+        # Ordena as contas por data de vencimento (em ordem crescente)
+        ordering = ['data_vencimento']
 
     def __str__(self):
         return f"{self.fornecedor} - {self.get_status_display()}"

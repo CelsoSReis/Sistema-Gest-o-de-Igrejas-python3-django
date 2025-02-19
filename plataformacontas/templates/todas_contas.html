@@ -27,7 +27,7 @@
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     <li><a class="dropdown-item" href="{% url 'todas_contas' %}">Todas</a></li>
-                    <li><a class="dropdown-item" href="{% url 'contas_vencimento_mes_atual' %}">À Vencer no Mês Atual</a></li>
+                    <li><a class="dropdown-item" href="{% url 'contas_vencimento_mes_atual' %}">Vencimento Mês Atual</a></li>
                     <li><a class="dropdown-item" href="{% url 'contas_vencidas' %}">Vencidas</a></li>
                     <li><a class="dropdown-item" href="{% url 'contas_pagas' %}">Pagas</a></li>
                   </ul>
@@ -125,19 +125,19 @@
                         class="display table table-striped table-hover"
                       >
                       {% if messages %}
-                                        <br>
-                                        {% for message in messages %}
-                                            <div class="alert {{message.tags}}">
-                                                {{message}}
-                                            </div>
-                                        {% endfor %}
-                                {% endif %}
+                              <br>
+                              {% for message in messages %}
+                                  <div class="alert {{message.tags}}">
+                                      {{message}}
+                                  </div>
+                              {% endfor %}
+                      {% endif %}
                         <thead>
                           <tr>
                             <th>Fornecedor</th>
                            <!--<th>Descrição</th>-->
                             <th>Valor</th>
-                            <th>Data de Vencimento</th>
+                            <th>Vencimento</th>
                             <th>Status</th>
                             <th>Anexo</th>
                             <th style="width: 10%">Ações</th>
@@ -156,7 +156,7 @@
                               <td>R$ {{ conta.valor }}</td>
                               <td>{{ conta.data_vencimento }}</td>
                               <td>
-                                {% if conta.status == 'pendente' %}
+                                {% if conta.status == 0 %}
                                     <span class="badge bg-warning">Pendente</span>
                                 {% else %}
                                     <span class="badge bg-success">Paga</span>
@@ -197,7 +197,7 @@
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  {% if conta.status == 'pendente' %}
+                                  {% if conta.status == 0 %}
                                   <form>
                                       <a href="{% url 'pagar_conta' conta.id %}"><button
                                         type="button"
@@ -220,7 +220,7 @@
                                 </div>
                               </td>
                             </tr>
-
+                            <a href="{% url 'relatorio_dizimos' %}" class="btn btn-success">📄 Relatório de Dízimos</a>
 
                     <!--Modal informações da conta -->
                   <div class="modal fade" id="modal-{{ conta.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -273,9 +273,12 @@
     
     <script>
       $(document).ready(function () {
-        $("#basic-datatables").DataTable({});
+        $("#basic-datatables").DataTable({
+          ordering: false //desativa ordem alfabética da tablea
+        });
 
         $("#multi-filter-select").DataTable({
+          ordering: false,
           pageLength: 5,
           initComplete: function () {
             this.api()
@@ -310,6 +313,7 @@
         // Add Row
         $("#add-row").DataTable({
           pageLength: 10,
+          ordering: false,
           "language": {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
         }

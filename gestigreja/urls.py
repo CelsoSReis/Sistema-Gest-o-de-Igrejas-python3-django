@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('plataformadizimos.urls')),
     path('', include('plataformaofertas.urls')),
     path('', include('plataformacontas.urls')),
+    path('', include('plataformarelatorios.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

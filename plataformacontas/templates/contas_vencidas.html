@@ -27,7 +27,7 @@
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     <li><a class="dropdown-item" href="{% url 'todas_contas' %}">Todas</a></li>
-                    <li><a class="dropdown-item" href="{% url 'contas_vencimento_mes_atual' %}">À Vencer no Mês Atual</a></li>
+                    <li><a class="dropdown-item" href="{% url 'contas_vencimento_mes_atual' %}">Vencimento Mês Atual</a></li>
                     <li><a class="dropdown-item" href="{% url 'contas_vencidas' %}">Vencidas</a></li>
                     <li><a class="dropdown-item" href="{% url 'contas_pagas' %}">Pagas</a></li>
                   </ul>
@@ -139,7 +139,7 @@
                             <th>Fornecedor</th>
                            <!--<th>Descrição</th>-->
                             <th>Valor</th>
-                            <th>Data de Vencimento</th>
+                            <th>Vencimento</th>
                             <th>Status</th>
                             <th>Anexo</th>
                             <th style="width: 10%">Ações</th>
@@ -160,7 +160,7 @@
                               <!--<td>{{ conta.quantidade_parcelas }}x</td>
                               <td> {{membro.telefone | default:"(00) 00000-0000"}}</td>
                               --><td>
-                                {% if conta.status == 'pendente' %}
+                                {% if conta.status == 0 %}
                                     <span class="badge bg-warning">Pendente</span>
                                 {% else %}
                                     <span class="badge bg-success">Paga</span>
@@ -200,7 +200,7 @@
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  {% if conta.status == 'pendente' %}
+                                  {% if conta.status == 0 %}
                                   <form>
                                       <a href="{% url 'pagar_conta' conta.id %}"><button
                                         type="button"
@@ -238,7 +238,7 @@
                             <li class="list-group-item"><p><strong>Fornecedor: </strong> <span>{{ conta.fornecedor }}</span></p></li>
                             <li class="list-group-item"><p><strong>Valor: </strong> <span>R$ {{ conta.valor }}</span></p></li>
                             <li class="list-group-item"><p><strong>Descrição: </strong> <span>{{ conta.descricao }}</span></p></li>
-                            <li class="list-group-item"><p><strong>Data de Vencimento: </strong> <span>{{ conta.data_vencimento|date:"d/m/Y" }}</span></p></li>
+                            <li class="list-group-item"><p><strong>Vencimento: </strong> <span>{{ conta.data_vencimento|date:"d/m/Y" }}</span></p></li>
                             <li class="list-group-item"><p><strong>Parcelas: </strong> <span>{{ conta.quantidade_parcelas }}x</span></p></li>
                           </ul>
                                  
@@ -315,6 +315,7 @@
 
         // Add Row
         $("#add-row").DataTable({
+          ordering: false,
           pageLength: 10,
           "language": {
             "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
