@@ -1,81 +1,51 @@
+from django.shortcuts import render
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from plataformaofertas.models import Oferta  # Importando modelo de contas
-from plataformadizimos.models import Dizimos  # Importando modelo de dízimos
-from datetime import datetime
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
 
-# 📄 Relatório de Membros
+from plataformaigreja.models import Membros
+
+@login_required(login_url='/usuarios/login')
+def visualizar_relatorio_membros(request):
+    """Exibe os membros em um template antes de gerar o PDF."""
+    membros = Membros.objects.filter(pastor=request.user).order_by("nome")
+    return render(request, 'relatorio_membros.html', {'membros': membros})
+
+@login_required(login_url='/usuarios/login')
 def gerar_relatorio_membros(request):
+    """Gera um PDF dos membros cadastrados."""
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="relatorio_membros.pdf"'
-
-    p = canvas.Canvas(response, pagesize=A4)
-    width, height = A4
-
-    p.setFont("Helvetica-Bold", 16)
-    p.drawString(200, height - 40, "Relatório de Membros")
-
-    y_position = height - 80
-    p.setFont("Helvetica", 12)
-
-    membros = User.objects.all().order_by("first_name")
-
+    
+    doc = SimpleDocTemplate(response, pagesize=A4)
+    elements = []
+    
+    styles = getSampleStyleSheet()
+    title = Paragraph("Relatório de Membros", styles['Title'])
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+    
+    data = [["Nome", "Email", "Telefone"]]  # Cabeçalhos da tabela
+    
+    membros = Membros.objects.filter(pastor=request.user).order_by("nome")
     for membro in membros:
-        p.drawString(50, y_position, f"{membro.first_name} {membro.last_name} - {membro.email}")
-        y_position -= 20
-
-    p.showPage()
-    p.save()
-    return response
-
-
-# 📄 Relatório de Dízimos
-def gerar_relatorio_dizimos(request):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="relatorio_dizimos.pdf"'
-
-    p = canvas.Canvas(response, pagesize=A4)
-    width, height = A4
-
-    p.setFont("Helvetica-Bold", 16)
-    p.drawString(200, height - 40, "Relatório de Dízimos")
-
-    y_position = height - 80
-    p.setFont("Helvetica", 12)
-
-    dizimos = Dizimos.objects.all().order_by("-data")
-
-    for dizimo in dizimos:
-        p.drawString(50, y_position, f"{Dizimos.membro.first_name} {Dizimos.membro.last_name} - R$ {Dizimos.valor} - {Dizimos.data}")
-        y_position -= 20
-
-    p.showPage()
-    p.save()
-    return response
-
-
-# 📄 Relatório de Contas
-def gerar_relatorio_contas(request):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="relatorio_contas.pdf"'
-
-    p = canvas.Canvas(response, pagesize=A4)
-    width, height = A4
-
-    p.setFont("Helvetica-Bold", 16)
-    p.drawString(200, height - 40, "Relatório de Contas")
-
-    y_position = height - 80
-    p.setFont("Helvetica", 12)
-
-    contas = ContaPagar.objects.all().order_by("data_vencimento")
-
-    for conta in contas:
-        p.drawString(50, y_position, f"{conta.fornecedor} - {conta.descricao} - R$ {conta.valor} - {conta.get_status_display()}")
-        y_position -= 20
-
-    p.showPage()
-    p.save()
+        data.append([membro.nome, membro.email, membro.telefone])
+    
+    table = Table(data)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.grey),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0,0), (-1,0), 12),
+        ('BACKGROUND', (0,1), (-1,-1), colors.beige),
+        ('GRID', (0,0), (-1,-1), 1, colors.black),
+    ]))
+    
+    elements.append(table)
+    doc.build(elements)
+    
     return response

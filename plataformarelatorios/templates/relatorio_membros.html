@@ -1,0 +1,119 @@
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+{% endblock 'head' %}
+{% block 'conteudo' %}
+  <div class="container">
+    <div class="page-inner">
+      <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Relatório de Membros</h4>
+                    
+                 <!--TODO:  <button class="btn btn-primary btn-round ms-auto" onclick="window.print()"> <i class="fa fa-print"></i> Imprimir</button>-->
+                
+                    <a href="{% url 'gerar_relatorio_membros' %}" class="btn-round ms-auto">
+                        <button class="btn btn-primary btn-round ms-auto"> <i class="fa fa-download"></i> Exportar em PDF</button>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                    id="add-row"
+                    class="display table table-striped table-hover"
+                    >
+                    <thead>
+                        <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for membro in membros %}
+                        <tr>
+                            <td>{{ membro.nome }}</td>
+                            <td>{{ membro.email }}</td>
+                            <td>{{ membro.telefone }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center">Nenhum membro cadastrado!</td>
+                        </tr>
+                        {% endfor %}                   
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery Scrollbar --> 
+    <script src="{% static "geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"%}"></script>
+     <!--Datatables -->
+    <script src="{% static "geral/assets/js/plugin/datatables/datatables.min.js"%}"></script>
+    <!-- Kaiadmin JS -->
+    <script src="{% static "geral/assets/js/kaiadmin.min.js"%}"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project!   -->
+    <script src="{% static "geral/assets/js/core/jquery-3.7.1.min.js" %}"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+
+        $("#multi-filter-select").DataTable({
+          pageLength: 100,
+          initComplete: function () {
+            this.api()
+              .columns()
+              .every(function () {
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+        });
+
+        // Add Row
+        $("#add-row").DataTable({
+          pageLength: 100,
+          search: none,
+          "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        }
+        });
+
+        
+      });
+     
+    </script>
+{% endblock %}

@@ -144,6 +144,38 @@
                     </ul>
                   </div>
                 </li>
+
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#sidebarRelatorios">
+                    <i class="fas fa-th-list"></i>
+                    <p>Relatórios</p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse" id="sidebarRelatorios">
+                    <ul class="nav nav-collapse">
+                      <li>
+                        <a href="{% url 'visualizar_relatorio_membros' %}">
+                          <span class="sub-item">Relatório de Membros</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'ofertas' %}">
+                          <span class="sub-item">Relatório de Dízimos</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'todas_contas'%}">
+                          <span class="sub-item">Relatório de Contas</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="icon-menu.html">
+                          <span class="sub-item">#</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
