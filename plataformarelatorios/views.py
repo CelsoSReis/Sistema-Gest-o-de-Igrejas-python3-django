@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfgen import canvas
 from reportlab.lib import colors
+from datetime import datetime
 
+from plataformadizimos.models import Dizimos
 from plataformaigreja.models import Membros
 
 @login_required(login_url='/usuarios/login')
@@ -14,38 +15,121 @@ def visualizar_relatorio_membros(request):
     membros = Membros.objects.filter(pastor=request.user).order_by("nome")
     return render(request, 'relatorio_membros.html', {'membros': membros})
 
+
+def desenhar_cabecalho(c, titulo):
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(200, 800, titulo)
+    c.line(50, 790, 550, 790)  # Linha horizontal abaixo do título
+
+def desenhar_tabela_membros(c, membros):
+    x_inicial, y_inicial = 50, 750
+    espacamento_linha = 20
+    
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(x_inicial, y_inicial, "Nome")
+    c.drawString(x_inicial + 200, y_inicial, "Email")
+    c.drawString(x_inicial + 350, y_inicial, "Telefone")
+    
+    c.setFont("Helvetica", 10)
+    y_atual = y_inicial - espacamento_linha
+    
+    for membro in membros:
+        c.drawString(x_inicial, y_atual, membro.nome[:25])  # Nome truncado para caber
+        c.drawString(x_inicial + 200, y_atual, membro.email[:30])  # Email truncado
+        c.drawString(x_inicial + 350, y_atual, membro.telefone)
+        y_atual -= espacamento_linha
+        
+        if y_atual < 50:  # Quebra de página se necessário
+            c.showPage()
+            desenhar_cabecalho(c, "Relatório de Membros")
+            y_atual = y_inicial - espacamento_linha
+
 @login_required(login_url='/usuarios/login')
 def gerar_relatorio_membros(request):
-    """Gera um PDF dos membros cadastrados."""
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="relatorio_membros.pdf"'
     
-    doc = SimpleDocTemplate(response, pagesize=A4)
-    elements = []
-    
-    styles = getSampleStyleSheet()
-    title = Paragraph("Relatório de Membros", styles['Title'])
-    elements.append(title)
-    elements.append(Spacer(1, 12))
-    
-    data = [["Nome", "Email", "Telefone"]]  # Cabeçalhos da tabela
+    c = canvas.Canvas(response, pagesize=A4)
+    desenhar_cabecalho(c, "Relatório de Membros")
     
     membros = Membros.objects.filter(pastor=request.user).order_by("nome")
-    for membro in membros:
-        data.append([membro.nome, membro.email, membro.telefone])
+    desenhar_tabela_membros(c, membros)
     
-    table = Table(data)
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.grey),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
-        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0,0), (-1,0), 12),
-        ('BACKGROUND', (0,1), (-1,-1), colors.beige),
-        ('GRID', (0,0), (-1,-1), 1, colors.black),
-    ]))
-    
-    elements.append(table)
-    doc.build(elements)
+    c.showPage()
+    c.save()
     
     return response
+
+@login_required(login_url='/usuarios/login')
+def gerar_relatorio_dizimos(request):
+    """Gera um relatório de dízimos por mês"""
+    
+    # Obtém os parâmetros do mês e ano da URL (ou usa o mês/ano atual)
+    mes = request.GET.get('mes', datetime.now().month)
+    ano = request.GET.get('ano', datetime.now().year)
+
+    # Filtra os dízimos do pastor logado por mês e ano
+    dizimos = Dizimos.objects.filter(
+        data_dizimo__month=mes, 
+        data_dizimo__year=ano, 
+    ).order_by('data_dizimo')
+
+    # Criar resposta do tipo PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="relatorio_dizimos_{mes}_{ano}.pdf"'
+
+    # Criar o documento PDF
+    p = canvas.Canvas(response, pagesize=A4)
+    largura, altura = A4
+    y_position = altura - 50  # Margem superior
+
+    # Título do relatório
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(200, y_position, f"Relatório de Dízimos - {mes}/{ano}")
+    y_position -= 30  # Espaço após título
+
+    # Cabeçalhos da tabela
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(50, y_position, "Nome do Membro")
+    p.drawString(250, y_position, "Data")
+    p.drawString(350, y_position, "Valor (R$)")
+    p.line(50, y_position - 5, 500, y_position - 5)  # Linha separadora
+    y_position -= 20
+
+    total = 0  # Para somar os valores
+
+    p.setFont("Helvetica", 10)
+    for dizimo in dizimos:
+        if y_position < 50:  # Verifica se precisa de nova página
+            p.showPage()
+            y_position = altura - 50  # Reseta a posição
+
+        p.drawString(50, y_position, dizimo.membro.nome)
+        p.drawString(250, y_position, dizimo.data_dizimo.strftime("%d/%m/%Y"))
+        p.drawString(350, y_position, f"R$ {dizimo.valor:.2f}")
+        y_position -= 20
+        total += dizimo.valor  # Soma dos valores
+
+    # Linha final
+    p.line(50, y_position, 500, y_position)
+    y_position -= 20
+
+    # Total
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(250, y_position, "Total: ")
+    p.drawString(350, y_position, f"R$ {total:.2f}")
+
+    # Finaliza o PDF
+    p.showPage()
+    p.save()
+
+    return response
+
+@login_required(login_url='/usuarios/login')
+def pagina_relatorio_dizimos(request):
+    """Exibe a página com o formulário para gerar relatório de dízimos."""
+    ano_atual = datetime.now().year
+    anos_disponiveis = range(ano_atual - 5, ano_atual + 1)  # Últimos 5 anos
+
+    return render(request, 'relatorio_dizimos.html', {'anos_disponiveis': anos_disponiveis})
+

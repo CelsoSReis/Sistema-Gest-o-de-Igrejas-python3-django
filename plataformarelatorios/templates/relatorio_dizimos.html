@@ -1,0 +1,148 @@
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+{% endblock 'head' %}
+{% block 'conteudo' %}
+  <div class="container">
+    <div class="page-inner">
+      <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Relatório de Dízimos</h4>
+                 <!--TODO:  <button class="btn btn-primary btn-round ms-auto" onclick="window.print()"> <i class="fa fa-print"></i> Imprimir</button>-->
+                </div>
+            </div>
+
+            <!-- Formulário para selecionar mês e ano -->
+            <form id="formRelatorio" method="GET" action="{% url 'gerar_relatorio_dizimos' %}">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="mes">Mês:</label>
+                        <select class="form-control" id="mes" name="mes">
+                            <option value="1">Janeiro</option>
+                            <option value="2">Fevereiro</option>
+                            <option value="3">Março</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Maio</option>
+                            <option value="6">Junho</option>
+                            <option value="7">Julho</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="ano">Ano:</label>
+                        <select class="form-control" id="ano" name="ano">
+                            {% for ano in anos_disponiveis %}
+                                <option value="{{ ano }}">{{ ano }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-round ms-auto"><i class="fa fa-download"></i> Exportar em PDF</button>
+                    </div>
+                </div>
+            </form>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                            id="add-row"
+                            class="display table table-striped table-hover"
+                            >
+                            <thead>
+                                <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for dizimo in dizimos %}
+                                    <tr>
+                                    <td>R$ {{ dizimo.valor }}</td><!--Valor-->
+                                    <td>{{ dizimo.membro.nome }}</td><!--membro-->
+                                    <td>{{dizimo.membro.cpf}}</td><!--CPF-->
+                                    <td>{{ dizimo.data_dizimo|date:"d/m/Y" }}</td><!--data-->
+                                    </tr>
+                                {% endfor %}                 
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery Scrollbar --> 
+    <script src="{% static "geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"%}"></script>
+     <!--Datatables -->
+    <script src="{% static "geral/assets/js/plugin/datatables/datatables.min.js"%}"></script>
+    <!-- Kaiadmin JS -->
+    <script src="{% static "geral/assets/js/kaiadmin.min.js"%}"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project!   -->
+    <script src="{% static "geral/assets/js/core/jquery-3.7.1.min.js" %}"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+
+        $("#multi-filter-select").DataTable({
+          pageLength: 100,
+          initComplete: function () {
+            this.api()
+              .columns()
+              .every(function () {
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+        });
+
+        // Add Row
+        $("#add-row").DataTable({
+          pageLength: 100,
+          search: none,
+          "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        }
+        });
+
+        
+      });
+     
+    </script>
+{% endblock %}
