@@ -5,16 +5,15 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from datetime import datetime
-
 from plataformadizimos.models import Dizimos
 from plataformaigreja.models import Membros
+from plataformacontas.models import ContaPagar
 
 @login_required(login_url='/usuarios/login')
 def visualizar_relatorio_membros(request):
     """Exibe os membros em um template antes de gerar o PDF."""
     membros = Membros.objects.filter(pastor=request.user).order_by("nome")
     return render(request, 'relatorio_membros.html', {'membros': membros})
-
 
 def desenhar_cabecalho(c, titulo):
     c.setFont("Helvetica-Bold", 16)
@@ -133,3 +132,45 @@ def pagina_relatorio_dizimos(request):
 
     return render(request, 'relatorio_dizimos.html', {'anos_disponiveis': anos_disponiveis})
 
+@login_required(login_url='/usuarios/login')
+def gerar_relatorio_contas_pagas(request):
+    """Gera um PDF com as contas pagas."""
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="relatorio_contas_pagas.pdf"'
+
+    pdf = canvas.Canvas(response, pagesize=A4)
+    pdf.setTitle("Relatório de Contas Pagas")
+
+    # Configuração inicial do PDF
+    y = 800
+    pdf.setFont("Helvetica-Bold", 16)
+    pdf.drawString(200, y, "Relatório de Contas Pagas")
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(50, y - 50, "-----------------------------------------")
+
+    y -= 80  # Ajuste da posição inicial para listar as contas
+
+    # Cabeçalho da tabela
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(50, y, "Nome da Conta")
+    pdf.drawString(250, y, "Data de Vencimento")
+    pdf.drawString(400, y, "Valor Pago")
+    y -= 20
+
+    # Linhas da tabela
+    pdf.setFont("Helvetica", 12)
+    contas_pagas = ContaPagar.objects.filter(status=1, pastor=request.user)  # Filtra apenas contas pagas
+
+    for conta in contas_pagas:
+        pdf.drawString(50, y, conta.fornecedor)
+        pdf.drawString(250, y, conta.data_vencimento.strftime('%d/%m/%Y') if conta.data_vencimento else 'N/A')
+        pdf.drawString(400, y, f"R$ {conta.valor:.2f}")
+        y -= 20
+
+        # Adiciona uma nova página se a lista ultrapassar o limite
+        if y < 100:
+            pdf.showPage()
+            y = 800  # Reinicia a posição vertical
+
+    pdf.save()
+    return response
