@@ -61,14 +61,14 @@
               </a>
               <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
-                  <i class="gg-menu-right"></i>
+                  <i class="fas fa-arrow-left"></i>
                 </button>
                 <button class="btn btn-toggle sidenav-toggler">
-                  <i class="gg-menu-left"></i>
+                  <i class="fas fa-align-justify"></i>
                 </button>
               </div>
               <button class="topbar-toggler more">
-                <i class="gg-more-vertical-alt"></i>
+                <i class="fa fa-cog"></i>
               </button>
             </div>
             <!-- End Logo Header -->
@@ -103,13 +103,7 @@
                         <a href="{% url 'membros' %}">
                           <span class="sub-item">Gereciar Membros</span>
                         </a>
-                      </li>
-                      <li>
-                        <a href="components/avatars.html">
-                          <span class="sub-item">#</span>
-                        </a>
-                      </li>
-                      
+                      </li>                      
                     </ul>
                   </div>
                 </li>
@@ -134,11 +128,6 @@
                       <li>
                         <a href="{% url 'todas_contas'%}">
                           <span class="sub-item">Contas à Pagar</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="icon-menu.html">
-                          <span class="sub-item">#</span>
                         </a>
                       </li>
                     </ul>
@@ -166,11 +155,6 @@
                       <li>
                         <a href="{% url 'contas_pagas'%}">
                           <span class="sub-item">Relatório de Contas</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="icon-menu.html">
-                          <span class="sub-item">#</span>
                         </a>
                       </li>
                     </ul>
@@ -204,7 +188,7 @@
                   </button>
                 </div>
                 <button class="topbar-toggler more">
-                  <i class="gg-more-vertical-alt"></i>
+                  <i class="fas fa-align-justify"></i>
                 </button>
               </div>
               <!-- End Logo Header -->
@@ -274,11 +258,8 @@
                       aria-labelledby="messageDropdown"
                     >
                       <li>
-                        <div
-                          class="dropdown-title d-flex justify-content-between align-items-center"
-                        >
-                          Messages
-                          <a href="#" class="small">Mark all as read</a>
+                        <div class="dropdown-title d-flex justify-content-between align-items-center">
+                          Mensagens
                         </div>
                       </li>
                       <li>
@@ -287,55 +268,14 @@
                             <a href="#">
                               <div class="notif-img">
                                 <img
-                                  src="assets/img/jm_denis.jpg"
-                                  alt="Img Profile"
-                                />
-                              </div>
-                              <div class="notif-content">
-                                <span class="subject">Jimmy Denis</span>
-                                <span class="block"> How are you ? </span>
-                                <span class="time">5 minutes ago</span>
-                              </div>
-                            </a>
-                            <a href="#">
-                              <div class="notif-img">
-                                <img
-                                  src="assets/img/chadengle.jpg"
-                                  alt="Img Profile"
-                                />
-                              </div>
-                              <div class="notif-content">
-                                <span class="subject">Chad</span>
-                                <span class="block"> Ok, Thanks ! </span>
-                                <span class="time">12 minutes ago</span>
-                              </div>
-                            </a>
-                            <a href="#">
-                              <div class="notif-img">
-                                <img
-                                  src="assets/img/mlane.jpg"
-                                  alt="Img Profile"
-                                />
-                              </div>
-                              <div class="notif-content">
-                                <span class="subject">Jhon Doe</span>
-                                <span class="block">
-                                  Ready for the meeting today...
-                                </span>
-                                <span class="time">12 minutes ago</span>
-                              </div>
-                            </a>
-                            <a href="#">
-                              <div class="notif-img">
-                                <img
                                   src="{% static 'geral/assets/img/talha.jpg'%}"
                                   alt="Img Profile"
                                 />
                               </div>
                               <div class="notif-content">
-                                <span class="subject">Talha</span>
-                                <span class="block"> Hi, Apa Kabar ? </span>
-                                <span class="time">17 minutes ago</span>
+                                <span class="subject">ReisWeb</span>
+                                <span class="block"> Olá, bem vindo ao sistema de gestão de igrejas </span>
+                                <span class="time">30 dias atrás</span>
                               </div>
                             </a>
                           </div>
@@ -343,7 +283,7 @@
                       </li>
                       <li>
                         <a class="see-all" href="javascript:void(0);"
-                          >See all messages<i class="fa fa-angle-right"></i>
+                          >Todas as Mensagens<i class="fa fa-angle-right"></i>
                         </a>
                       </li>
                     </ul>
@@ -359,7 +299,7 @@
                       aria-expanded="false"
                     >
                       <i class="fa fa-bell"></i>
-                      <span class="notification">4</span>
+                      <span class="notification">1</span>
                     </a>
                     <ul
                       class="dropdown-menu notif-box animated fadeIn"
@@ -367,7 +307,7 @@
                     >
                       <li>
                         <div class="dropdown-title">
-                          You have 4 new notification
+                          Você tem uma nova notificação
                         </div>
                       </li>
                       <li>
@@ -378,50 +318,17 @@
                                 <i class="fa fa-user-plus"></i>
                               </div>
                               <div class="notif-content">
-                                <span class="block"> New user registered </span>
-                                <span class="time">5 minutes ago</span>
+                                <span class="block"> Novo Usuário Registrado</span>
+                                <span class="time">30 dias atrás</span>
                               </div>
                             </a>
-                            <a href="#">
-                              <div class="notif-icon notif-success">
-                                <i class="fa fa-comment"></i>
-                              </div>
-                              <div class="notif-content">
-                                <span class="block">
-                                  Rahmad commented on Admin
-                                </span>
-                                <span class="time">12 minutes ago</span>
-                              </div>
-                            </a>
-                            <a href="#">
-                              <div class="notif-img">
-                                <img
-                                  src="{% static 'geral/assets/img/profile2.jpg'%}"
-                                  alt="Img Profile"
-                                />
-                              </div>
-                              <div class="notif-content">
-                                <span class="block">
-                                  Reza send messages to you
-                                </span>
-                                <span class="time">12 minutes ago</span>
-                              </div>
-                            </a>
-                            <a href="#">
-                              <div class="notif-icon notif-danger">
-                                <i class="fa fa-heart"></i>
-                              </div>
-                              <div class="notif-content">
-                                <span class="block"> Farrah liked Admin </span>
-                                <span class="time">17 minutes ago</span>
-                              </div>
-                            </a>
+                            
                           </div>
                         </div>
                       </li>
                       <li>
                         <a class="see-all" href="javascript:void(0);"
-                          >See all notifications<i class="fa fa-angle-right"></i>
+                          >Todas as notificações<i class="fa fa-angle-right"></i>
                         </a>
                       </li>
                     </ul>
@@ -443,62 +350,43 @@
                       <div class="quick-actions-scroll scrollbar-outer">
                         <div class="quick-actions-items">
                           <div class="row m-0">
-                            <a class="col-6 col-md-4 p-0" href="#">
+                            <a class="col-6 col-md-4 p-0" href="{% url 'membros' %}">
                               <div class="quick-actions-item">
                                 <div class="avatar-item bg-danger rounded-circle">
-                                  <i class="far fa-calendar-alt"></i>
+                                  <i class="fas fa-users"></i>
                                 </div>
-                                <span class="text">Calendario</span>
+                                <span class="text">Membros</span>
                               </div>
                             </a>
-                            <a class="col-6 col-md-4 p-0" href="#">
+                            <a class="col-6 col-md-4 p-0" href="{% url 'dizimos' %}">
                               <div class="quick-actions-item">
                                 <div
                                   class="avatar-item bg-warning rounded-circle"
                                 >
-                                  <i class="fas fa-map"></i>
+                                  <i class="fas fa-money-check-alt"></i>
                                 </div>
-                                <span class="text">Laboratórios</span>
+                                <span class="text">Dízimos</span>
                               </div>
                             </a>
-                            <a class="col-6 col-md-4 p-0" href="#">
+                            <a class="col-6 col-md-4 p-0" href="{% url 'ofertas' %}">
                               <div class="quick-actions-item">
                                 <div class="avatar-item bg-info rounded-circle">
-                                  <i class="fas fa-file-excel"></i>
+                                  <i class="fas fa-hand-holding-usd"></i>
                                 </div>
-                                <span class="text">Resultados</span>
+                                <span class="text">Ofertas</span>
                               </div>
                             </a>
-                            <a class="col-6 col-md-4 p-0" href="#">
+                            <a class="col-6 col-md-4 p-0" href="{% url 'todas_contas' %}">
                               <div class="quick-actions-item">
                                 <div
                                   class="avatar-item bg-success rounded-circle"
                                 >
-                                  <i class="fas fa-envelope"></i>
-                                </div>
-                                <span class="text">E-mails</span>
-                              </div>
-                            </a>
-                            <a class="col-6 col-md-4 p-0" href="#">
-                              <div class="quick-actions-item">
-                                <div
-                                  class="avatar-item bg-primary rounded-circle"
-                                >
                                   <i class="fas fa-file-invoice-dollar"></i>
                                 </div>
-                                <span class="text">Financeiro</span>
+                                <span class="text">Contas a Pagar</span>
                               </div>
                             </a>
-                            <a class="col-6 col-md-4 p-0" href="#">
-                              <div class="quick-actions-item">
-                                <div
-                                  class="avatar-item bg-secondary rounded-circle"
-                                >
-                                  <i class="fas fa-credit-card"></i>
-                                </div>
-                                <span class="text">Relatórios</span>
-                              </div>
-                            </a>
+                            
                           </div>
                         </div>
                       </div>
@@ -514,14 +402,13 @@
                     >
                       <div class="avatar-sm">
                         <img
-                          src="assets/img/profile.jpg"
+                          src="{% static 'geral/assets/img/profile.png'%}"
                           alt="..."
                           class="avatar-img rounded-circle"
                         />
                       </div>
                       <span class="profile-username">
-                        <span class="op-7">Olá</span>
-                        <span class="fw-bold">Admin</span>
+                        <span class="fw-bold">{{ user.first_name }}</span>
                       </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -530,14 +417,14 @@
                           <div class="user-box">
                             
                             <div class="u-text">
-                              <h4>Administrador</h4>
-                              <p class="text-muted">email@example.com</p>
+                              <h4>{{ user.username }}</h4>
+                              <p class="text-muted">{{ user.email }}</p>
                             </div>
                           </div>
                         </li>
                         <li>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Meu Perfil</a>
+                          <a class="dropdown-item" href="{% url 'editar_perfil' %}">Meu Perfil</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="{% url 'sair' %}">Sair</a>
                         </li>
@@ -556,36 +443,6 @@
             
             {% endblock %}
           </div>
-<!--
-          <footer class="footer">
-            <div class="container-fluid d-flex justify-content-between">
-              <nav class="pull-left">
-                <ul class="nav">
-                  <li class="nav-item">
-                    <!--<a class="nav-link" href="#">
-                      ThemeKita
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#"> Ajuda </a>
-                  </li>
-                  <!--<li class="nav-item">
-                    <a class="nav-link" href="#"> Licenses </a>
-                  </li>
-                </ul>
-              </nav>
-              <div class="copyright">
-                2024, desenvolvido por 
-                <a href="https://celsosreis.github.io/ReisWeb/" target="_blank">Celso Reis</a>
-              </div>
-              <div>
-                <!--Distributed by
-                <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
-                <img src="{% static 'geral/assets/img/kaiadmin/logorwpr.svg' %}" width="100px" alt="Reisweb">
-              </div>
-            </div>
-          </footer>
-        -->
         </div>
 
       </div>

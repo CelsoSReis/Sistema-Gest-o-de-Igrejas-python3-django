@@ -1,0 +1,74 @@
+{% extends "bases/base.html" %}
+{% load static %}
+
+{% block 'head' %}
+    
+{% endblock 'head' %}
+
+{% block 'conteudo' %}
+
+<div class="page-inner">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+            <div class="card-header">
+                <div class="card-title">Editar Perfil</div>
+            </div>
+            <div class="card-body">
+                <form method="POST">{% csrf_token %}
+                <div class="row">
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="form-group">
+                        <label for="largeInput">Primeiro Nome</label>
+                        <input type="text" class="form-control" id="largeInput" name="primeiro_nome" value="{{ request.user.first_name }}" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="largeInput">Ultimo nome</label>
+                        <input type="text" class="form-control" id="largeInput" name="ultimo_nome" value="{{ request.user.last_name }}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="largeInput">E-mail</label>
+                        <input type="email" class="form-control" id="largeInput" name="email" value="{{ request.user.email }}" required/>
+                    </div>
+                    <h5 class="mt-4">Alterar Senha</h5>
+                    <div class="form-group">
+                        <label for="senha_atual">Senha Atual</label>
+                        <input type="password" class="form-control" id="password" name="senha_atual" />
+                    </div>
+                    <div class="form-group">
+                        <label for="nova_senha">Nova Senha</label>
+                        <input type="password" class="form-control" id="password" name="nova_senha" />
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmar_senha">Confirmar nova senha</label>
+                        <input type="password" class="form-control" id="password" name="confirmar_senha" />
+                    </div>
+                    
+                </div>
+                    <div class="col-md-6 col-lg-4">
+                       
+
+                    </div>
+                    <div class="card-action">
+                        <!--Exibe mensagens de alerta-->
+                        {% if messages %}
+                        <br>
+                            {% for message in messages %}
+                                <div class="col-md-8 alert {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <input class="btn btn-success" type="submit" value="Salvar">
+                        <a href="#" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

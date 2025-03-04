@@ -8,6 +8,8 @@ import os
 from django.conf import settings
 from .models import Ativacao
 from hashlib import sha256
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
     
@@ -93,3 +95,43 @@ def ativar_conta(request, token):
 
     messages.add_message(request, constants.SUCCESS, 'Conta ativa com sucesso')
     return redirect('/usuarios/login')
+
+
+
+@login_required
+def editar_perfil(request):
+    if request.method == 'POST':
+        primeiro_nome = request.POST.get('primeiro_nome')
+        ultimo_nome = request.POST.get('ultimo_nome')
+        email = request.POST.get('email')
+        senha_atual = request.POST.get('senha_atual')
+        nova_senha = request.POST.get('nova_senha')
+        confirmar_senha = request.POST.get('confirmar_senha')
+
+        user = request.user
+
+        # Atualizando nome e email
+        user.first_name = primeiro_nome
+        user.last_name = ultimo_nome
+        user.email = email
+
+        # Atualizando senha (se fornecida)
+        if nova_senha:
+            if user.check_password(senha_atual):
+                if nova_senha == confirmar_senha:
+                    user.set_password(nova_senha)
+                    update_session_auth_hash(request, user)  # Mantém o usuário logado após alterar a senha
+                    messages.add_message(request, constants.SUCCESS, 'Senha alterada com sucesso!')
+                else:
+                    messages.add_message(request, constants.ERROR, 'As novas senhas não coincidem.')
+                    return redirect('/usuarios/editar_perfil')
+            else:
+                messages.add_message(request, constants.ERROR, 'Senha atual incorreta.')
+                return redirect('/usuarios/editar_perfil')
+
+        # Salvando alterações
+        user.save()
+        messages.add_message(request, constants.SUCCESS, 'Perfil atualizado com sucesso!')
+        return redirect('/usuarios/editar_perfil')
+
+    return render(request, 'editar_perfil.html')
