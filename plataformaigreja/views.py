@@ -6,6 +6,14 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import HttpResponse
 from .models import Membros
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from io import BytesIO
+from django.core.files.storage import default_storage
+from reportlab.lib.pagesizes import landscape
+import os
+
 
 @login_required(login_url='/usuarios/login')
 def dashboard_igreja(request):
@@ -36,12 +44,12 @@ def membros(request):
         # Valida campos obrigatórios
         if not nome or not sexo or not cargo:
             messages.add_message(request, constants.ERROR, 'Preencha todos os campos obrigatórios.')
-            return redirect('/membros/')
+            return redirect('/index/membros/')
 
         # Checa se o membro já está cadastrado (baseado no CPF ou outro identificador único)
         if Membros.objects.filter(cpf=cpf).exists():
             messages.add_message(request, constants.ERROR, 'O membro já está cadastrado.')
-            return redirect('/membros/')
+            return redirect('/index/membros/')
 
         # Tenta salvar o membro
         try:
@@ -61,12 +69,12 @@ def membros(request):
             novo_membro.save()
 
             messages.add_message(request, constants.SUCCESS, 'Membro cadastrado com sucesso!')
-            return redirect('/membros/')
+            return redirect('/index/membros/')
         except Exception as e:
             # Log do erro para fins de depuração (opcional)
             print(f"Erro ao salvar o membro: {e}")
             messages.add_message(request, constants.ERROR, 'Erro ao cadastrar o membro. Tente novamente.')
-            return redirect('/membros/')
+            return redirect('/index/membros/')
 
 
 @login_required(login_url='/usuarios/login')
@@ -119,7 +127,7 @@ def atualizar_membro(request, id):
             membro.save()
 
             messages.add_message(request, messages.SUCCESS, 'Membro atualizado com sucesso!')
-            return redirect('/membros/')
+            return redirect('/index/membros/')
         except ValidationError as e:
             # Log do erro para fins de depuração (opcional)
             print(f"Erro ao atualizar o membro: {e}")
@@ -152,7 +160,7 @@ def excluir_membro(request, id):
             messages.add_message(request, constants.ERROR, 'Erro ao excluir o membro. Tente novamente.')
         
         # Redireciona de volta para a lista de membros
-        return redirect('/membros/')
+        return redirect('/index/membros/')
     
 #Exibir membros em uma modal
 @login_required(login_url='/usuarios/login')
@@ -180,3 +188,122 @@ def obter_dados_membro(request, id):
         return JsonResponse({'error': 'Membro não encontrado.'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required(login_url='/usuarios/login')
+def exportar_carteirinha_membro(request, id):
+    # Busca o membro pelo ID e verifica se pertence ao pastor logado
+    membro = get_object_or_404(Membros, id=id, pastor=request.user)
+
+    # Tamanho da carteirinha: 8,5 x 5,5 cm (em pontos)
+    largura = 242.65
+    altura = 155.91
+
+    # Caminho para a imagem de fundo (ajuste conforme a estrutura do seu projeto)
+    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpeg')  # Ajuste o caminho conforme necessário
+
+    # Criação do PDF em memória
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=(largura, altura))
+
+    # Adiciona a imagem de fundo (se existir)
+    if os.path.exists(fundo_path):
+        p.drawImage(fundo_path, 0, 0, width=largura, height=altura)
+
+    # Define margens
+    margem = 10
+
+    # Configurações do PDF (sem borda, pois temos fundo)
+    p.setStrokeColor(colors.black)
+    p.setLineWidth(1)
+
+    # Cabeçalho
+    p.setFont("Helvetica-Bold", 10)
+    p.drawCentredString(largura / 2, altura - 20, "Carteirinha de Membro")
+
+    # Foto 3x4 (proporção ajustada)
+    if membro.foto:
+        foto_path = default_storage.path(membro.foto.name)
+        p.drawImage(foto_path, margem + 10, altura - 130, width=57, height=76, mask='auto')
+
+    # Dados do membro
+    p.setFont("Helvetica", 8)
+    p.drawString(80, altura - 40, f"Nome: {membro.nome}")
+    p.drawString(80, altura - 55, f"Nascimento: {membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else 'N/A'}")
+    p.drawString(80, altura - 70, f"Batismo: {membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else 'N/A'}")
+    p.drawString(80, altura - 85, f"Cargo: {membro.get_cargo_display()}")
+
+    # Rodapé
+    p.setFont("Helvetica-Oblique", 6)
+    p.drawCentredString(largura / 2, 15, "Igreja XYZ - Carteirinha de Membro")
+
+    # Finaliza o PDF
+    p.showPage()
+    p.save()
+
+    # Configura a resposta como PDF
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="carteirinha_{membro.nome}.pdf"'
+    return response
+
+@login_required(login_url='/usuarios/login')
+def exportar_todas_carteirinhas(request):
+    # Busca todos os membros do pastor logado
+    membros = Membros.objects.filter(pastor=request.user)
+
+    # Tamanho da carteirinha: 8,5 x 5,5 cm (em pontos)
+    largura = 242.65
+    altura = 155.91
+
+    # Caminho para a imagem de fundo (ajuste conforme a estrutura do seu projeto)
+    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpeg')  # Ajuste o caminho conforme necessário
+
+    # Criação do PDF em memória
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=(largura, altura))
+
+    # Define margens
+    margem = 10
+
+    # Gera uma página para cada membro
+    for membro in membros:
+        # Adiciona a imagem de fundo (se existir)
+        if os.path.exists(fundo_path):
+            p.drawImage(fundo_path, 0, 0, width=largura, height=altura)
+
+        # Configurações do PDF (sem borda, pois temos fundo)
+        p.setStrokeColor(colors.black)
+        p.setLineWidth(1)
+
+        # Cabeçalho
+        p.setFont("Helvetica-Bold", 10)
+        p.drawCentredString(largura / 2, altura - 20, "Carteirinha de Membro")
+
+        # Foto 3x4 (proporção ajustada)
+        if membro.foto:
+            foto_path = default_storage.path(membro.foto.name)
+            p.drawImage(foto_path, margem + 10, altura - 130, width=57, height=76, mask='auto')
+
+        # Dados do membro
+        p.setFont("Helvetica", 8)
+        p.drawString(80, altura - 40, f"Nome: {membro.nome}")
+        p.drawString(80, altura - 55, f"Nascimento: {membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else 'N/A'}")
+        p.drawString(80, altura - 70, f"Batismo: {membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else 'N/A'}")
+        p.drawString(80, altura - 85, f"Cargo: {membro.get_cargo_display()}")
+
+        # Rodapé
+        p.setFont("Helvetica-Oblique", 6)
+        p.drawCentredString(largura / 2, 15, "Igreja XYZ - Carteirinha de Membro")
+
+        # Finaliza a página atual
+        p.showPage()
+
+    # Finaliza o PDF
+    p.save()
+
+    # Configura a resposta como PDF
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="todas_carteirinhas.pdf"'
+    return response

@@ -19,6 +19,8 @@
                   <i class="fa fa-plus"></i>
                   Novo Membro
                 </button>
+                <a href="{% url 'exportar_todas_carteirinhas' %}" class="btn btn-success">Exportar Todas as Carteirinhas</a>
+
             </div>
           </div>
         <div class="card-body">
@@ -296,7 +298,7 @@
                                     <i class="fa fa-info"></i>
                                   </button>
 
-                                  <a href="" class="btn btn-link btn-primary btn-lg" >
+                                  <a href="{% url 'exportar_carteirinha_membro' membro.id %}" class="btn btn-link btn-primary btn-lg" title="Gerar Carteira de Membro" >
                                     <i class="fas fa-address-card"></i>
                                   </a>
                                   
@@ -318,36 +320,36 @@
 
 
                     <!--Modal informações do membro-->
-                  <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Informações sobre o Membro</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <ul class="list-group">
-                            <li class="list-group-item"><p><strong>Nome: </strong> <span id="nomeMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>Sexo:</strong> <span id="sexoMembro"></span></p></li>
-                            <li class="list-group-item"> <p><strong>Email:</strong> <span id="emailMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>Telefone:</strong> <span id="telefoneMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>CPF:</strong> <span id="cpfMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>Endereço:</strong> <span id="enderecoMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>Data de Nascimento:</strong> <span id="dataNascimentoMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>Data de Batismo:</strong> <span id="dataBatismoMembro"></span></p></li>
-                            <li class="list-group-item"><p><strong>Cargo:</strong> <span id="cargoMembro"></span></p></li>
-                            
-                          </ul>
-                                 
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Editar</button>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                    <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Informações sobre o Membro</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <ul class="list-group">
+                              <li class="list-group-item"><p><strong>Nome: </strong> <span id="nomeMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Sexo:</strong> <span id="sexoMembro"></span></p></li>
+                              <li class="list-group-item"> <p><strong>Email:</strong> <span id="emailMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Telefone:</strong> <span id="telefoneMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>CPF:</strong> <span id="cpfMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Endereço:</strong> <span id="enderecoMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Data de Nascimento:</strong> <span id="dataNascimentoMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Data de Batismo:</strong> <span id="dataBatismoMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Cargo:</strong> <span id="cargoMembro"></span></p></li>
+                              
+                            </ul>
+                                  
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Editar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                    <!--FINAL Modal informações do membro-->
+                      <!--FINAL Modal informações do membro-->
                           {% endfor %}
                                                    
                         </tbody>

@@ -134,17 +134,29 @@ def pagina_relatorio_dizimos(request):
 
 @login_required(login_url='/usuarios/login')
 def gerar_relatorio_contas_pagas(request):
-    """Gera um PDF com as contas pagas."""
+    """Gera um PDF com as contas pagas do mês atual."""
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="relatorio_contas_pagas.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="relatorio_contas_pagas_mes_atual.pdf"'
 
     pdf = canvas.Canvas(response, pagesize=A4)
     pdf.setTitle("Relatório de Contas Pagas")
 
+    # Obtém o mês e ano atuais
+    mes_atual = datetime.now().month
+    ano_atual = datetime.now().year
+
+    # Filtra contas pagas do mês atual
+    contas_pagas = ContaPagar.objects.filter(
+        status=1,
+        pastor=request.user,
+        data_vencimento__month=mes_atual,
+        data_vencimento__year=ano_atual
+    ).order_by('data_vencimento')  # Ordena por data de vencimento
+
     # Configuração inicial do PDF
     y = 800
     pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(200, y, "Relatório de Contas Pagas")
+    pdf.drawString(180, y, f"Relatório de Contas Pagas - {mes_atual}/{ano_atual}")
     pdf.setFont("Helvetica", 12)
     pdf.drawString(50, y - 50, "-----------------------------------------")
 
@@ -159,18 +171,24 @@ def gerar_relatorio_contas_pagas(request):
 
     # Linhas da tabela
     pdf.setFont("Helvetica", 12)
-    contas_pagas = ContaPagar.objects.filter(status=1, pastor=request.user)  # Filtra apenas contas pagas
+    total = 0  # Variável para somar os valores pagos
 
     for conta in contas_pagas:
         pdf.drawString(50, y, conta.fornecedor)
         pdf.drawString(250, y, conta.data_vencimento.strftime('%d/%m/%Y') if conta.data_vencimento else 'N/A')
         pdf.drawString(400, y, f"R$ {conta.valor:.2f}")
+        total += conta.valor  # Soma dos valores pagos
         y -= 20
 
         # Adiciona uma nova página se a lista ultrapassar o limite
         if y < 100:
             pdf.showPage()
             y = 800  # Reinicia a posição vertical
+
+    # Exibe o total pago
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(250, y - 20, "Total Pago:")
+    pdf.drawString(400, y - 20, f"R$ {total:.2f}")
 
     pdf.save()
     return response
