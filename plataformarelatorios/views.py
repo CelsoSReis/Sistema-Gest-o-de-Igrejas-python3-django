@@ -9,6 +9,7 @@ from plataformadizimos.models import Dizimos
 from plataformaigreja.models import Membros
 from plataformacontas.models import ContaPagar
 
+
 @login_required(login_url='/usuarios/login')
 def visualizar_relatorio_membros(request):
     """Exibe os membros em um template antes de gerar o PDF."""
@@ -123,15 +124,109 @@ def gerar_relatorio_dizimos(request):
     p.save()
 
     return response
+# Gera Relatórios de Dízimos
+#@login_required(login_url='/usuarios/login')
+#def pagina_relatorio_dizimos(request):
+ #   """Exibe a página com o formulário para gerar relatório de dízimos."""
+  #  ano_atual = datetime.now().year
+   # anos_disponiveis = range(ano_atual - 2, ano_atual + 1)  # Últimos 2 anos
+
+    #return render(request, 'relatorio_dizimos.html', {'anos_disponiveis': anos_disponiveis})
+
+@login_required(login_url='/usuarios/login')
+def gerar_relatorio_dizimos(request):
+    """Gera um relatório de dízimos por mês e ano filtrados"""
+
+    # Obtém os parâmetros do mês e ano da URL ou formulário
+    mes = request.GET.get('mes')
+    ano = request.GET.get('ano')
+
+    # Se não forem fornecidos, utiliza o mês e ano atuais
+    if not mes or not ano:
+        mes = datetime.now().month
+        ano = datetime.now().year
+
+    # Converte para inteiro para o filtro funcionar corretamente
+    mes = int(mes)
+    ano = int(ano)
+
+    # Filtra os dízimos registrados pelo usuário atual (pastor logado) com base no mês e ano selecionados
+    dizimos = Dizimos.objects.filter(
+        data_dizimo__month=mes,
+        data_dizimo__year=ano,
+        membro__pastor=request.user  # Ajuste: filtra pelo pastor do membro
+    ).order_by('data_dizimo')
+
+    # Criar resposta do tipo PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="relatorio_dizimos_{mes}_{ano}.pdf"'
+
+    # Criar o documento PDF
+    p = canvas.Canvas(response, pagesize=A4)
+    largura, altura = A4
+    y_position = altura - 50  # Margem superior
+
+    # Título do relatório
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(180, y_position, f"Relatório de Dízimos - {mes:02d}/{ano}")
+    y_position -= 30  # Espaço após título
+
+    # Cabeçalhos da tabela
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(50, y_position, "Nome do Membro")
+    p.drawString(250, y_position, "Data")
+    p.drawString(350, y_position, "Valor (R$)")
+    p.line(50, y_position - 5, 500, y_position - 5)  # Linha separadora
+    y_position -= 20
+
+    total = 0  # Para somar os valores
+
+    p.setFont("Helvetica", 10)
+    for dizimo in dizimos:
+        if y_position < 50:  # Verifica se precisa de nova página
+            p.showPage()
+            y_position = altura - 50  # Reseta a posição
+
+        p.drawString(50, y_position, dizimo.membro.nome)
+        p.drawString(250, y_position, dizimo.data_dizimo.strftime("%d/%m/%Y"))
+        p.drawString(350, y_position, f"R$ {dizimo.valor:.2f}")
+        y_position -= 20
+        total += dizimo.valor  # Soma dos valores
+
+    # Linha final
+    p.line(50, y_position, 500, y_position)
+    y_position -= 20
+
+    # Total
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(250, y_position, "Total: ")
+    p.drawString(350, y_position, f"R$ {total:.2f}")
+
+    # Finaliza o PDF
+    p.showPage()
+    p.save()
+
+    return response
 
 @login_required(login_url='/usuarios/login')
 def pagina_relatorio_dizimos(request):
-    """Exibe a página com o formulário para gerar relatório de dízimos."""
+    """Exibe a página com o formulário para escolher mês e ano do relatório de dízimos."""
     ano_atual = datetime.now().year
-    anos_disponiveis = range(ano_atual - 5, ano_atual + 1)  # Últimos 5 anos
+    anos_disponiveis = range(ano_atual - 2, ano_atual + 1)  # Últimos 2 anos
+    meses_disponiveis = [
+        (1, "Janeiro"), (2, "Fevereiro"), (3, "Março"), (4, "Abril"),
+        (5, "Maio"), (6, "Junho"), (7, "Julho"), (8, "Agosto"),
+        (9, "Setembro"), (10, "Outubro"), (11, "Novembro"), (12, "Dezembro")
+    ]
+    return render(request, 'relatorio_dizimos.html', {
+        'anos_disponiveis': anos_disponiveis,
+        'meses_disponiveis': meses_disponiveis
+    })
 
-    return render(request, 'relatorio_dizimos.html', {'anos_disponiveis': anos_disponiveis})
 
+
+
+# Gera um relatório de contas pagas
 @login_required(login_url='/usuarios/login')
 def gerar_relatorio_contas_pagas(request):
     """Gera um PDF com as contas pagas do mês atual."""

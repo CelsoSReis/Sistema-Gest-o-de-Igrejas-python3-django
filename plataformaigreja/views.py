@@ -200,7 +200,7 @@ def exportar_carteirinha_membro(request, id):
     altura = 155.91
 
     # Caminho para a imagem de fundo (ajuste conforme a estrutura do seu projeto)
-    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpeg')  # Ajuste o caminho conforme necessário
+    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpg')  # Ajuste o caminho conforme necessário
 
     # Criação do PDF em memória
     buffer = BytesIO()
@@ -217,25 +217,19 @@ def exportar_carteirinha_membro(request, id):
     p.setStrokeColor(colors.black)
     p.setLineWidth(1)
 
-    # Cabeçalho
-    p.setFont("Helvetica-Bold", 10)
-    p.drawCentredString(largura / 2, altura - 20, "Carteirinha de Membro")
 
     # Foto 3x4 (proporção ajustada)
     if membro.foto:
         foto_path = default_storage.path(membro.foto.name)
-        p.drawImage(foto_path, margem + 10, altura - 130, width=57, height=76, mask='auto')
+        p.drawImage(foto_path, margem + 10.5, altura - 118.5, width=70, height=89, mask='auto')
 
     # Dados do membro
     p.setFont("Helvetica", 8)
-    p.drawString(80, altura - 40, f"Nome: {membro.nome}")
-    p.drawString(80, altura - 55, f"Nascimento: {membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else 'N/A'}")
-    p.drawString(80, altura - 70, f"Batismo: {membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else 'N/A'}")
-    p.drawString(80, altura - 85, f"Cargo: {membro.get_cargo_display()}")
-
-    # Rodapé
-    p.setFont("Helvetica-Oblique", 6)
-    p.drawCentredString(largura / 2, 15, "Igreja XYZ - Carteirinha de Membro")
+    p.drawString(104, altura - 60, f"{membro.nome}")
+    p.setFont("Helvetica", 6.5)
+    p.drawString(169, altura - 95, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
+    p.drawString(104, altura - 118, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
+    p.drawString(104, altura - 95, f"{membro.get_cargo_display()}")
 
     # Finaliza o PDF
     p.showPage()
@@ -257,7 +251,7 @@ def exportar_todas_carteirinhas(request):
     altura = 155.91
 
     # Caminho para a imagem de fundo (ajuste conforme a estrutura do seu projeto)
-    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpeg')  # Ajuste o caminho conforme necessário
+    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpg')  # Ajuste o caminho conforme necessário
 
     # Criação do PDF em memória
     buffer = BytesIO()
@@ -276,21 +270,18 @@ def exportar_todas_carteirinhas(request):
         p.setStrokeColor(colors.black)
         p.setLineWidth(1)
 
-        # Cabeçalho
-        p.setFont("Helvetica-Bold", 10)
-        p.drawCentredString(largura / 2, altura - 20, "Carteirinha de Membro")
-
         # Foto 3x4 (proporção ajustada)
         if membro.foto:
             foto_path = default_storage.path(membro.foto.name)
-            p.drawImage(foto_path, margem + 10, altura - 130, width=57, height=76, mask='auto')
+            p.drawImage(foto_path, margem + 10.5, altura - 118.5, width=70, height=89, mask='auto')
 
         # Dados do membro
         p.setFont("Helvetica", 8)
-        p.drawString(80, altura - 40, f"Nome: {membro.nome}")
-        p.drawString(80, altura - 55, f"Nascimento: {membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else 'N/A'}")
-        p.drawString(80, altura - 70, f"Batismo: {membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else 'N/A'}")
-        p.drawString(80, altura - 85, f"Cargo: {membro.get_cargo_display()}")
+        p.drawString(104, altura - 60, f"{membro.nome}")
+        p.setFont("Helvetica", 6.5)
+        p.drawString(169, altura - 95, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
+        p.drawString(104, altura - 118, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
+        p.drawString(104, altura - 95, f"{membro.get_cargo_display()}")
 
         # Rodapé
         p.setFont("Helvetica-Oblique", 6)
