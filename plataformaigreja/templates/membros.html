@@ -1,7 +1,6 @@
 {% extends "bases/base_plataformaigreja.html" %}
 {% load static %}
 {% block 'head' %}
-    
 {% endblock 'head' %}
 {% block 'conteudo' %}
   <div class="container">
@@ -11,11 +10,11 @@
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">Membros</h4>
-                <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#addRowModal">
+                <button class="btn btn-success ms-auto btn-sm" data-bs-toggle="modal" data-bs-target="#addRowModal">
                   <i class="fa fa-plus"></i>
                   Novo Membro
                 </button>
-                <a href="{% url 'exportar_todas_carteirinhas' %}" class="btn btn-success">Exportar Todas as Carteirinhas</a>
+                <a href="{% url 'exportar_todas_carteirinhas' %}" class="btn btn-primary btn-sm"><i class="fas fa-address-card"></i> Exportar Todas as Carteirinhas</a>
 
             </div>
           </div>
@@ -269,48 +268,28 @@
                                 {% endif %}
                               </td>
                               <td>
-                                <div class="form-button-action">
-                                  <a href="{% url 'editar_membro' membro.id %}">
-                                  <button
-                                    type="button"
-                                    title="Editar"
-                                    class="btn btn-link btn-primary btn-lg"
-                                    data-original-title="Edit Task"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editarMembroModal"
-                                  >
-                                    <i class="fa fa-edit"></i>
+                                
+                  
+                                  <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ações     
                                   </button>
-                                </a>
-                                <button
-                                    type="button"
-                                    title="Informações"
-                                    class="btn btn-link btn-primary btn-lg btn-detalhes"
-                                    data-original-title="Edit Task"
-                                    data-id="{{ membro.id }}" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#modalDetalhes"
-                                  >
-                                    <i class="fa fa-info"></i>
-                                  </button>
+                                  <ul class="dropdown-menu " aria-labelledby="btnGroupDrop1">
+                                    
+                                    <li><a class="dropdown-item btn-light" href="{% url 'editar_membro' membro.id %}"><i class="fa fa-edit"></i> Editar</a></li>
+                                    <li><a class="dropdown-item btn-light" href="#"><i class="fa fa-info"></i> Dados</a></li>
+                                    <li><a class="dropdown-item btn-light" href="{% url 'exportar_carteirinha_membro' membro.id %}"><i class="fas fa-address-card"></i> Gerar Carteira</a></li>
+                                    <li>
+                                      <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}  
+                                      <button type="submit" class="dropdown-item btn-danger text-white"                                        
+                                        onclick="return confirm('Tem certeza que deseja excluir este membro?');"
+                                      >  <i class="fa fa-times"></i> Excluir                                      
+                                      </button>
+                                    </form></li>
 
-                                  <a href="{% url 'exportar_carteirinha_membro' membro.id %}" class="btn btn-link btn-primary btn-lg" title="Gerar Carteira de Membro" >
-                                    <i class="fas fa-address-card"></i>
-                                  </a>
-                                  
-                                 <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}
-                                  <button
-                                    type="submit"
-                                    data-bs-toggle="tooltip"
-                                    title="Excluir"
-                                    class="btn btn-link btn-danger"
-                                    data-original-title="Remove"
-                                    onclick="return confirm('Tem certeza que deseja excluir este membro?');"
-                                  >
-                                    <i class="fa fa-times"></i>
-                                  </button>
-                                </form>
-                                </div>
+                                  </ul>
+                                
+                                 
+                              
                               </td>
                             </tr>
 
@@ -465,7 +444,5 @@
             });
         });
     });
-
-      
     </script>
 {% endblock %}
