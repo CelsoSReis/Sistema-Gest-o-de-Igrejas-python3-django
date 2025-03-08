@@ -105,32 +105,38 @@
                                 <td>{{ oferta.descricao }}</td>  <!-- Atualizado para "Descrição" -->                             
                             <td>
                                 <div class="form-button-action">
-                                  <form action="" method="POST" style="display:inline;">
 
-                                  <a href="{% url 'editar_oferta' oferta.id %}">
-                                  <button
-                                    type="button"
-                                    title="Editar"
-                                    class="btn btn-primary btn-sm editar-dizimo"
-                                    data-original-title="Edit Task"
-                                  >
-                                    Editar
+                                  <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ações     
                                   </button>
-                                </a>
-                              </form>
-                    
-                                  
+                                  <ul class="dropdown-menu " aria-labelledby="btnGroupDrop1">
+                                    <li>
+                                      <form action="" method="POST" style="display:inline;">
+                                        <a href="{% url 'editar_oferta' oferta.id %}">
+                                          <button
+                                            type="button"
+                                            title="Editar"
+                                            class="dropdown-item"
+                                            data-original-title="Edit Task"
+                                          >
+                                          <i class="fa fa-edit"></i> Editar
+                                          </button>
+                                        </a>
+                                      </form>
+                                    </li>
+                                    <li>
                                   <!-- Botão de exclusão com alerta de confirmação -->
                                   <form action="{% url 'excluir_oferta' oferta.id %}" method="POST" style="display:inline;">
                                     {% csrf_token %}
                                     <button 
                                       type="submit" 
-                                      class="btn btn-danger btn-sm" 
+                                      class="dropdown-item btn-danger text-white" 
                                       onclick="return confirm('Tem certeza que deseja excluir esta oferta?')">
-                                      Excluir
+                                      <i class="fa fa-times"></i> Excluir
                                     </button>
                                   </form>
-                                </form>
+                                    </li>
+                                  </ul>
                                 </div>
                               </td>
                             </tr>
