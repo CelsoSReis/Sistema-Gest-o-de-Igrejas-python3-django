@@ -1,0 +1,320 @@
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+{% endblock 'head' %}
+{% block 'conteudo' %}
+  <div class="container">
+    <div class="page-inner">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex align-items-center">
+              <h4 class="card-title">Documentos</h4>
+                
+                <a href="{% url 'upload_documento' %}" class="btn btn-success ms-auto btn-sm"><i class="fas fa-address-card"></i> Upload de Documentos</a>
+
+            </div>
+          </div>
+        <div class="card-body">
+                    <!-- Modal Novo Membro-->
+                    <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header border-0">
+                            <h5 class="modal-title">
+                              <span class="fw-mediumbold"> Upload de Documento</span>
+                              <span class="fw-light"> (Anexo) </span>
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                              <form class="row g-3" action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="col-12">
+                                  <label for="inputName" class="form-label">Nome</label>
+                                  <input type="text" class="form-control" id="inputName" placeholder="Digite o nome..." name="nome" required>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                  <label for="inputCPF" class="form-label">CPF</label>
+                                  <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF..." name="cpf">
+                                </div>
+                                <div class="col-3">
+                                  <label for="inputData" class="form-label">Data de Nascimento</label>
+                                  <input type="date" class="form-control" id="inputData" name="data_nascimento">
+                                </div>
+                                <div class="col-md-4">
+                                  <label for="inputSexo" class="form-label">Sexo</label>
+                                  <select id="inputSexo" name="sexo"class="form-select">
+                                    <option selected>Selecione...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                  </select>
+                                </div>
+                                <div class="col-5">
+                                  <label for="inputPhone" class="form-label">Telefone</label>
+                                  <input type="phone2numeric" class="form-control" id="inputPhone" placeholder="Digite o Nº de Telefone..." name="telefone">
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="inputEmail4" class="form-label">Email</label>
+                                  <input type="email" class="form-control" id="inputEmail4" placeholder="Digite o e-mail..." name="email">
+                                </div>
+                                <div class="col-12">
+                                  <label for="inputEndereco" class="form-label">Endereço</label>
+                                  <input type="text" class="form-control" id="inputEndereco" placeholder="Digite o endereço..." name="endereco">
+                                </div>
+
+
+                                <div class="col-md-6">
+                                  <label for="inputFoto" class="form-label">Foto (3x4)</label>
+                                  <input type="file" class="form-control" id="inputFoto" name="foto" accept="image/*">
+                                </div>
+                                <div class="col-md-3">
+                                  <label for="inputCargo" class="form-label">Cargo Ministerial</label>
+                                  <select id="inputCargo" class="form-select" name="cargo">
+                                    <option selected>Selecione...</option>
+                                    <option value="A">Auxiliar</option>
+                                    <option value="C">Congregado</option>
+                                    <option value="Cr">Crianças</option>
+                                    <option value="Da">Diaconisa</option>
+                                    <option value="D">Diácono</option>
+                                    <option value="E">Evangelista</option>
+                                    <option value="J">Jovem</option>
+                                    <option value="Mb">Membro</option>
+                                    <option value="Mi">Missionário(a)</option>
+                                    <option value="Pr">Pastor</option>
+                                    <option value="P">Presbítero</option>
+                                  </select>
+                                </div>
+                                <div class="col-3">
+                                  <label for="inputDataBat" class="form-label">Data de Batismo</label>
+                                  <input type="date" class="form-control" id="inputDataBat" name="data_batismo">
+                                </div>
+                                <div class="modal-footer border-0">
+                                  <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                                    Salvar
+                                  </button>
+                                  
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                    Cancelar
+                                  </button>
+                                </div>
+                              </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                    
+                    <div class="table-responsive">
+                      <table
+                        id="add-row"
+                        class="display table table-striped table-hover"
+                      >
+                        {% if messages %}
+                            <br>
+                            {% for message in messages %}
+                                <div class="alert {{message.tags}}">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <!--<th>Telefone</th>-->
+                            <th>CARGO</th>
+                            <th style="width: 10%">Ações</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <tr>
+                            <th>Título</th>
+                            <th>Arquivo</th>
+                            <!--<th>Telefone</th>-->
+                            <th>Data de envio</th>
+                            <th>Ações</th>
+                          </tr>
+                        </tfoot>
+                        <tbody>
+                          {% for doc in documentos %}
+                            <tr>
+                              <td>{{ doc.titulo }}</td>
+                              <td><a href="{{ doc.arquivo.url }}" target="_blank">Baixar</a></td>
+                              <!--<td> {{membro.telefone | default:"(00) 00000-0000"}}</td>-->
+                              <!--TODO:DESENVOLVER UMA VALIDAÇÃO DE DADOS PARA OS CARGOS-->
+                              <td>
+                                {{ doc.data_envio|date:"d/m/Y H:i" }}
+                              </td>
+                              <td>
+                                
+                
+                                <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ações     
+                                </button>
+                                <form action="{% url 'excluir_documento' doc.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                    <button type="submit">Excluir</button>
+                                </form>
+                              </td>
+                            </tr>
+
+
+                    <!--Modal informações do membro-->
+                    <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Informações sobre o Membro</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <ul class="list-group">
+                              <li class="list-group-item"><p><strong>Nome: </strong> <span id="nomeMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Sexo:</strong> <span id="sexoMembro"></span></p></li>
+                              <li class="list-group-item"> <p><strong>Email:</strong> <span id="emailMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Telefone:</strong> <span id="telefoneMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>CPF:</strong> <span id="cpfMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Endereço:</strong> <span id="enderecoMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Data de Nascimento:</strong> <span id="dataNascimentoMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Data de Batismo:</strong> <span id="dataBatismoMembro"></span></p></li>
+                              <li class="list-group-item"><p><strong>Cargo:</strong> <span id="cargoMembro"></span></p></li>
+                              
+                            </ul>
+                                  
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Editar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      <!--FINAL Modal informações do membro-->
+                          {% endfor %}
+                                                   
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- jQuery Scrollbar --> 
+    <script src="{% static 'geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+     <!--Datatables -->
+    <script src="{% static 'geral/assets/js/plugin/datatables/datatables.min.js' %}"></script>
+    <!-- Kaiadmin JS -->
+    <script src="{% static 'geral/assets/js/kaiadmin.min.js' %}"></script>
+    <!-- Kaiadmin DEMO methods, don't include it in your project! 
+    <script src="{% static "geral/assets/js/setting-demo2.js"%}"></script>-->
+    <script src="{% static 'geral/assets/js/core/jquery-3.7.1.min.js' %}"></script>
+    
+    <script>
+      $(document).ready(function () {
+        $("#basic-datatables").DataTable({});
+
+        $("#multi-filter-select").DataTable({
+          pageLength: 5,
+          initComplete: function () {
+            this.api()
+              .columns()
+              .every(function () {
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                    column
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+        });
+
+        // Add Row
+        $("#add-row").DataTable({
+          pageLength: 10,
+          "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+        }
+        });
+
+        var action =
+          '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $("#addRowButton").click(function () {
+          $("#add-row")
+            .dataTable()
+            .fnAddData([
+              $("#addName").val(),
+              $("#addPosition").val(),
+              $("#addOffice").val(),
+              action,
+            ]);
+          $("#addRowModal").modal("hide");
+        });
+        
+      });
+      //botão detalhes do membro
+      $(document).ready(function() {
+        // Quando o botão "Ver Detalhes" é clicado
+        $('.btn-detalhes').on('click', function() {
+            var id = $(this).data('id'); // Obtém o ID do membro
+
+            // Faz uma requisição AJAX para obter os dados do membro
+            $.ajax({
+                url: '/membros/obter-dados/' + id + '/',
+                method: 'GET',
+                success: function(data) {
+                    // Preenche a modal com os dados obtidos
+                    $('#nomeMembro').text(data.nome);
+                    $('#sexoMembro').text(data.sexo);
+                    $('#emailMembro').text(data.email || 'N/A');
+                    $('#telefoneMembro').text(data.telefone || 'N/A');
+                    $('#cpfMembro').text(data.cpf || 'N/A');
+                    $('#enderecoMembro').text(data.endereco || 'N/A');
+                    $('#dataNascimentoMembro').text(data.data_nascimento || 'N/A');
+                    $('#dataBatismoMembro').text(data.data_batismo || 'N/A');
+                    $('#cargoMembro').text(data.cargo);
+
+                    // Atualiza a foto do membro (se existir)
+                    if (data.foto) {
+                        $('#fotoMembro').attr('src', data.foto);
+                    } else {
+                        $('#fotoMembro').attr('src', ''); // Remove a foto se não existir
+                    }
+                },
+                error: function() {
+                    alert('Erro ao carregar os dados do membro.');
+                }
+            });
+        });
+    });
+    </script>
+{% endblock %}

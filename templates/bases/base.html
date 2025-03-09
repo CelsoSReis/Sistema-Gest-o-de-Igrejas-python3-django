@@ -160,6 +160,27 @@
                     </ul>
                   </div>
                 </li>
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#sidebarDocumentos">
+                    <i class="fas fa-th-list"></i>
+                    <p>Documentos</p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse" id="sidebarDocumentos">
+                    <ul class="nav nav-collapse">
+                      <li>
+                        <a href="{% url 'listar_documentos' %}">
+                          <span class="sub-item">Lista de Documentos</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'upload_documento' %}">
+                          <span class="sub-item">Upload de Documentos</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>

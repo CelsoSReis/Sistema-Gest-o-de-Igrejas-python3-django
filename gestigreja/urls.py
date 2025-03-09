@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('plataformaofertas.urls')),
     path('', include('plataformacontas.urls')),
     path('relatorios/', include('plataformarelatorios.urls')),
+    path('documentos/', include('plataformadocumentos.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
