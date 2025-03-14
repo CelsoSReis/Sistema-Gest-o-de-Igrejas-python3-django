@@ -221,15 +221,16 @@ def exportar_carteirinha_membro(request, id):
     # Foto 3x4 (proporção ajustada)
     if membro.foto:
         foto_path = default_storage.path(membro.foto.name)
-        p.drawImage(foto_path, margem + 10.5, altura - 118.5, width=70, height=89, mask='auto')
+        p.drawImage(foto_path, margem - 2, altura - 118, width=55, height=65, mask='auto')
 
     # Dados do membro
     p.setFont("Helvetica", 8)
-    p.drawString(104, altura - 60, f"{membro.nome}")
+    p.drawString(68, altura - 56, f"{membro.nome}")
     p.setFont("Helvetica", 6.5)
-    p.drawString(169, altura - 95, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
-    p.drawString(104, altura - 118, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
-    p.drawString(104, altura - 95, f"{membro.get_cargo_display()}")
+    p.drawString(68.6, altura - 75, f"{membro.cpf}")
+    p.drawString(68.6, altura - 117, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
+    p.drawString(162, altura - 117, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
+    p.drawString(68.6, altura - 95, f"{membro.get_cargo_display()}")
 
     # Finaliza o PDF
     p.showPage()
@@ -273,19 +274,20 @@ def exportar_todas_carteirinhas(request):
         # Foto 3x4 (proporção ajustada)
         if membro.foto:
             foto_path = default_storage.path(membro.foto.name)
-            p.drawImage(foto_path, margem + 10.5, altura - 118.5, width=70, height=89, mask='auto')
+            p.drawImage(foto_path, margem - 2, altura - 118, width=55, height=65, mask='auto')
 
         # Dados do membro
         p.setFont("Helvetica", 8)
-        p.drawString(104, altura - 60, f"{membro.nome}")
+        p.drawString(68, altura - 56, f"{membro.nome}")
         p.setFont("Helvetica", 6.5)
-        p.drawString(169, altura - 95, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
-        p.drawString(104, altura - 118, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
-        p.drawString(104, altura - 95, f"{membro.get_cargo_display()}")
+        p.drawString(68.6, altura - 75, f"{membro.cpf}")
+        p.drawString(68.6, altura - 117, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
+        p.drawString(162, altura - 117, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
+        p.drawString(68.6, altura - 95, f"{membro.get_cargo_display()}")
 
         # Rodapé
-        p.setFont("Helvetica-Oblique", 6)
-        p.drawCentredString(largura / 2, 15, "Igreja XYZ - Carteirinha de Membro")
+        #p.setFont("Helvetica-Oblique", 6)
+        #p.drawCentredString(largura / 2, 15, "Igreja XYZ - Carteirinha de Membro")
 
         # Finaliza a página atual
         p.showPage()
