@@ -155,3 +155,15 @@ MESSAGE_TAGS = {
 # Email backend
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST_USER = "celsosr87@gmail.com"
+
+# tamanho de uploads de arquivos
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20MB
+
+# Tempo de expiração da sessão (10 minutos)
+SESSION_COOKIE_AGE = 300  # 300 segundos = 10 minutos
+
+# A sessão expira quando o usuário fecha o navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Habilita sessões baseadas em arquivo, banco de dados ou cache (pode ser necessário)
+SESSION_ENGINE = "django.contrib.sessions.backends.db"

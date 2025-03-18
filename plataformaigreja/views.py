@@ -47,7 +47,7 @@ def membros(request):
             return redirect('/index/membros/')
 
         # Checa se o membro já está cadastrado (baseado no CPF ou outro identificador único)
-        if Membros.objects.filter(cpf=cpf).exists():
+        if Membros.objects.filter(nome=nome).exists():
             messages.add_message(request, constants.ERROR, 'O membro já está cadastrado.')
             return redirect('/index/membros/')
 
@@ -102,12 +102,12 @@ def atualizar_membro(request, id):
         # Valida campos obrigatórios
         if not nome or not sexo or not cargo:
             messages.add_message(request, messages.ERROR, 'Preencha todos os campos obrigatórios.')
-            return redirect(f'/membros/editar/{id}/')
+            return redirect(f'index/membros/editar/{id}/')
 
         # Checa se o CPF já está cadastrado para outro membro (exceto o atual)
-        if Membros.objects.filter(cpf=cpf).exclude(id=id).exists():
-            messages.add_message(request, messages.ERROR, 'O CPF já está cadastrado para outro membro.')
-            return redirect(f'/membros/editar/{id}/')
+        #if Membros.objects.filter(cpf=cpf).exclude(id=id).exists():
+        #    messages.add_message(request, messages.ERROR, 'O CPF já está cadastrado para outro membro.')
+        #    return redirect(f'index/membros/editar/{id}/')
 
         # Atualiza os dados do membro
         try:
@@ -119,9 +119,9 @@ def atualizar_membro(request, id):
             membro.endereco = endereco
             if foto:  # Atualiza a foto apenas se uma nova foi enviada
                 membro.foto = foto
-                membro.data_batismo = data_batismo or None  # Tratar caso seja vazio
-                membro.data_nascimento = data_nascimento or None  # Tratar caso seja vazio
-                membro.cargo = cargo
+            membro.data_batismo = data_batismo or None  # Tratar caso seja vazio
+            membro.data_nascimento = data_nascimento or None  # Tratar caso seja vazio
+            membro.cargo = cargo
 
             # Salva as alterações no banco de dados
             membro.save()
@@ -132,12 +132,12 @@ def atualizar_membro(request, id):
             # Log do erro para fins de depuração (opcional)
             print(f"Erro ao atualizar o membro: {e}")
             messages.add_message(request, messages.ERROR, 'Erro ao atualizar o membro. Verifique os dados.')
-            return redirect(f'/membros/editar/{id}/')
+            return redirect(f'index/membros/editar/{id}/')
         except Exception as e:
             # Log do erro para fins de depuração (opcional)
             print(f"Erro ao atualizar o membro: {e}")
             messages.add_message(request, messages.ERROR, 'Erro ao atualizar o membro. Tente novamente.')
-            return redirect(f'/membros/editar/{id}/')
+            return redirect(f'index/membros/editar/{id}/')
         
 @login_required(login_url='/usuarios/login')
 def excluir_membro(request, id):
