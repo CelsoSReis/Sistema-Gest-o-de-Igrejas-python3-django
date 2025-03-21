@@ -12,6 +12,7 @@ from reportlab.lib import colors
 from io import BytesIO
 from django.core.files.storage import default_storage
 from reportlab.lib.pagesizes import landscape
+from reportlab.lib.pagesizes import letter
 import os
 
 @login_required(login_url='/usuarios/login')
@@ -199,7 +200,7 @@ def exportar_carteirinha_membro(request, id):
     altura = 155.91
 
     # Caminho para a imagem de fundo (ajuste conforme a estrutura do seu projeto)
-    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpg')  # Ajuste o caminho conforme necessário
+    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha1.jpg')  # Ajuste o caminho conforme necessário
 
     # Criação do PDF em memória
     buffer = BytesIO()
@@ -299,3 +300,85 @@ def exportar_todas_carteirinhas(request):
     response = HttpResponse(buffer, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="todas_carteirinhas.pdf"'
     return response
+@login_required(login_url='/usuarios/login')
+def selecionar_carteirinhas(request):
+    """Página para selecionar quais carteirinhas imprimir (exibe apenas os membros cadastrados pelo usuário)."""
+    membros = Membros.objects.filter(pastor=request.user)  # Filtra pelo usuário logado
+    return render(request, 'selecionar_carteirinhas.html', {'membros': membros})
+
+@login_required(login_url='/usuarios/login')
+def imprimir_carteirinhas(request):
+    """Gera um PDF com até 4 carteirinhas por página dos membros selecionados (apenas os cadastrados pelo usuário)."""
+    if request.method == "POST":
+        membros_ids = request.POST.getlist('membros_selecionados')
+
+        # Filtra apenas os membros cadastrados pelo usuário logado
+        membros = Membros.objects.filter(id__in=membros_ids, pastor=request.user)
+
+        # Se não houver membros correspondentes, retorna erro
+        if not membros.exists():
+            return HttpResponse("Nenhum membro Selecionado.", status=400)
+
+        # Tamanho da página A4 (pontos)
+        largura_pagina, altura_pagina = letter
+
+        # Tamanho da carteirinha: 8,5 x 5,5 cm (convertido para pontos)
+        largura_carteirinha = 242.65
+        altura_carteirinha = 155.91
+
+        # Posições das carteirinhas na página (2 colunas x 2 linhas)
+        posicoes = [
+            (30, altura_pagina - 170), (290, altura_pagina - 170),  # Primeira linha (esquerda, direita)
+            (30, altura_pagina - 340), (290, altura_pagina - 340)   # Segunda linha (esquerda, direita)
+        ]
+
+        # Caminho para a imagem de fundo
+        fundo_path = os.path.join('templates', 'static', 'imagens', 'fundo_carteirinha1.jpg')
+
+        # Criação do PDF em memória
+        buffer = BytesIO()
+        p = canvas.Canvas(buffer, pagesize=letter)
+
+        # Contador de carteirinhas na página
+        count = 0
+
+        for membro in membros:
+            # Determinar posição na página
+            x, y = posicoes[count]
+
+            # Adicionar imagem de fundo
+            if os.path.exists(fundo_path):
+                p.drawImage(fundo_path, x, y, width=largura_carteirinha, height=altura_carteirinha)
+
+            # Foto 3x4 (se houver)
+            if membro.foto:
+                foto_path = default_storage.path(membro.foto.name)
+                p.drawImage(foto_path, x + 6, y + 38, width=55, height=65, mask='auto')
+
+            # Dados do membro
+            p.setFont("Helvetica", 8)
+            p.drawString(x + 68, y + 100, f"{membro.nome}")
+            p.setFont("Helvetica", 6.5)
+            p.drawString(x + 68.6, y + 81, f"{membro.cpf}")
+            p.drawString(x + 68.6, y + 39, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
+            p.drawString(x + 162, y + 39, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
+            p.drawString(x + 68.6, y + 61, f"{membro.get_cargo_display()}")
+
+            # Atualiza o contador de carteirinhas
+            count += 1
+
+            # Se já preencheu 4 carteirinhas, cria uma nova página
+            if count == 4:
+                p.showPage()
+                count = 0  # Reseta contador para a nova página
+
+        # Finaliza o PDF
+        p.save()
+
+        # Configura a resposta como PDF
+        buffer.seek(0)
+        response = HttpResponse(buffer, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="carteirinhas_selecionadas.pdf"'
+        return response
+
+    return HttpResponse("Erro ao gerar carteirinhas.", status=400)
