@@ -1,0 +1,116 @@
+
+{% extends "bases/base_plataformaigreja.html" %}
+{% load static %}
+{% block 'head' %}
+
+{% endblock 'head' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Detalhes do Membro</h2>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4 class="card-title">{{ membro.nome }}</h4>
+            <p><strong>Sexo:</strong> {{ membro.sexo }}</p>
+            <p><strong>Email:</strong> {{ membro.email }}</p>
+            <p><strong>Telefone:</strong> {{ membro.telefone }}</p>
+            <p><strong>CPF:</strong> {{ membro.cpf }}</p>
+            <p><strong>Endereço:</strong> {{ membro.endereco }}</p>
+            <p><strong>Data de Nascimento:</strong> {{ membro.data_nascimento|date:"d/m/Y" }}</p>
+            <p><strong>Data de Batismo:</strong> {{ membro.data_batismo|date:"d/m/Y" }}</p>
+            <p><strong>Cargo:</strong> {{ membro.cargo_nome }}</p>
+            <a href="{% url 'membros' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block 'conteudo' %}
+<div class="container">
+    <div class="page-inner">
+        <div class="row g-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Informações do Membro</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-12">
+                                <form class="row g-3" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="control-label" for="nome">Nome</label>
+                                        <p class="form-control-static">{{ membro.nome }}</p>
+                                    </div>
+
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label" for="cpf">CPF</label>
+                                        <p class="form-control-static">{{ membro.cpf }}</p>
+                                    </div>
+
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label" for="data_nascimento">Data de Nascimento</label>
+                                        <p class="form-control-static">{{ membro.data_nascimento | date:'d/m/Y' }}</p>
+                                    </div>
+
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label" for="sexo">Sexo</label>
+                                        <p class="form-control-static">{{ membro.sexo_nome }}</p>
+                                    </div>
+
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label" for="telefone">Telefone</label>
+                                        <p class="form-control-static">{{ membro.telefone }}</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label" for="email">E-mail</label>
+                                        <p class="form-control-static">{{ membro.email }}</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label" for="endereco">Endereço</label>
+                                        <p class="form-control-static">{{ membro.endereco }}</p>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="control-label" for="foto">Foto (3x4)</label>
+                                        <p class="form-control-static">
+                                            {% if membro.foto %}
+                                                <img src="{{ membro.foto.url }}" alt="Foto do Membro" width="100">
+                                            {%else%}
+                                                Sem Foto cadastrada
+                                            {% endif %}
+                                        </p>
+                                        
+                                    </div>
+
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label" for="cargo">Cargo</label>
+                                        <p class="form-control-static">{{ membro.cargo_nome }}</p>
+                                    </div>
+
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label" for="data_batismo">Data de Batismo</label>
+                                        <p class="form-control-static">{{ membro.data_batismo|date:'d/m/Y' }}</p>
+
+                                    </div>
+
+                                    <div class="card-action">
+                                        <a href="{% url 'editar_membro' membro.id %}" class="btn btn-primary">Editar</a>
+                                        <a href="{% url 'membros' %}" class="btn btn-secondary">Voltar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Final container-->
+</div>
+{% endblock %}

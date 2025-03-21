@@ -14,7 +14,6 @@ from django.core.files.storage import default_storage
 from reportlab.lib.pagesizes import landscape
 import os
 
-
 @login_required(login_url='/usuarios/login')
 def dashboard_igreja(request):
     # Renderiza página dashboard
@@ -76,7 +75,6 @@ def membros(request):
             messages.add_message(request, constants.ERROR, 'Erro ao cadastrar o membro. Tente novamente.')
             return redirect('/index/membros/')
 
-
 @login_required(login_url='/usuarios/login')
 def atualizar_membro(request, id):
     # Busca o membro pelo ID ou retorna 404 se não existir
@@ -103,11 +101,6 @@ def atualizar_membro(request, id):
         if not nome or not sexo or not cargo:
             messages.add_message(request, messages.ERROR, 'Preencha todos os campos obrigatórios.')
             return redirect(f'index/membros/editar/{id}/')
-
-        # Checa se o CPF já está cadastrado para outro membro (exceto o atual)
-        #if Membros.objects.filter(cpf=cpf).exclude(id=id).exists():
-        #    messages.add_message(request, messages.ERROR, 'O CPF já está cadastrado para outro membro.')
-        #    return redirect(f'index/membros/editar/{id}/')
 
         # Atualiza os dados do membro
         try:
@@ -162,32 +155,38 @@ def excluir_membro(request, id):
         # Redireciona de volta para a lista de membros
         return redirect('/index/membros/')
     
-#Exibir membros em uma modal
+#Detalhes membro
 @login_required(login_url='/usuarios/login')
-def obter_dados_membro(request, id):
-    try:
-        # Busca o membro pelo ID e verifica se pertence ao pastor logado
-        membro = Membros.objects.get(id=id, pastor=request.user)
-        
-        # Retorna os dados do membro em formato JSON
-        data = {
-            'id': membro.id,
-            'nome': membro.nome,
-            'sexo': membro.get_sexo_display(),
-            'email': membro.email,
-            'telefone': membro.telefone,
-            'cpf': membro.cpf,
-            'endereco': membro.endereco,
-            'foto': membro.foto.url if membro.foto else None,
-            'data_nascimento': membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else None,
-            'data_batismo': membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else None,
-            'cargo': membro.get_cargo_display(),
-        }
-        return JsonResponse(data)
-    except Membros.DoesNotExist:
-        return JsonResponse({'error': 'Membro não encontrado.'}, status=404)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+def detalhes_membro(request, membro_id):
+    """Exibe os detalhes de um membro específico, convertendo siglas para nomes completos."""
+    membro = get_object_or_404(Membros, id=membro_id)
+
+    # Dicionário de mapeamento de cargos
+    cargos_dict = {
+        "A": "Auxiliar",
+        "C": "Congregado",
+        "Cr": "Crianças",
+        "Da": "Diaconisa",
+        "D": "Diácono",
+        "E": "Evangelista",
+        "J": "Jovem",
+        "Mb": "Membro",
+        "Mi": "Missionário(a)",
+        "Pr": "Pastor",
+        "P": "Presbítero",
+    }
+
+    # Dicionário de mapeamento de sexo
+    sexo_dict = {
+        "M": "Masculino",
+        "F": "Feminino",
+    }
+
+    # Converter siglas para nomes completos
+    membro.cargo_nome = cargos_dict.get(membro.cargo, "Não informado")
+    membro.sexo_nome = sexo_dict.get(membro.sexo, "Não informado")
+
+    return render(request, 'detalhes_membro.html', {'membro': membro})
 
 
 @login_required(login_url='/usuarios/login')

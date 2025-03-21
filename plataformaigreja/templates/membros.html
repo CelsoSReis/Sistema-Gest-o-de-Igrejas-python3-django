@@ -186,7 +186,7 @@
                                   <ul class="dropdown-menu " aria-labelledby="btnGroupDrop1">
                                     
                                     <li><a class="dropdown-item btn-light" href="{% url 'editar_membro' membro.id %}"><i class="fa fa-edit"></i> Editar</a></li>
-                                    <li><a class="dropdown-item btn-light" href="#"><i class="fa fa-info"></i> Dados</a></li>
+                                    <li><a class="dropdown-item btn-light" href="{% url 'detalhes_membro' membro.id %}"><i class="fa fa-info"></i> Dados</a></li>
                                     <li><a class="dropdown-item btn-light" href="{% url 'exportar_carteirinha_membro' membro.id %}"><i class="fas fa-address-card"></i> Gerar Carteira</a></li>
                                     <li>
                                       <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}  
