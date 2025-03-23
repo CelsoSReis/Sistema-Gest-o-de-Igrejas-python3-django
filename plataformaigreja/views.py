@@ -244,53 +244,71 @@ def exportar_carteirinha_membro(request, id):
 
 @login_required(login_url='/usuarios/login')
 def exportar_todas_carteirinhas(request):
-    # Busca todos os membros do pastor logado
+    """Gera um PDF com todas as carteirinhas (8 por página, 4 linhas x 2 colunas)."""
+    
+    # Busca todos os membros cadastrados pelo usuário logado
     membros = Membros.objects.filter(pastor=request.user)
 
-    # Tamanho da carteirinha: 8,5 x 5,5 cm (em pontos)
-    largura = 242.65
-    altura = 155.91
+    # Se não houver membros, retorna erro
+    if not membros.exists():
+        return HttpResponse("Nenhum membro encontrado.", status=400)
 
-    # Caminho para a imagem de fundo (ajuste conforme a estrutura do seu projeto)
-    fundo_path = os.path.join('templates','static', 'imagens', 'fundo_carteirinha.jpg')  # Ajuste o caminho conforme necessário
+    # Tamanho da página A4 (pontos)
+    largura_pagina, altura_pagina = letter
+
+    # Tamanho da carteirinha: 8,5 x 5,5 cm (convertido para pontos)
+    largura_carteirinha = 242.65
+    altura_carteirinha = 155.91
+
+    # Posições das carteirinhas na página (2 colunas x 4 linhas)
+    espacamento_horizontal = 30  # Margem à esquerda
+    espacamento_vertical = 20    # Margem no topo
+    posicoes = [
+        (espacamento_horizontal, altura_pagina - 170), (290, altura_pagina - 170),  # Primeira linha
+        (espacamento_horizontal, altura_pagina - 340), (290, altura_pagina - 340),  # Segunda linha
+        (espacamento_horizontal, altura_pagina - 510), (290, altura_pagina - 510),  # Terceira linha
+        (espacamento_horizontal, altura_pagina - 680), (290, altura_pagina - 680)   # Quarta linha
+    ]
+
+    # Caminho para a imagem de fundo
+    fundo_path = os.path.join('templates', 'static', 'imagens', 'fundo_carteirinha.jpg')
 
     # Criação do PDF em memória
     buffer = BytesIO()
-    p = canvas.Canvas(buffer, pagesize=(largura, altura))
+    p = canvas.Canvas(buffer, pagesize=letter)
 
-    # Define margens
-    margem = 10
+    # Contador de carteirinhas na página
+    count = 0
 
-    # Gera uma página para cada membro
     for membro in membros:
-        # Adiciona a imagem de fundo (se existir)
+        # Determinar posição na página
+        x, y = posicoes[count]
+
+        # Adicionar imagem de fundo
         if os.path.exists(fundo_path):
-            p.drawImage(fundo_path, 0, 0, width=largura, height=altura)
+            p.drawImage(fundo_path, x, y, width=largura_carteirinha, height=altura_carteirinha)
 
-        # Configurações do PDF (sem borda, pois temos fundo)
-        p.setStrokeColor(colors.black)
-        p.setLineWidth(1)
-
-        # Foto 3x4 (proporção ajustada)
+        # Foto 3x4 (se houver)
         if membro.foto:
             foto_path = default_storage.path(membro.foto.name)
-            p.drawImage(foto_path, margem - 2, altura - 118, width=55, height=65, mask='auto')
+            p.drawImage(foto_path, x + 6, y + 38, width=55, height=65, mask='auto')
 
         # Dados do membro
         p.setFont("Helvetica", 8)
-        p.drawString(68, altura - 56, f"{membro.nome}")
+        p.drawString(x + 68, y + 100, f"{membro.nome}")
         p.setFont("Helvetica", 6.5)
-        p.drawString(68.6, altura - 75, f"{membro.cpf}")
-        p.drawString(68.6, altura - 117, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
-        p.drawString(162, altura - 117, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
-        p.drawString(68.6, altura - 95, f"{membro.get_cargo_display()}")
+        p.drawString(x + 68.6, y + 81, f"{membro.cpf}")
+        p.drawString(x + 68.6, y + 39, f"{membro.data_nascimento.strftime('%d/%m/%Y') if membro.data_nascimento else '00/00/0000'}")
+        p.drawString(x + 162, y + 39, f"{membro.data_batismo.strftime('%d/%m/%Y') if membro.data_batismo else '00/00/0000'}")
+        p.drawString(x + 68.6, y + 61, f"{membro.get_cargo_display()}")
 
-        # Rodapé
-        #p.setFont("Helvetica-Oblique", 6)
-        #p.drawCentredString(largura / 2, 15, "Igreja XYZ - Carteirinha de Membro")
+        # Atualiza o contador de carteirinhas
+        count += 1
 
-        # Finaliza a página atual
-        p.showPage()
+        # Se já preencheu 8 carteirinhas, cria uma nova página
+        if count == 8:
+            p.showPage()
+            count = 0  # Reseta contador para a nova página
 
     # Finaliza o PDF
     p.save()
@@ -300,6 +318,7 @@ def exportar_todas_carteirinhas(request):
     response = HttpResponse(buffer, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="todas_carteirinhas.pdf"'
     return response
+    
 @login_required(login_url='/usuarios/login')
 def selecionar_carteirinhas(request):
     """Página para selecionar quais carteirinhas imprimir (exibe apenas os membros cadastrados pelo usuário)."""
@@ -308,7 +327,7 @@ def selecionar_carteirinhas(request):
 
 @login_required(login_url='/usuarios/login')
 def imprimir_carteirinhas(request):
-    """Gera um PDF com até 4 carteirinhas por página dos membros selecionados (apenas os cadastrados pelo usuário)."""
+    """Gera um PDF com até 8 carteirinhas por página dos membros selecionados (apenas os cadastrados pelo usuário)."""
     if request.method == "POST":
         membros_ids = request.POST.getlist('membros_selecionados')
 
@@ -317,7 +336,7 @@ def imprimir_carteirinhas(request):
 
         # Se não houver membros correspondentes, retorna erro
         if not membros.exists():
-            return HttpResponse("Nenhum membro Selecionado.", status=400)
+            return HttpResponse("Nenhum membro selecionado.", status=400)
 
         # Tamanho da página A4 (pontos)
         largura_pagina, altura_pagina = letter
@@ -326,14 +345,18 @@ def imprimir_carteirinhas(request):
         largura_carteirinha = 242.65
         altura_carteirinha = 155.91
 
-        # Posições das carteirinhas na página (2 colunas x 2 linhas)
+        # Posições das carteirinhas na página (2 colunas x 4 linhas)
+        espacamento_horizontal = 30  # Margem à esquerda
+        espacamento_vertical = 20    # Margem no topo
         posicoes = [
-            (30, altura_pagina - 170), (290, altura_pagina - 170),  # Primeira linha (esquerda, direita)
-            (30, altura_pagina - 340), (290, altura_pagina - 340)   # Segunda linha (esquerda, direita)
+            (espacamento_horizontal, altura_pagina - 170), (290, altura_pagina - 170),  # Primeira linha
+            (espacamento_horizontal, altura_pagina - 340), (290, altura_pagina - 340),  # Segunda linha
+            (espacamento_horizontal, altura_pagina - 510), (290, altura_pagina - 510),  # Terceira linha
+            (espacamento_horizontal, altura_pagina - 680), (290, altura_pagina - 680)   # Quarta linha
         ]
 
         # Caminho para a imagem de fundo
-        fundo_path = os.path.join('templates', 'static', 'imagens', 'fundo_carteirinha1.jpg')
+        fundo_path = os.path.join('templates', 'static', 'imagens', 'fundo_carteirinha.jpg')
 
         # Criação do PDF em memória
         buffer = BytesIO()
@@ -367,8 +390,8 @@ def imprimir_carteirinhas(request):
             # Atualiza o contador de carteirinhas
             count += 1
 
-            # Se já preencheu 4 carteirinhas, cria uma nova página
-            if count == 4:
+            # Se já preencheu 8 carteirinhas, cria uma nova página
+            if count == 8:
                 p.showPage()
                 count = 0  # Reseta contador para a nova página
 

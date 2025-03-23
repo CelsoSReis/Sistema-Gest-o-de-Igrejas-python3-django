@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'plataformacontas',
     'plataformarelatorios',
     'plataformadocumentos',
+    'igreja',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +168,4 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Habilita sessões baseadas em arquivo, banco de dados ou cache (pode ser necessário)
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+

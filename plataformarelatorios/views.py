@@ -8,6 +8,9 @@ from datetime import datetime
 from plataformadizimos.models import Dizimos
 from plataformaigreja.models import Membros
 from plataformacontas.models import ContaPagar
+from django.core.files.storage import default_storage
+from io import BytesIO
+import os
 
 
 @login_required(login_url='/usuarios/login')

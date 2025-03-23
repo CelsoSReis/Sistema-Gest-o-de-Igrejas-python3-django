@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('plataformacontas.urls')),
     path('relatorios/', include('plataformarelatorios.urls')),
     path('documentos/', include('plataformadocumentos.urls')),
+    path('igreja/', include('igreja.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

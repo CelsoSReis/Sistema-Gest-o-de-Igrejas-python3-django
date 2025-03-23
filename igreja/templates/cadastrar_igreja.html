@@ -1,4 +1,3 @@
-<!--#atualização-->
 {% extends "bases/base_plataformaigreja.html" %}
 {% load static %}
 {% block 'head' %}
@@ -10,54 +9,96 @@
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Membros</h4>
+              <h4 class="card-title">Dados Igreja</h4>
+                <button class="btn btn-success ms-auto btn-sm" data-bs-toggle="modal" data-bs-target="#addRowModal">
+                  <i class="fa fa-plus"></i>
+                  Novo Membro
+                </button>
+                <a href="{% url 'selecionar_carteirinhas' %}" class="btn btn-primary btn-sm"><i class="fas fa-address-card"></i> Exportar Carteirinhas</a>
+
             </div>
           </div>
-        <div class="card-body">                    
+        <div class="card-body">
+                    <!-- Modal Novo Membro-->
+                    <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header border-0">
+                            <h5 class="modal-title">
+                              <span class="fw-mediumbold"> Novo</span>
+                              <span class="fw-light"> Membro </span>
+                            </h5>
+                            <button
+                              type="button"
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+
+
+
+                            
+                              <form class="row g-3" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="col-12">
+                                  <label for="nome" class="form-label">Nome da Igreja</label>
+                                  <input type="text" class="form-control" placeholder="Digite o nome da Igreja..." name="nome" required>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                  <label for="endereco" class="form-label">Endereço</label>
+                                  <textarea name="endereco" required></textarea><br>
+                                </div>
+                                <div class="col-3">
+                                  <label for="telefone" class="form-label">Telefone</label>
+                                  <input type="text" class="form-control" name="telefone">
+                                </div>
+                                <div class="col-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email">
+                                  </div>
+                                <div class="col-5">
+                                    <label for="logo" class="form-label">Logo da Igreja</label>
+                                    <input type="file" class="form-control" name="logo" accept="image/*">
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="fundo_carteirinha" class="form-label">Imagem da carteirinha:</label>
+                                  <input type="file" class="form-control" name="fundo_carteirinha" accept="image/*">
+                                </div>
+
+                                <div class="modal-footer border-0">
+                                  <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                                    Salvar
+                                  </button>
+                                  
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                    Cancelar
+                                  </button>
+                                </div>
+                              </form>
+
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                    
                     <div class="table-responsive">
-                    <form method="POST" action="{% url 'imprimir_carteirinhas' %}">
-                    {% csrf_token %}
-                    <button class="btn btn-primary ms-auto btn-sm" data-bs-toggle="modal" data-bs-target="#addRowModal">
-                        <i class="fa fa-plus"></i>
-                        Gerar Carteirinhas selecionadas
-                      </button>
-                      <a href="{% url 'exportar_todas_carteirinhas' %}" class="btn btn-primary btn-sm"><i class="fas fa-address-card"></i> Gerar todas as Carteirinhas</a>
-                      <table id="add-row" class="display table table-striped table-hover">
                         {% if messages %}
-                                <br>
-                                {% for message in messages %}
-                                    <div class="alert {{message.tags}}">
-                                        {{message}}
-                                    </div>
-                                {% endfor %}
+                            <br>
+                            {% for message in messages %}
+                                <div class="alert {{message.tags}}">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
                         {% endif %}
-                        <thead>
-                            <tr>
-                                <th>Selecionar</th>
-                                <th>Nome</th>
-                                <th>Cargo</th>
-                                
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            {% for membro in membros %}
-                            <tr>
-                                <td style="width: 10%"><input type="checkbox" name="membros_selecionados" value="{{ membro.id }}"></td>
-                                <td>{{ membro.nome }}</td>
-                                <td style="width: 15%">{{ membro.get_cargo_display }}</td>
-                                
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="3" class="text-center">Nenhum membro cadastrado!</td>
-                            </tr>
-                            {% endfor %} 
-                                                   
-                        </tbody>
-                      </table>
                       
-                    </form>
                     </div>
                   </div>
                 </div>
