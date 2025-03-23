@@ -1,25 +1,36 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-  	<title>Igrejas - Login</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="{% static 'usuarios/css/style.css' %}">
-    {% block 'head' %}{% endblock %}
+<head>
+	<title>Igrejas - Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'usuarios/images/icons/favicon.ico'%}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/vendor/bootstrap/css/bootstrap.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/fonts/Linearicons-Free-v1.0.0/icon-font.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/vendor/animate/animate.css'%}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/vendor/css-hamburgers/hamburgers.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/vendor/daterangepicker/daterangepicker.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/util.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/main.css'%}">
+<!--===============================================================================================-->
+{% block 'head' %}{% endblock %}
 </head>
-<body class="background-login">
-	
+<body>
     {% block 'conteudo' %}{% endblock %}
-
-<script src="{% static 'usuarios/js/jquery.min.js' %}"></script>
-<script src="{% static 'usuarios/js/popper.js' %}"></script>
-<script src="{% static 'usuarios/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'usuarios/js/main.js' %}"></script>
 
 </body>
 </html>

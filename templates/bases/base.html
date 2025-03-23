@@ -52,12 +52,18 @@
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
               <a href="{% url 'dashboard_igreja' %}" class="logo">
-                <img
+                <!--<img
                   src="{% static 'geral/assets/img/kaiadmin/logorw.svg'%}"
                   alt="navbar brand"
                   class="navbar-brand"
                   height="40"
                 />
+              -->
+              {% if logo_igreja %}
+                  <img src="{{ logo_igreja }}" alt="Logo da Igreja" class="navbar-brand" height="50"/>
+              {% else %}
+                  <p>Nenhuma logo cadastrada.</p>
+              {% endif %}
               </a>
               <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -176,11 +182,6 @@
                       <li>
                         <a href="{% url 'upload_documento' %}">
                           <span class="sub-item">Upload de Documentos</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="{% url 'igreja_cadastro' %}">
-                          <span class="sub-item">dados da Igreja</span>
                         </a>
                       </li>
                     </ul>

@@ -6,62 +6,63 @@
 {% endblock 'head' %}
 
 {% block 'conteudo' %}
-<section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
-                <!--<h2 class="heading-section">LCLAB</h2>-->
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-12 col-lg-10">
-                <div class="wrap d-md-flex">
-                    <div class="img" style=" background-image: url({% static 'usuarios/images/igrejaimagem.png' %});">
 
-                    </div>
-                    <div class="login-wrap p-4 p-md-5 background-section">
-                    <div class="d-flex">
-                        <div class="w-100 d-flex align-items-center justify-content-center">
-                            <img src="{% static 'usuarios/images/igrejas.png' %}" alt="igrejas" width="200">
-                            <!--<h3 class="mb-4 text-white">Login</h3>-->
-                        </div>
-                    </div>
-                    <form action="{% url 'login' %}" method="POST" class="signin-form">{% csrf_token %}
-                        <div class="form-group mb-3">
-                            <label class="label text-white" for="name">Usuário</label>
-                            <input type="text" class="form-control" name="username" placeholder="Username" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="label text-white" for="password">Senha</label>
-                            <input type="password" class="form-control" name="senha" placeholder="Password" required>
-                        </div>
-                        <div class="form-group">
-                            <!--Exibe as mensagens de alerta django-->
-                            {% if messages %}
-                                <br>
-                                {% for message in messages %}
-                                <div class="alert {{ message.tags }}">{{ message }}</div>
-                                {% endfor %}
-                            {% endif %}
-                            <button type="submit" class="form-control btn btn-primary rounded submit px-3">Entrar</button>
-                        </div>
-                        <div class="form-group d-md-flex">
-                            <div class="w-50 text-left">
-                                <label class="checkbox-wrap checkbox-primary mb-0 text-white">Manter Conectado
-                                    <input type="checkbox" >
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <!--<div class="w-50 text-md-right">
-                                <a href="#">Forgot Password</a>
-                            </div>-->
-                        </div>
-                    </form>
-              <!--<p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>-->
-                    </div>
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('{% static 'usuarios/images/bg-01.jpg'%}');">
+        <div class="wrap-login100 p-t-20 p-b-50">
+            <span class="login100-form-title p-b-10">
+                <img src="{% static 'usuarios/images/igrejas.png' %}" alt="igrejas" width="150">
+            </span>
+            <form action="{% url 'login' %}" method="POST" class="login100-form validate-form p-b-33 p-t-5">{% csrf_token %}
+                <!--Exibe as mensagens de alerta django -->
+                {% if messages %}
+                        <br>
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="wrap-input100 validate-input" data-validate = "Enter username">
+                    <input class="input100" type="text" name="username" placeholder="Usuário" required>
+                    <span class="focus-input100" data-placeholder="&#xe82a;"></span>
                 </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                    <input class="input100" type="password" name="senha" placeholder="Senha">
+                    <span class="focus-input100" data-placeholder="&#xe80f;"></span>
+                </div>
+
+                <div class="container-login100-form-btn m-t-32">
+                    <button class="login100-form-btn">
+                        Entrar
+                    </button>
+                </div>
+
+            </form>
+            <div class="m-t-12 text-center">
+                <p>© 2025 - Desenvolvido por Celso Reis</p>
             </div>
         </div>
-    </div><!--End div container-->
-</section>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/vendor/jquery/jquery-3.2.1.min.js'%}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/vendor/animsition/js/animsition.min.js'%}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/vendor/bootstrap/js/popper.js'%}"></script>
+<script src="{% static 'usuarios/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/vendor/select2/select2.min.js'%}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/vendor/daterangepicker/moment.min.js'%}"></script>
+<script src="{% static 'usuarios/vendor/daterangepicker/daterangepicker.js'%}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/vendor/countdowntime/countdowntime.js'%}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'usuarios/js/main.js'%}"></script>
+
 {% endblock %}

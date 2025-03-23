@@ -7,10 +7,10 @@ from .models import Igreja
 def cadastrar_igreja(request):
     if hasattr(request.user, "igreja"):
         messages.warning(request, "Você já cadastrou uma igreja!")
-        return redirect("editar_igreja")
+        return redirect("igreja_cadastro")
 
     if request.method == "POST":
-        nome = request.POST.get("nome")
+        nome_igreja = request.POST.get("nome")
         endereco = request.POST.get("endereco")
         telefone = request.POST.get("telefone")
         email = request.POST.get("email")
@@ -19,7 +19,7 @@ def cadastrar_igreja(request):
 
         igreja = Igreja(
             pastor=request.user,
-            nome=nome,
+            nome_igreja=nome_igreja,
             endereco=endereco,
             telefone=telefone,
             email=email,
