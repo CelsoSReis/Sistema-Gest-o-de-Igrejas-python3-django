@@ -13,8 +13,9 @@
       </div>
       <!--Widgets-->
       <div class="row">
+
         <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
+          <div class="card card-stats card-primary card-round">
             <a href="{% url 'membros' %}">
               <div class="card-body">
                 <div class="row">
@@ -25,7 +26,8 @@
                   </div>
                   <div class="col-7 col-stats">
                     <div class="numbers">
-                      <h4 class="card-title">Membros</h4>
+                      <p class="card-category">Membros</p>
+                      <h4 class="card-title">0</h4>
                     </div>
                   </div>
                 </div>
@@ -33,8 +35,10 @@
             </a>
           </div>
         </div>
+
+
         <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
+          <div class="card card-stats card-success card-round">
             <a href="{% url 'dizimos' %}">
               <div class="card-body">
                 <div class="row">
@@ -45,7 +49,7 @@
                   </div>
                   <div class="col-7 col-stats">
                     <div class="numbers">
-                      <h4 class="card-title">Dízimos</h4>
+                      <p class="card-category">Dízimos</p>
                     </div>
                   </div>
                 </div>
@@ -55,7 +59,7 @@
         </div>
 
         <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
+          <div class="card card-stats card-info card-round">
             <a href="{% url 'ofertas' %}">
               <div class="card-body">
                 <div class="row">
@@ -66,7 +70,7 @@
                   </div>
                   <div class="col-7 col-stats">
                     <div class="numbers">
-                      <h4 class="card-title">Ofertas</h4>
+                      <p class="card-category">Ofertas</p> 
                     </div>
                   </div>
                 </div>
@@ -76,7 +80,7 @@
         </div>
 
         <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
+          <div class="card card-stats card-secondary card-round">
             <a href="{% url 'todas_contas' %}">
               <div class="card-body">
                 <div class="row">
@@ -87,28 +91,7 @@
                   </div>
                   <div class="col-7 col-stats">
                     <div class="numbers">
-                      <h4 class="card-title">Contas a Pagar</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
-            <a href="{% url 'listar_documentos' %}">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <div class="icon-big text-center">
-                      <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-stats">
-                    <div class="numbers">
-                      <h4 class="card-title">Documentos </h4>
+                      <p class="card-category">Contas a Pagar</p>
                     </div>
                   </div>
                 </div>
@@ -128,128 +111,11 @@
         
       </div>-->
       <div class="row">
-        <!--
-        #user
-        <div class="col-md-4">
-          vazia
-        </div>
-        <div class="col-md-8">
-          <div class="card card-round">
-            <div class="card-header">
-              <div class="card-head-row card-tools-still-right">
-                <div class="card-title">Vencimentos</div>
-                <div class="card-tools">
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-icon btn-clean me-0"
-                      type="button"
-                      id="dropdownMenuButton"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#"
-                        >Something else here</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <div class="table-responsive">
-                <!-- Projects table 
-                <table class="table align-items-center mb-0">
-                  <thead class="thead-light">
-                    <tr>
-                      <th scope="col">Agenda</th>
-                      <th scope="col" class="text-end">Data</th>
-                      <th scope="col" class="text-end">Descrição</th>
-                      <th scope="col" class="text-end">Hora</th>
-                      <th scope="col" class="text-end">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <button
-                          class="btn btn-icon btn-round btn-success btn-sm me-2"
-                        >
-                          <i class="fa fa-check"></i>
-                        </button>
-                        Payment from #10231
-                      </th>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">$250.00</td>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">
-                        <span class="badge badge-success">Completed</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <button
-                          class="btn btn-icon btn-round btn-success btn-sm me-2"
-                        >
-                          <i class="fa fa-check"></i>
-                        </button>
-                        Payment from #10231
-                      </th>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">$250.00</td>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">
-                        <span class="badge badge-success">Completed</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <button
-                          class="btn btn-icon btn-round btn-success btn-sm me-2"
-                        >
-                          <i class="fa fa-check"></i>
-                        </button>
-                        Payment from #10231
-                      </th>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">$250.00</td>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">
-                        <span class="badge badge-success">Completed</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <button
-                          class="btn btn-icon btn-round btn-success btn-sm me-2"
-                        >
-                          <i class="fa fa-check"></i>
-                        </button>
-                        Payment from #10231
-                      </th>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">$250.00</td>
-                      <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                      <td class="text-end">
-                        <span class="badge badge-success">Completed</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        -->
+        
+        
       </div>
     </div>
   </div>
+
+  
 {% endblock %}

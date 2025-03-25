@@ -22,13 +22,16 @@
   });
 </script>
 
+
 <!-- CSS Files -->
-<link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../assets/css/plugins.min.css" />
-<link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
+<link href="{% static 'geral/assets/css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'geral/assets/css/plugins.min.css' %}" rel="stylesheet">
+<link href="{% static 'geral/assets/css/kaiadmin.min.css' %}" rel="stylesheet">
 
 <!-- CSS Just for demo purpose, don't include it in your project--> 
-<link rel="stylesheet" href="../assets/css/demo.css" />
+<link href="{% static 'geral/assets/css/demo.css' %}" rel="stylesheet">
+
+
 {% endblock 'head' %}
 
 {% block 'conteudo' %}
