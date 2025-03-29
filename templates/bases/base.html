@@ -4,17 +4,9 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Igrejas</title>
-    <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-      name="viewport"
-    />
-    <link
-      rel="icon"
-      href="{% static 'geral/assets/img/kaiadmin/favicon.ico'%}"
-      type="image/x-icon"
-    />
-
-    <!-- Fonts and icons -->
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="{% static 'geral/assets/img/kaiadmin/favicon.ico'%}" type="image/x-icon" />
+    <!-- Fontes e icones -->
     <script src="{% static 'geral/assets/js/plugin/webfont/webfont.min.js' %}"></script>
     <script>
       WebFont.load({
@@ -230,7 +222,7 @@
                 >
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <button type="submit" class="btn btn-search pe-1">
+                      <!--<button type="submit" class="btn btn-search pe-1">
                         <i class="fa fa-search search-icon"></i>
                       </button>
                     </div>
@@ -238,14 +230,12 @@
                       type="text"
                       placeholder="Pesquisar ..."
                       class="form-control"
-                    />
+                    />-->
                   </div>
                 </nav>
 
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                  <li
-                    class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
-                  >
+                  <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
                     <a
                       class="nav-link dropdown-toggle"
                       data-bs-toggle="dropdown"
@@ -258,13 +248,13 @@
                     </a>
                     <ul class="dropdown-menu dropdown-search animated fadeIn">
                       <form class="navbar-left navbar-form nav-search">
-                        <div class="input-group">
+                        <!--<div class="input-group">
                           <input
                             type="text"
                             placeholder="Search ..."
                             class="form-control"
                           />
-                        </div>
+                        </div>-->
                       </form>
                     </ul>
                   </li>
@@ -465,14 +455,15 @@
           </div>
 
           <div class="container">
+            <div class="page-inner">
             {% block 'conteudo' %}
             
             
             {% endblock %}
+            </div>
           </div>
-        </div>
 
-      </div>
+      
       
       <!--   Core JS Files   -->
       <script src="{% static 'geral/assets/js/core/jquery-3.7.1.min.js' %}"></script>
@@ -483,7 +474,7 @@
       <script src="{% static 'geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
 
       <!-- Chart JS -->
-      <script src="{% static 'geral/assets/js/plugin/chart.js/chart.min.js ' %}"></script>
+      <script src="{% static 'geral/assets/js/plugin/chart.js/chart.min.js' %}"></script>
 
       <!-- jQuery Sparkline -->
       <script src="{% static 'geral/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js' %}"></script>
@@ -512,35 +503,215 @@
       <script src="{% static 'geral/assets/js/demo.js' %}"></script>
       <script src="{% static 'geral/assets/js/setting-demo2.js'%}"></script>
       <script>
-        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-          type: "line",
-          height: "70",
-          width: "100%",
-          lineWidth: "2",
-          lineColor: "#177dff",
-          fillColor: "rgba(23, 125, 255, 0.14)",
-        });
+       var doughnutChart = document.getElementById("doughnutChart").getContext("2d")
 
-        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-          type: "line",
-          height: "70",
-          width: "100%",
-          lineWidth: "2",
-          lineColor: "#f3545d",
-          fillColor: "rgba(243, 84, 93, .14)",
-        });
-
-        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-          type: "line",
-          height: "70",
-          width: "100%",
-          lineWidth: "2",
-          lineColor: "#ffa534",
-          fillColor: "rgba(255, 165, 52, .14)",
-        });
-        
-      </script>
-      
+       var myDoughnutChart = new Chart(doughnutChart, {
+         type: "doughnut",
+         data: {
+           datasets: [
+             {
+               data: [10, 20, 30],
+               backgroundColor: ["#f3545d", "#fdaf4b", "#1d7af3"],
+             },
+           ],
+ 
+           labels: ["Red", "Yellow", "Blue"],
+         },
+         options: {
+           responsive: true,
+           maintainAspectRatio: false,
+           legend: {
+             position: "bottom",
+           },
+           layout: {
+             padding: {
+               left: 20,
+               right: 20,
+               top: 20,
+               bottom: 20,
+             },
+           },
+         },
+       });
+ 
+       // Chart with HTML Legends
+ 
+       var gradientStroke = htmlLegendsChart.createLinearGradient(
+         500,
+         0,
+         100,
+         0
+       );
+       gradientStroke.addColorStop(0, "#177dff");
+       gradientStroke.addColorStop(1, "#80b6f4");
+ 
+       var gradientFill = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+       gradientFill.addColorStop(0, "rgba(23, 125, 255, 0.7)");
+       gradientFill.addColorStop(1, "rgba(128, 182, 244, 0.3)");
+ 
+       var gradientStroke2 = htmlLegendsChart.createLinearGradient(
+         500,
+         0,
+         100,
+         0
+       );
+       gradientStroke2.addColorStop(0, "#f3545d");
+       gradientStroke2.addColorStop(1, "#ff8990");
+ 
+       var gradientFill2 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+       gradientFill2.addColorStop(0, "rgba(243, 84, 93, 0.7)");
+       gradientFill2.addColorStop(1, "rgba(255, 137, 144, 0.3)");
+ 
+       var gradientStroke3 = htmlLegendsChart.createLinearGradient(
+         500,
+         0,
+         100,
+         0
+       );
+       gradientStroke3.addColorStop(0, "#fdaf4b");
+       gradientStroke3.addColorStop(1, "#ffc478");
+ 
+       var gradientFill3 = htmlLegendsChart.createLinearGradient(500, 0, 100, 0);
+       gradientFill3.addColorStop(0, "rgba(253, 175, 75, 0.7)");
+       gradientFill3.addColorStop(1, "rgba(255, 196, 120, 0.3)");
+ 
+       var myHtmlLegendsChart = new Chart(htmlLegendsChart, {
+         type: "line",
+         data: {
+           labels: [
+             "Jan",
+             "Feb",
+             "Mar",
+             "Apr",
+             "May",
+             "Jun",
+             "Jul",
+             "Aug",
+             "Sep",
+             "Oct",
+             "Nov",
+             "Dec",
+           ],
+           datasets: [
+             {
+               label: "Subscribers",
+               borderColor: gradientStroke2,
+               pointBackgroundColor: gradientStroke2,
+               pointRadius: 0,
+               backgroundColor: gradientFill2,
+               legendColor: "#f3545d",
+               fill: true,
+               borderWidth: 1,
+               data: [
+                 154, 184, 175, 203, 210, 231, 240, 278, 252, 312, 320, 374,
+               ],
+             },
+             {
+               label: "New Visitors",
+               borderColor: gradientStroke3,
+               pointBackgroundColor: gradientStroke3,
+               pointRadius: 0,
+               backgroundColor: gradientFill3,
+               legendColor: "#fdaf4b",
+               fill: true,
+               borderWidth: 1,
+               data: [
+                 256, 230, 245, 287, 240, 250, 230, 295, 331, 431, 456, 521,
+               ],
+             },
+             {
+               label: "Active Users",
+               borderColor: gradientStroke,
+               pointBackgroundColor: gradientStroke,
+               pointRadius: 0,
+               backgroundColor: gradientFill,
+               legendColor: "#177dff",
+               fill: true,
+               borderWidth: 1,
+               data: [
+                 542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900,
+               ],
+             },
+           ],
+         },
+         options: {
+           responsive: true,
+           maintainAspectRatio: false,
+           legend: {
+             display: false,
+           },
+           tooltips: {
+             bodySpacing: 4,
+             mode: "nearest",
+             intersect: 0,
+             position: "nearest",
+             xPadding: 10,
+             yPadding: 10,
+             caretPadding: 10,
+           },
+           layout: {
+             padding: { left: 15, right: 15, top: 15, bottom: 15 },
+           },
+           scales: {
+             yAxes: [
+               {
+                 ticks: {
+                   fontColor: "rgba(0,0,0,0.5)",
+                   fontStyle: "500",
+                   beginAtZero: false,
+                   maxTicksLimit: 5,
+                   padding: 20,
+                 },
+                 gridLines: {
+                   drawTicks: false,
+                   display: false,
+                 },
+               },
+             ],
+             xAxes: [
+               {
+                 gridLines: {
+                   zeroLineColor: "transparent",
+                 },
+                 ticks: {
+                   padding: 20,
+                   fontColor: "rgba(0,0,0,0.5)",
+                   fontStyle: "500",
+                 },
+               },
+             ],
+           },
+           legendCallback: function (chart) {
+             var text = [];
+             text.push('<ul class="' + chart.id + '-legend html-legend">');
+             for (var i = 0; i < chart.data.datasets.length; i++) {
+               text.push(
+                 '<li><span style="background-color:' +
+                   chart.data.datasets[i].legendColor +
+                   '"></span>'
+               );
+               if (chart.data.datasets[i].label) {
+                 text.push(chart.data.datasets[i].label);
+               }
+               text.push("</li>");
+             }
+             text.push("</ul>");
+             return text.join("");
+           },
+         },
+       });
+ 
+       var myLegendContainer = document.getElementById("myChartLegend");
+ 
+       // generate HTML legend
+       myLegendContainer.innerHTML = myHtmlLegendsChart.generateLegend();
+ 
+       // bind onClick event to all LI-tags of the legend
+       var legendItems = myLegendContainer.getElementsByTagName("li");
+       for (var i = 0; i < legendItems.length; i += 1) {
+         legendItems[i].addEventListener("click", legendClickCallback, false);
+       }
+     </script>
       
     {% endif %}
     

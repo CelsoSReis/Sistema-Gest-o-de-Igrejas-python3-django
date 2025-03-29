@@ -1,121 +1,203 @@
-{% extends "bases/base_plataformaigreja.html" %}
+{% extends "bases/base.html" %}
 {% load static %}
 {% block 'head' %}
-    
 {% endblock 'head' %}
 {% block 'conteudo' %}
-<div class="container">
-    <div class="page-inner">
-      <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-        <div>
-          <h3 class="fw-bold mb-3">Dashboard</h3>
+
+  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+    <div>
+      <h3 class="fw-bold mb-3">Dashboard</h3>
+    </div>
+  </div>
+  <!--Cards-->
+  <div class="row">
+    <!--Gerenciar Membros-->
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-round">
+        <a href="{% url 'membros' %}">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-icon">
+                <div
+                  class="icon-big text-center icon-primary bubble-shadow-small"
+                >
+                  <i class="fas fa-users"></i>
+                </div>
+              </div>
+              <div class="col col-stats ms-3 ms-sm-0">
+                <div class="numbers">
+                  <p class="card-title">Membros</p>
+                  <h4 class="card-category">0</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!--Final Gerenciar Membros-->
+    <!--Gerenciar Dízimos-->
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-round">
+        <a href="{% url 'dizimos' %}">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-icon">
+                <div
+                  class="icon-big text-center icon-info bubble-shadow-small"
+                >
+                <i class="fas fa-money-check-alt"></i>
+                </div>
+              </div>
+              <div class="col col-stats ms-3 ms-sm-0">
+                <div class="numbers">
+                  <p class="card-title">Dízimos</p>
+                  <h4 class="card-category">00/03/2025</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!--Final Gerenciar Dízimos-->
+
+    <!--Gerenciar Ofertas-->
+
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-round">
+        <a href="{% url 'ofertas' %}">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-icon">
+                <div
+                  class="icon-big text-center icon-success bubble-shadow-small"
+                >
+                <i class="fas fa-hand-holding-usd"></i>
+                </div>
+              </div>
+              <div class="col col-stats ms-3 ms-sm-0">
+                <div class="numbers">
+                  <p class="card-title">Ofertas</p>
+                  <h4 class="card-category">00/03/2025</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!--Final Gerenciar Ofertas-->
+    
+    <!--Gerenciar controle Financeiro-->
+
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-round">
+        <a href="{% url 'todas_contas' %}">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-icon">
+                <div
+                  class="icon-big text-center icon-secondary bubble-shadow-small"
+                >
+                <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+              </div>
+              <div class="col col-stats ms-3 ms-sm-0">
+                <div class="numbers">
+                  <p class="card-title">Financeiro</p>
+                  <h1 class="card-category">00/03/2025</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-round">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-icon">
+              <div
+                class="icon-big text-center icon-secondary bubble-shadow-small"
+              >
+                <i class="far fa-check-circle"></i>
+              </div>
+            </div>
+            <div class="col col-stats ms-3 ms-sm-0">
+              <div class="numbers">
+                <p class="card-title">Relatórios</p>
+                <h4 class="card-category">00/03/2025</h4>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <!--Widgets-->
-      <div class="row">
-
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-primary card-round">
-            <a href="{% url 'membros' %}">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <div class="icon-big text-center">
-                      <i class="fas fa-users"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-stats">
-                    <div class="numbers">
-                      <p class="card-category">Membros</p>
-                      <h4 class="card-title">0</h4>
-                    </div>
-                  </div>
-                </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-round">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-icon">
+              <div
+                class="icon-big text-center icon-secondary bubble-shadow-small"
+              >
+                <i class="far fa-check-circle"></i>
               </div>
-            </a>
+            </div>
+            <div class="col col-stats ms-3 ms-sm-0">
+              <div class="numbers">
+                <p class="card-title">Documentos</p>
+                <h4 class="card-category">0</h4>
+              </div>
+            </div>
           </div>
         </div>
-
-
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-success card-round">
-            <a href="{% url 'dizimos' %}">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <div class="icon-big text-center">
-                      <i class="fas fa-money-check-alt"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-stats">
-                    <div class="numbers">
-                      <p class="card-category">Dízimos</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-info card-round">
-            <a href="{% url 'ofertas' %}">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <div class="icon-big text-center">
-                      <i class="fas fa-hand-holding-usd"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-stats">
-                    <div class="numbers">
-                      <p class="card-category">Ofertas</p> 
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-secondary card-round">
-            <a href="{% url 'todas_contas' %}">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <div class="icon-big text-center">
-                      <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-stats">
-                    <div class="numbers">
-                      <p class="card-category">Contas a Pagar</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        
       </div>
-      <!-- Final Widgets-->
-      <div class="row">
-      
-      </div>
-      <!--
-      ##mapa
-      <div class="row">
-        
-      </div>-->
-      <div class="row">
-        
-        
+    </div>
+    <!--Final Controle Financeiro-->
+    
+  </div>
+  <!-- Final Cards-->
+   <!--GRÁFICOS-->
+  <div class="row">
+   
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Congregações / Membros</div>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas
+              id="doughnutChart"
+              style="width: 50%; height: 50%"
+            ></canvas>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  
+  <footer class="footer">
+    <div class="container-fluid d-flex justify-content-between">
+      <nav class="pull-left">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Versão 1.0
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="copyright">
+        2025, Desenvolvido por 
+        <a href="https://celsosreis.github.io/ReisWeb/">Celso Reis</a>
+      </div>
+      <div>
+        <a target="_blank" href="https://www.reiswebsistemas.com/">ReisWeb Sistemas</a>.
+      </div>
+    </div>
+  </footer>
 {% endblock %}
