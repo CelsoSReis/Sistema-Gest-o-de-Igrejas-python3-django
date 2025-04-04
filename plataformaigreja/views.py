@@ -21,6 +21,11 @@ def dashboard_igreja(request):
     return render(request, 'dashboard.html')
 
 @login_required(login_url='/usuarios/login')
+def controle_membros(request):
+    # Renderiza página dashboard
+    return render(request, 'controle_memb.html')
+
+@login_required(login_url='/usuarios/login')
 def membros(request):
     if request.method == "GET":
         #busca membros do pastor logado

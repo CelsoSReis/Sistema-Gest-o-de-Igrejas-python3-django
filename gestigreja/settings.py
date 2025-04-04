@@ -162,7 +162,7 @@ EMAIL_HOST_USER = "celsosr87@gmail.com"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20MB
 
 # Tempo de expiração da sessão (10 minutos)
-SESSION_COOKIE_AGE = 300  # 300 segundos = 10 minutos
+SESSION_COOKIE_AGE = 3000  # 300 segundos = 10 minutos
 
 # A sessão expira quando o usuário fecha o navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
