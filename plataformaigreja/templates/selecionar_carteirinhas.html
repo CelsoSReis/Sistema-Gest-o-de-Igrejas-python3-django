@@ -4,33 +4,33 @@
 {% block 'head' %}
 {% endblock 'head' %}
 {% block 'conteudo' %}
-  <div class="container">
-    <div class="page-inner">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
-              <h4 class="card-title">Membros</h4>
+              <h4 class="card-title">Carteirinha de Membros</h4>
             </div>
           </div>
-        <div class="card-body">                    
-                    <div class="table-responsive">
-                    <form method="POST" action="{% url 'imprimir_carteirinhas' %}">
-                    {% csrf_token %}
-                    <button class="btn btn-primary ms-auto btn-sm" data-bs-toggle="modal" data-bs-target="#addRowModal">
-                        <i class="fa fa-plus"></i>
-                        Gerar Carteirinhas selecionadas
-                      </button>
-                      <a href="{% url 'exportar_todas_carteirinhas' %}" class="btn btn-primary btn-sm"><i class="fas fa-address-card"></i> Gerar todas as Carteirinhas</a>
-                      <table id="add-row" class="display table table-striped table-hover">
-                        {% if messages %}
-                                <br>
-                                {% for message in messages %}
-                                    <div class="alert {{message.tags}}">
-                                        {{message}}
-                                    </div>
-                                {% endfor %}
-                        {% endif %}
+          <div class="card-body">                    
+            <div class="table-responsive">
+              <form method="POST" action="{% url 'imprimir_carteirinhas' %}">{% csrf_token %}
+                <div class="d-flex align-items-center btn-sm"> 
+                <button class="btn btn-primary ms-auto btn-sm" data-bs-toggle="modal" data-bs-target="#addRowModal">
+                  <i class="fa fa-plus"></i> Gerar Carteirinhas selecionadas
+                </button>
+                <a href="{% url 'exportar_todas_carteirinhas' %}" class="btn btn-secondary ms-2 btn-sm">
+                  <i class="fas fa-address-card"></i> Gerar todas as Carteirinhas
+                </a>
+                </div>
+                <table id="add-row" class="display table table-striped table-hover">
+                  {% if messages %}
+                    <br>
+                    {% for message in messages %}
+                      <div class="alert {{message.tags}}">
+                        {{message}}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
                         <thead>
                             <tr>
                                 <th>Selecionar</th>
@@ -65,8 +65,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
     
     <!-- jQuery Scrollbar --> 
     <script src="{% static 'geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>

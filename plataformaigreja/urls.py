@@ -12,4 +12,5 @@ urlpatterns = [
     path('membros/<int:membro_id>/', views.detalhes_membro, name='detalhes_membro'),
     path('selecionar_carteirinhas/', views.selecionar_carteirinhas, name='selecionar_carteirinhas'),
     path('imprimir_carteirinhas/', views.imprimir_carteirinhas, name='imprimir_carteirinhas'),
+    path('controle_transf/', views.controle_transf, name='controle_transf'),
 ]

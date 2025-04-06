@@ -30,7 +30,7 @@
                     <div class="col-7 col-stats">
                       <div class="numbers">
                         <p class="card-category">Cadastro de Membros</p>
-                        <h4 class="card-title">115</h4>
+                        <h4 class="card-title">{{ total_membros }}</h4>
                       </div>
                     </div>
                   </div>
@@ -41,21 +41,23 @@
 
           <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-secondary card-round">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-5">
-                    <div class="icon-big text-center">
-                      <i class="fas fa-users"></i>
+              <a href="{% url 'controle_transf' %}">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="icon-big text-center">
+                        <i class="fas fa-users"></i>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-7 col-stats">
-                    <div class="numbers">
-                      <p class="card-category">Transferência de Membros</p>
-                      <h4 class="card-title">0</h4>
+                    <div class="col-7 col-stats">
+                      <div class="numbers">
+                        <p class="card-category">Transferência de Membros</p>
+                        <h4 class="card-title">0</h4>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -72,7 +74,7 @@
                     <div class="col-7 col-stats">
                       <div class="numbers">
                         <p class="card-category">Carteirinha de Membro</p>
-                        <h4 class="card-title">115</h4>
+                        <h4 class="card-title">{{ total_membros }}</h4>
                       </div>
                     </div>
                   </div>

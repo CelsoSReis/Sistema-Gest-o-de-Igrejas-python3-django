@@ -72,7 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "igreja.context_processors.logo_igreja", 
+                "igreja.context_processors.logo_igreja",
+                'plataformaigreja.context_processors.total_membros_context',# total de membros 
             ],
         },
     },

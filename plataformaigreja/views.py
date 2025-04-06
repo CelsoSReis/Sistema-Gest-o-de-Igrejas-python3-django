@@ -28,10 +28,14 @@ def controle_membros(request):
 @login_required(login_url='/usuarios/login')
 def membros(request):
     if request.method == "GET":
-        #busca membros do pastor logado
+        # Busca membros do pastor logado
         membros = Membros.objects.filter(pastor=request.user)
-        #{'membros': membros} dicionário para atribuir a chave 'membros' os dados do banco de dados
-        return render(request, 'membros.html', {'membros': membros})
+        total_membros = membros.count()  # Conta os membros daquele pastor
+
+        return render(request, 'membros.html', {
+            'membros': membros,
+            'total_membros': total_membros,
+        })
 
     elif request.method == "POST":
         # Obtém os dados do formulário
@@ -41,22 +45,19 @@ def membros(request):
         telefone = request.POST.get('telefone', '').strip()
         cpf = request.POST.get('cpf', '').strip()
         endereco = request.POST.get('endereco', '').strip()
-        foto = request.FILES.get('foto')  # Obtém arquivo via request.FILES
+        foto = request.FILES.get('foto')
         data_batismo = request.POST.get('data_batismo', '').strip()
         data_nascimento = request.POST.get('data_nascimento', '').strip()
         cargo = request.POST.get('cargo', '').strip()
 
-        # Valida campos obrigatórios
         if not nome or not sexo or not cargo:
             messages.add_message(request, constants.ERROR, 'Preencha todos os campos obrigatórios.')
             return redirect('/index/membros/')
 
-        # Checa se o membro já está cadastrado (baseado no CPF ou outro identificador único)
         if Membros.objects.filter(nome=nome).exists():
             messages.add_message(request, constants.ERROR, 'O membro já está cadastrado.')
             return redirect('/index/membros/')
 
-        # Tenta salvar o membro
         try:
             novo_membro = Membros(
                 nome=nome,
@@ -66,8 +67,8 @@ def membros(request):
                 cpf=cpf,
                 endereco=endereco,
                 foto=foto,
-                data_batismo=data_batismo or None,  # Tratar caso seja vazio
-                data_nascimento=data_nascimento or None,  # Tratar caso seja vazio
+                data_batismo=data_batismo or None,
+                data_nascimento=data_nascimento or None,
                 cargo=cargo,
                 pastor=request.user
             )
@@ -76,10 +77,10 @@ def membros(request):
             messages.add_message(request, constants.SUCCESS, 'Membro cadastrado com sucesso!')
             return redirect('/index/membros/')
         except Exception as e:
-            # Log do erro para fins de depuração (opcional)
             print(f"Erro ao salvar o membro: {e}")
             messages.add_message(request, constants.ERROR, 'Erro ao cadastrar o membro. Tente novamente.')
             return redirect('/index/membros/')
+
 
 @login_required(login_url='/usuarios/login')
 def atualizar_membro(request, id):
@@ -410,3 +411,8 @@ def imprimir_carteirinhas(request):
         return response
 
     return HttpResponse("Erro ao gerar carteirinhas.", status=400)
+#Controle de transferência de Membros
+@login_required(login_url='/usuarios/login')
+def controle_transf(request):
+    # Renderiza página dashboard
+    return render(request, 'controle_transf.html')
