@@ -411,8 +411,16 @@ def imprimir_carteirinhas(request):
         return response
 
     return HttpResponse("Erro ao gerar carteirinhas.", status=400)
+
 #Controle de transferência de Membros
 @login_required(login_url='/usuarios/login')
 def controle_transf(request):
     # Renderiza página dashboard
     return render(request, 'controle_transf.html')
+
+#Controle de transferência de Membros
+@login_required(login_url='/usuarios/login')
+def controle_financeiro(request):
+    # Renderiza página dashboard
+    return render(request, 'controle_finan.html')
+

@@ -4,155 +4,160 @@
     
 {% endblock 'head' %}
 {% block 'conteudo' %}
-  <div class="container">
-    <div class="page-inner">
+  
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">Dízimos</h4>
                 <button
-                  class="btn btn-success btn-sm ms-auto"
+                  class="btn btn-primary btn-sm ms-auto"
                   data-bs-toggle="modal"
                   data-bs-target="#addRowModal"
                 >
                   <i class="fa fa-plus"></i>
                   Novo Dízimo
                 </button>
-                <a href="{% url 'pagina_relatorio_dizimos' %}" class="btn btn-primary btn-sm"><i class="fas fa-address-card"></i> Exportar Relatório Dízimos</a>
+                <a href="{% url 'pagina_relatorio_dizimos' %}" class="btn btn-secondary ms-2 btn-sm"><i class="fas fa-address-card"></i> Relatório de Dizimistas</a>
 
             </div>
           </div>
         <div class="card-body">
-                    <!-- Modal Novo Dízimo-->
-                    <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header border-0">
-                            <h5 class="modal-title">
-                              <span class="fw-mediumbold"> Novo</span>
-                              <span class="fw-light"> Dízimo </span>
-                            </h5>
+            <!-- Modal Novo Dízimo-->
+            <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                      <span class="fw-mediumbold"> Novo</span>
+                      <span class="fw-light"> Dízimo </span>
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <form class="row g-3" action="{% url 'dizimos' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="col-md-4">
+                          <label for="valor" class="form-label">Valor</label>
+                          <input type="number" class="form-control" id="valor" step="0.01" name="valor" required>
+                        </div>
+                        <div class="col-md-10">
+                          <label for="membro" class="form-label">Nome do Membro</label>
+                          <select id="membro" name="membro"class="form-select">
+                            <option selected>Selecione...</option>
+                            {% for membro in membros %}
+                              <option value="{{ membro.id }}">{{ membro.nome }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        
+                        <div class="modal-footer border-0">
+                          <button type="submit" id="salvarRowButton" class="btn btn-primary">
+                            Salvar
+                          </button>
+                          
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            Cancelar
+                          </button>
+                        </div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+            <div class="table-responsive">
+              <table id="add-row" class="display table table-striped table-hover">
+                {% if messages %}
+                  <br>
+                  {% for message in messages %}
+                      <div class="alert {{message.tags}}">
+                          {{message}}
+                      </div>
+                  {% endfor %}
+                {% endif %}
+                <thead>
+                  <tr>
+                    <th>CÓDIGO</th>
+                    <th>DESCRIÇÃO</th>
+                    <th>NOME</th>
+                    <th>VALOR</th>
+                    <th>DATA</th>
+                    <th style="width: 10%">Ações</th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  {% for dizimo in dizimos %}
+                    <tr>
+                      <td>código</td><!--Valor-->
+                      <td>
+                        {% if dizimo.membro.cargo == "Mb" %}
+                          Membro
+                        {% elif dizimo.membro.cargo == "A" %}
+                          Auxiliar
+                        {% elif dizimo.membro.cargo == "C" %}
+                          Congregado
+                        {% elif dizimo.membro.cargo == "Cr" %}
+                          Crianças
+                        {% elif dizimo.membro.cargo == "Da" %}
+                          Diaconisa
+                        {% elif dizimo.membro.cargo == "D" %}
+                          Diácono
+                        {% elif dizimo.membro.cargo == "E" %}
+                          Evangelista
+                        {% elif dizimo.membro.cargo == "J" %}
+                          Jovem
+                        {% elif dizimo.membro.cargo == "Mi" %}
+                          Missionário(a)
+                        {% elif dizimo.membro.cargo == "Pr" %}
+                          Pastor
+                        {% elif dizimo.membro.cargo == "P" %}
+                          Presbítero
+                        {% endif %}
+                      </td>
+                      <td>{{ dizimo.membro.nome }}</td><!--membro-->
+                      <td>R$ {{ dizimo.valor }}</td><!--Valor-->
+                      <td>{{ dizimo.data_dizimo|date:"d/m/Y" }}</td><!--data-->
+                      
+                      
+                      <td>
+                        <div class="form-button-action">
+                          
+                          <form action="" method="POST" style="display:inline;">
+                            <a href="{% url 'editar_dizimo' dizimo.id %}">
                             <button
                               type="button"
-                              class="close"
-                              data-dismiss="modal"
-                              aria-label="Close"
+                              title="Editar"
+                              class="dropdown-item"
+                              data-original-title="Edit Task"
                             >
-                              <span aria-hidden="true">&times;</span>
+                            <i class="fa fa-edit"></i>
                             </button>
-                          </div>
-                          <div class="modal-body">
-                              <form class="row g-3" action="{% url 'dizimos' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                                <div class="col-md-4">
-                                  <label for="valor" class="form-label">Valor</label>
-                                  <input type="number" class="form-control" id="valor" step="0.01" name="valor" required>
-                                </div>
-                                <div class="col-md-10">
-                                  <label for="membro" class="form-label">Nome do Membro</label>
-                                  <select id="membro" name="membro"class="form-select">
-                                    <option selected>Selecione...</option>
-                                    {% for membro in membros %}
-                                      <option value="{{ membro.id }}">{{ membro.nome }}</option>
-                                    {% endfor %}
-                                  </select>
-                                </div>
-                                
-                                <div class="modal-footer border-0">
-                                  <button type="submit" id="salvarRowButton" class="btn btn-primary">
-                                    Salvar
-                                  </button>
-                                  
-                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                    Cancelar
-                                  </button>
-                                </div>
-                              </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-
-                    <div class="table-responsive">
-                      <table
-                        id="add-row"
-                        class="display table table-striped table-hover"
-                      >
-                      {% if messages %}
-                                        <br>
-                                        {% for message in messages %}
-                                            <div class="alert {{message.tags}}">
-                                                {{message}}
-                                            </div>
-                                        {% endfor %}
-                                {% endif %}
-                        <thead>
-                          <tr>
-                            <th>Valor</th>
-                            <th>Membro</th>
-                            <th>CPF</th>
-                            <th>Data</th>
-                            <th style="width: 10%">Ações</th>
-                          </tr>
-                        </thead>
-                        <tfoot>
-                          <tr>
-                            <th>Valor</th>
-                            <th>Membro</th>
-                            <th>CPF</th>
-                            <th>Data</th>
-                            <th>Ações</th>
-                          </tr>
-                        </tfoot>
-                        <tbody>
-                          {% for dizimo in dizimos %}
-                            <tr>
-                              <td>R$ {{ dizimo.valor }}</td><!--Valor-->
-                              <td>{{ dizimo.membro.nome }}</td><!--membro-->
-                              <td>{{dizimo.membro.cpf}}</td><!--CPF-->
-                              <td>{{ dizimo.data_dizimo|date:"d/m/Y" }}</td><!--data-->
-                              
-                              
-                              <td>
-                                <div class="form-button-action">
-
-                                  <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Ações     
-                                  </button>
-                                  <ul class="dropdown-menu " aria-labelledby="btnGroupDrop1">
-                                    
-                                    <li>
-                                      <form action="" method="POST" style="display:inline;">
-                                        <a href="{% url 'editar_dizimo' dizimo.id %}">
-                                        <button
-                                          type="button"
-                                          title="Editar"
-                                          class="dropdown-item"
-                                          data-original-title="Edit Task"
-                                        >
-                                        <i class="fa fa-edit"></i>  Editar
-                                        </button>
-                                      </a>
-                                    </form>
-                                    </li>
-                                    <li>
-                                  <!-- Botão de exclusão com alerta de confirmação -->
-                                  <form action="{% url 'excluir_dizimo' dizimo.id %}" method="POST" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button 
-                                      type="submit" 
-                                      class="dropdown-item btn-danger text-white" 
-                                      onclick="return confirm('Tem certeza que deseja excluir este dízimo?')">
-                                      <i class="fa fa-times"></i> Excluir
-                                    </button>
-                                  </form>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </td>
-                            </tr>
                             
-                    <!--Modal informações do membro-->
+                          </a>
+                        </form>
+                        <!-- Botão de exclusão com alerta de confirmação -->
+                        <form action="{% url 'excluir_dizimo' dizimo.id %}" method="POST" style="display:inline;">
+                          {% csrf_token %}
+                          <button 
+                            type="submit" 
+                            class="dropdown-item ms-2 text-danger" 
+                            onclick="return confirm('Tem certeza que deseja excluir este dízimo?')">
+                            <i class="fa fa-times"></i> 
+                          </button>
+                        </form>
+                        </div>
+                      </td>
+                    </tr>
+                    
+            <!--Modal informações do membro-->
                   <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -188,19 +193,20 @@
                         </tbody>
                         
                       </table>
-                      <div class="alert alert-info">
-                        <strong>{{ data_atual|date:"F" }} - {{ data_atual|date:"d/m/Y" }}</strong> 
-                        <br/>Saldo: R$ {{ total_dizimos|floatformat:2 }}
-                      </div>
+                      
                     </div>
+                    
                   </div>
+                  
                 </div>
+                <div class="alert alert-success col-md-2" role="alert">
+                  <i class="fas fa-file-invoice-dollar"></i> Total mes de {{ data_atual|date:"F" }} = <strong>R$ {{ total_dizimos|floatformat:2 }}</strong>
+           </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      
     
     <!-- jQuery Scrollbar --> 
     <script src="{% static 'geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js'%}"></script>

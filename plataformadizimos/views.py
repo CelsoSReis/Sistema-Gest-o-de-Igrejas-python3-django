@@ -21,7 +21,6 @@ def dizimos(request):
 
         messages.success(request, "Dízimo registrado com sucesso!")
         return redirect("/dizimos/")
-
     # Obtém a data atual
     data_atual = datetime.now()
     mes_atual = data_atual.month
