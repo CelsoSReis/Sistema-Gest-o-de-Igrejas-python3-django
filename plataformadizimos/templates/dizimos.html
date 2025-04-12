@@ -5,23 +5,18 @@
 {% endblock 'head' %}
 {% block 'conteudo' %}
   
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="d-flex align-items-center">
-              <h4 class="card-title">Dízimos</h4>
-                <button
-                  class="btn btn-primary btn-sm ms-auto"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addRowModal"
-                >
-                  <i class="fa fa-plus"></i>
-                  Novo Dízimo
-                </button>
-                <a href="{% url 'pagina_relatorio_dizimos' %}" class="btn btn-secondary ms-2 btn-sm"><i class="fas fa-address-card"></i> Relatório de Dizimistas</a>
-
-            </div>
-          </div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex align-items-center">
+        <h4 class="card-title">Dízimos</h4>
+        <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#addRowModal">
+          <i class="fa fa-plus"></i> Novo Dízimo
+        </button>
+        <a href="{% url 'pagina_relatorio_dizimos' %}" class="btn btn-secondary ms-2 btn-sm"><i class="fas fa-address-card"></i> Relatório de Dizimistas</a>
+        <a href="{% url 'controle_financeiro' %}" class="btn btn-danger ms-2 btn-sm"><i class="fas fa-arrow-left"></i> Voltar</a>
+      </div>
+    </div>
         <div class="card-body">
             <!-- Modal Novo Dízimo-->
             <div class="modal fade modal-lg" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -147,10 +142,11 @@
                         <form action="{% url 'excluir_dizimo' dizimo.id %}" method="POST" style="display:inline;">
                           {% csrf_token %}
                           <button 
-                            type="submit" 
-                            class="dropdown-item ms-2 text-danger" 
+                            type="submit"
+                            title="Excluir" 
+                            class="dropdown-item ms-3 text-danger" 
                             onclick="return confirm('Tem certeza que deseja excluir este dízimo?')">
-                            <i class="fa fa-times"></i> 
+                            <i class="fas fa-trash-alt"></i> 
                           </button>
                         </form>
                         </div>
@@ -199,13 +195,13 @@
                   </div>
                   
                 </div>
-                <div class="alert alert-success col-md-2" role="alert">
-                  <i class="fas fa-file-invoice-dollar"></i> Total mes de {{ data_atual|date:"F" }} = <strong>R$ {{ total_dizimos|floatformat:2 }}</strong>
+                <div class="alert alert-success col-md-3" role="alert">
+                  <i class="fas fa-file-invoice-dollar"></i> Total mensal em  {{ data_atual|date:"F" }} = <strong>R$ {{ total_dizimos|floatformat:2 }}</strong>
            </div>
               </div>
             </div>
           </div>
-        </div>
+      </div>
       
     
     <!-- jQuery Scrollbar --> 

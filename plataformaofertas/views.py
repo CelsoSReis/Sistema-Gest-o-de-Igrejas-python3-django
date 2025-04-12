@@ -33,6 +33,7 @@ def ofertas(request):
     mes_atual = datetime.now().month
     ano_atual = datetime.now().year
 
+
     # Filtra as ofertas do mês atual
     ofertas = Oferta.objects.filter(
         pastor=request.user,
@@ -48,6 +49,8 @@ def ofertas(request):
         "total_ofertas": total_ofertas,
         "data_atual": data_atual
     })
+
+
 
 # Excluir ofertas
 

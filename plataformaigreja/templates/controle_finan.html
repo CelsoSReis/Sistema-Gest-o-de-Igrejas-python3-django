@@ -4,187 +4,120 @@
 <title>Reisweb | Controle Financeiro</title>
 {% endblock 'head' %}
 {% block 'conteudo' %}
-    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-      <div>
-        <h3 class="fw-bold mb-3">Controle Financeiro</h3>
-        <h6 class="op-7 mb-2"></h6>
+<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+  <div>
+    <h3 class="fw-bold mb-3">Controle Financeiro</h3>
+    <h6 class="op-7 mb-2"></h6>
+  </div>
+  <div class="ms-md-auto py-2 py-md-0">
+    <!--<a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
+    <a href="#" class="btn btn-primary btn-round">Add Customer</a>-->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-primary card-round">
+      <a href="{% url 'dizimos' %}">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <h4 class="card-title">Dízimos</h4>
+                <!--<p class="card-category">01/04/2025</p>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-secondary card-round">
+      <a href="{% url 'ofertas' %}">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <h4 class="card-title">Ofertas</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-success card-round">
+      <a href="#">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <h6 class="card-title">Entradas</h6>
+                <p class="text-danger">EM BREVE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+    
+  <div class="col-sm-6 col-md-3">
+    <div class="card card-stats card-danger card-round">
+      <a href="{% url 'todas_contas' %}">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <h4 class="card-title">Saídas</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<!--Final Row CARDS-->
+
+<!-- GRÁFICOS -->
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Receita / Despesas</div>
       </div>
-      <div class="ms-md-auto py-2 py-md-0">
-        <!--<a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-        <a href="#" class="btn btn-primary btn-round">Add Customer</a>-->
+      <div class="card-body">
+        <div class="chart-container">
+          <canvas id="multipleLineChart"></canvas>
+        </div>
       </div>
     </div>
-
-    <div class="row">
-
-      <div class="col-sm-6 col-md-3">
-        <div class="card card-stats card-primary card-round">
-          <a href="{% url 'dizimos' %}">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="fas fa-users"></i>
-                </div>
-              </div>
-              <div class="col-7 col-stats">
-                <div class="numbers">
-                  <p class="card-category">Dízimos</p>
-                  <h4 class="card-title">01/04/2025</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="col-sm-6 col-md-3">
-        <div class="card card-stats card-secondary card-round">
-          <a href="tables/tableofertas.html">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-5">
-                  <div class="icon-big text-center">
-                    <i class="fas fa-users"></i>
-                  </div>
-                </div>
-                <div class="col-7 col-stats">
-                  <div class="numbers">
-                    <p class="card-category">Ofertas</p>
-                    <h4 class="card-title">01/04/2025</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="col-sm-6 col-md-3">
-        <div class="card card-stats card-danger card-round">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-5">
-                <div class="icon-big text-center">
-                  <i class="fas fa-chart-pie"></i>
-                </div>
-              </div>
-              <div class="col-7 col-stats">
-                <div class="numbers">
-                  <p class="card-category">Despesas</p>
-                  <h4 class="card-title">R$ 0,00</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!--Final Row CARDS-->
-
-    <!-- GRÁFICOS -->
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Multiple Line Chart</div>
-          </div>
-          <div class="card-body">
-            <div class="chart-container">
-              <canvas id="multipleLineChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-          
+  </div>
+</div>  
         
-
-       
-    <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
-    <!-- Chart JS -->
-    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
-    <!-- jQuery Scrollbar -->
-    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-    <!-- Kaiadmin JS 
-    <script src="assets/js/kaiadmin.min.js"></script>
-     Kaiadmin DEMO methods, don't include it in your project! 
-    <script src="../assets/js/setting-demo2.js"></script>-->
-    <script>
-      var multipleLineChart = document
-          .getElementById("multipleLineChart")
-          .getContext("2d")
-
-      var myMultipleLineChart = new Chart(multipleLineChart, {
-        type: "line",
-        data: {
-          labels: [
-            "Jan",
-            "Fev",
-            "Mar",
-            "Abr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Ago",
-            "Set",
-            "Out",
-            "Nov",
-            "Dez",
-          ],
-          datasets: [
-            {
-              label: "Entradas",
-              borderColor: "#1d7af3",
-              pointBorderColor: "#FFF",
-              pointBackgroundColor: "#1d7af3",
-              pointBorderWidth: 2,
-              pointHoverRadius: 4,
-              pointHoverBorderWidth: 1,
-              pointRadius: 4,
-              backgroundColor: "transparent",
-              fill: true,
-              borderWidth: 2,
-              data: [30, 45, 45, 68, 69, 90, 100, 158, 177, 200, 245, 256],
-            },
-            {
-              label: "Saídas",
-              borderColor: "#f3545d",
-              pointBorderColor: "#FFF",
-              pointBackgroundColor: "#f3545d",
-              pointBorderWidth: 2,
-              pointHoverRadius: 4,
-              pointHoverBorderWidth: 1,
-              pointRadius: 4,
-              backgroundColor: "transparent",
-              fill: true,
-              borderWidth: 2,
-              data: [10, 30, 58, 79, 90, 105, 117, 160, 185, 210, 185, 194],
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          legend: {
-            position: "top",
-          },
-          tooltips: {
-            bodySpacing: 4,
-            mode: "nearest",
-            intersect: 0,
-            position: "nearest",
-            xPadding: 10,
-            yPadding: 10,
-            caretPadding: 10,
-          },
-          layout: {
-            padding: { left: 15, right: 15, top: 15, bottom: 15 },
-          },
-        },
-      });
-    </script> 
 {% endblock %}

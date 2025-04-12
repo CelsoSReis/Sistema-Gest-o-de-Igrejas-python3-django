@@ -4,21 +4,19 @@
     
 {% endblock 'head' %}
 {% block 'conteudo' %}
-  <div class="container">
-    <div class="page-inner">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="d-flex align-items-center">
               <h4 class="card-title">Ofertas</h4>
-                <button
-                  class="btn btn-success btn-sm ms-auto"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalOferta"
-                >
-                  <i class="fa fa-plus"></i>
-                  Adicionar Oferta
+                <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modalOferta">
+                  <i class="fa fa-plus"></i>Adicionar Oferta
                 </button>
+                <button class="btn btn-secondary ms-2 btn-sm" data-bs-toggle="modal"
+                  data-bs-target="#"><i class="fa fa-address-card"></i>
+                    Relatório de Ofertas
+                </button>
+                <a href="{% url 'controle_financeiro' %}" class="btn btn-danger ms-2 btn-sm"><i class="fas fa-arrow-left"></i> Voltar</a>
             </div>
           </div>
         <div class="card-body">
@@ -105,38 +103,30 @@
                                 <td>{{ oferta.descricao }}</td>  <!-- Atualizado para "Descrição" -->                             
                             <td>
                                 <div class="form-button-action">
-
-                                  <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Ações     
-                                  </button>
-                                  <ul class="dropdown-menu " aria-labelledby="btnGroupDrop1">
-                                    <li>
-                                      <form action="" method="POST" style="display:inline;">
-                                        <a href="{% url 'editar_oferta' oferta.id %}">
-                                          <button
-                                            type="button"
-                                            title="Editar"
-                                            class="dropdown-item"
-                                            data-original-title="Edit Task"
-                                          >
-                                          <i class="fa fa-edit"></i> Editar
-                                          </button>
-                                        </a>
-                                      </form>
-                                    </li>
-                                    <li>
+                                  <form action="" method="POST" style="display:inline;">
+                                    <a href="{% url 'editar_oferta' oferta.id %}">
+                                      <button
+                                        type="button"
+                                        title="Editar"
+                                        class="dropdown-item"
+                                        data-original-title="Edit Task"
+                                      >
+                                      <i class="fa fa-edit"></i>
+                                      </button>
+                                    </a>
+                                  </form>
                                   <!-- Botão de exclusão com alerta de confirmação -->
                                   <form action="{% url 'excluir_oferta' oferta.id %}" method="POST" style="display:inline;">
                                     {% csrf_token %}
                                     <button 
                                       type="submit" 
-                                      class="dropdown-item btn-danger text-white" 
+                                      class="dropdown-item ms-3 text-danger" 
                                       onclick="return confirm('Tem certeza que deseja excluir esta oferta?')">
-                                      <i class="fa fa-times"></i> Excluir
+                                      <i class="fas fa-trash-alt"></i>
                                     </button>
                                   </form>
-                                    </li>
-                                  </ul>
+                                  
+                                  
                                 </div>
                               </td>
                             </tr>
@@ -177,20 +167,18 @@
                         </tbody>
                         
                       </table>
-                      <div class="alert alert-info">
-                        <!-- Exibe a data atual -->
-                        <p>Data Atual: {{ data_atual }}</p>
-                        <p>Total de Ofertas do Mês: R$ {{ total_ofertas }}</p>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
+                <div class="alert alert-success col-md-2" role="alert">
+                  <i class="fas fa-file-invoice-dollar"></i> Total mês= <strong>R$ {{ total_ofertas|floatformat:2 }}</strong>
+           </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      
     
     <!-- jQuery Scrollbar --> 
     <script src="{% static 'geral/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
