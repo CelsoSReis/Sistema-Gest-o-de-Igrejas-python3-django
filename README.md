@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Django](https://img.shields.io/badge/Django-4.1%2B-green)
 
-O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Django para gerenciar membros, dízimos, eventos e outras atividades relacionadas à administração de uma igreja. Este sistema foi projetado em para facilitar o controle de informações e melhorar a organização da igreja.
+O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida utilizando python e Django para gerenciar membros, dízimos, eventos e outras atividades relacionadas à administração de uma igreja. Este sistema foi projetado em para facilitar o controle de informações e melhorar a organização da igreja.
 
 ---
 
@@ -58,9 +58,9 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ### Pré-requisitos
 
-  - Python 3.8 ou superior instalado.
-  - Pip (gerenciador de pacotes do Python).
-  - Git (opcional, para clonar o repositório).
+    - Python 3.8 ou superior instalado.
+    - Pip (gerenciador de pacotes do Python).
+    - Git (opcional, para clonar o repositório).
 
 ### Passos para Instalação
 
