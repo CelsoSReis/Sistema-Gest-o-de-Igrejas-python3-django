@@ -36,21 +36,21 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Backend**:
-  - Python 3.8+
-  - Django 4.1+
-
-- **Frontend**:
-  - HTML5, CSS3, JavaScript
-  - Bootstrap 4.5+
-
-- **Banco de Dados**:
-  - SQLite (para desenvolvimento)
-  - PostgreSQL (para produção)
-
-- **Outras Ferramentas**:
-  - ReportLab (para geração de PDFs)
-  - Django REST Framework (para futuras APIs)
+    - **Backend**:
+      - Python 3.8+
+      - Django 4.1+
+    
+    - **Frontend**:
+      - HTML5, CSS3, JavaScript
+      - Bootstrap 4.5+
+    
+    - **Banco de Dados**:
+      - SQLite (para desenvolvimento)
+      - PostgreSQL (para produção)
+    
+    - **Outras Ferramentas**:
+      - ReportLab (para geração de PDFs)
+      - Django REST Framework (para futuras APIs)
 
 ---
 
@@ -58,9 +58,9 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ### Pré-requisitos
 
-- Python 3.8 ou superior instalado.
-- Pip (gerenciador de pacotes do Python).
-- Git (opcional, para clonar o repositório).
+    - Python 3.8 ou superior instalado.
+    - Pip (gerenciador de pacotes do Python).
+    - Git (opcional, para clonar o repositório).
 
 ### Passos para Instalação
 
@@ -79,7 +79,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
    pip install -r requirements.txt
 
 4. **Configure o banco de dados**:
-
+   ```bash
    - O projeto usa SQLite por padrão. Para usar outro banco de dados, configure o arquivo settings.py.
 
 5. **Execute as migrações**:
@@ -102,24 +102,24 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ###  Painel Administrativo
 
-  - Acesse o painel administrativo em http://127.0.0.1:8000/admin/.
-  - Use as credenciais do superusuário criado anteriormente.
+    - Acesse o painel administrativo em http://127.0.0.1:8000/admin/.
+    - Use as credenciais do superusuário criado anteriormente.
 
 ###  Gestão de Membros
 
-  - Acesse a lista de membros em http://127.0.0.1:8000/membros/.
+    - Acesse a lista de membros em http://127.0.0.1:8000/membros/.
 
-  -  Adicione, edite ou exclua membros conforme necessário.
+    -  Adicione, edite ou exclua membros conforme necessário.
 
 ###  Registro de Dízimos
 
-  -  Acesse a página de registro de dízimos em http://127.0.0.1:8000/dizimos/registrar/.
+    -  Acesse a página de registro de dízimos em http://127.0.0.1:8000/dizimos/registrar/.
 
-  -  Preencha o formulário para registrar um novo dízimo.
+    -  Preencha o formulário para registrar um novo dízimo.
 
 ###  Geração de Carteirinhas
 
-  -  Na lista de membros, clique em "Gerar Carteirinha" ao lado de um membro para gerar um PDF com os detalhes.
+    -  Na lista de membros, clique em "Gerar Carteirinha" ao lado de um membro para gerar um PDF com os detalhes.
 
 ### 📂  Estrutura do Projeto
     
@@ -141,14 +141,15 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
     └── README.md
 
 ### 📄  Licença
-  Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
+     Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
 
 ### 📌  Observações
-  - O projeto está em desenvolvimento e pode conter funcionalidades em fase de testes.
-  - Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+
+    - O projeto está em desenvolvimento e pode conter funcionalidades em fase de testes.
+    - Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
 
 ### 📬  Contato
-  -  **Autor:** Celso Reis
-  -  **Email:** celsosr87@gmail.com
-  -  **LinkedIn:** https://www.linkedin.com/in/celso-reis/
-  -  **Wathsapp:** +55 62 9 8626-3012
+    -  **Autor:** Celso Reis
+    -  **Email:** celsosr87@gmail.com
+    -  **LinkedIn:** https://www.linkedin.com/in/celso-reis/
+    -  **Wathsapp:** +55 62 9 8626-3012
