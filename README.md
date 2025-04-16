@@ -123,23 +123,31 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ###  Estrutura do Projeto
     
-    gestao-igrejas/
-    ├── core/                     # Configurações principais do Django
-    ├── membros/                  # App para gestão de membros
-    │   ├── models.py             # Modelos de dados (Membros, Dízimos, etc.)
-    │   ├── views.py              # Lógica das views
-    │   ├── templates/            # Templates HTML
-    │   └── ...
-    ├── templates/                # Templates globais (base.html, etc.)
-    ├── static/                   # Arquivos estáticos (CSS, JS, imagens)
-    ├── manage.py                 # Script de gerenciamento do Django
-    └── requirements.txt          # Lista de dependências do projeto
+    ├── gestigreja/
+    ├── igreja/
+    ├── media/
+    ├── plataformacontas/
+    ├── plataformadizimos/
+    ├── plataformadocumentos/
+    ├── plataformaigreja/
+    ├── plataformaofertas/
+    ├── plataformarelatorios/
+    ├── templates/
+    ├── usuarios/
+    ├── venv/
+    ├── db.sqlite3
+    ├── manage.py
+    ├── requirements.txt
+    └── README.md
 
 ###  Licença
   Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
 
-###  Contato
+###  Observações
+  - O projeto está em desenvolvimento e pode conter funcionalidades em fase de testes.
+  - Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
 
+###  Contato
   -  **Autor:** Celso Reis
   -  **Email:** celsosr87@gmail.com
   -  **LinkedIn:** https://www.linkedin.com/in/celso-reis-ads/
