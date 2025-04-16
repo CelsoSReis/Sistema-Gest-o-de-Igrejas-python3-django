@@ -58,9 +58,9 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida utilizan
 
 ### Pré-requisitos
 
-    - Python 3.8 ou superior instalado.
-    - Pip (gerenciador de pacotes do Python).
-    - Git (opcional, para clonar o repositório).
+  - Python 3.8 ou superior instalado.
+  - Pip (gerenciador de pacotes do Python).
+  - Git (opcional, para clonar o repositório).
 
 ### Passos para Instalação
 
