@@ -21,8 +21,8 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
   - Geração de Relatórios detalhados.
 
 - **Eventos**:
-  - Cadastro e gerenciamento de eventos da igreja.
-  - Listagem de eventos com datas e descrições.
+  - Criação e gerenciamento de eventos da igreja.
+  - Listagem de eventos por datas e descrições.
 
 - **Relatórios**:
   - Geração de relatórios de dízimos por período.
