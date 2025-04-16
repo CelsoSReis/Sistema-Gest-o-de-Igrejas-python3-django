@@ -74,10 +74,9 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
    python -m venv venv
    source venv/bin/activate  # No Windows: venv\Scripts\activate
 
-3. **Crie um ambiente virtual (recomendado)**:
+3. **Instale Dependências**:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # No Windows: venv\Scripts\activate
+   pip install -r requirements.txt
 
 4. **Configure o banco de dados**:
 
