@@ -15,7 +15,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
   - Visualização de detalhes dos membros.
   - Geração de carteirinhas em PDF.
 
-- **Registro de Dízimos**:
+- **Controle Financeiro**:
   - Registro de dízimos com valor, data e membro associado.
   - Listagem de todos os dízimos registrados.
 
