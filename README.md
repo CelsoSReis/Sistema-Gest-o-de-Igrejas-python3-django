@@ -13,6 +13,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 - **Gestão de Membros**:
   - Cadastro, edição e exclusão de membros.
   - Visualização de detalhes dos membros.
+  - Transferência de Membros
   - Geração de carteirinhas em PDF.
 
 - **Controle Financeiro**:
@@ -24,9 +25,9 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
   - Criação e gerenciamento de eventos da igreja.
   - Listagem de eventos por datas e descrições.
 
-- **Relatórios**:
-  - Geração de relatórios de dízimos por período.
-  - Relatórios de membros ativos.
+- **Documentos**:
+  - Armazenamento e organização de documentos importantes da igreja
+  - Geração de ofícios e cartas de transferência
 
 - **Autenticação e Permissões**:
   - Sistema de login e logout.
