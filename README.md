@@ -54,7 +54,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ---
 
-## Como Executar o Projeto
+## Instalação
 
 ### Pré-requisitos
 
