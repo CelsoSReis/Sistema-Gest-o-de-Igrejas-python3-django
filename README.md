@@ -150,4 +150,5 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 ###  Contato
   -  **Autor:** Celso Reis
   -  **Email:** celsosr87@gmail.com
-  -  **LinkedIn:** https://www.linkedin.com/in/celso-reis-ads/
+  -  **LinkedIn:** https://www.linkedin.com/in/celso-reis/
+  -  **Wathsapp:** +55 62 9 8626-3012
