@@ -8,7 +8,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ---
 
-##✅ Funcionalidades Principais
+## ✅ Funcionalidades Principais
 
 - **Gestão de Membros**:
   - Cadastro, edição e exclusão de membros.
@@ -34,7 +34,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ---
 
-##🛠️ Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
 - **Backend**:
   - Python 3.8+
@@ -54,7 +54,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
 ---
 
-## 🚀Instalação
+## 🚀 Instalação
 
 ### Pré-requisitos
 
@@ -121,7 +121,7 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
 
   -  Na lista de membros, clique em "Gerar Carteirinha" ao lado de um membro para gerar um PDF com os detalhes.
 
-###📂  Estrutura do Projeto
+### 📂  Estrutura do Projeto
     
     ├── gestigreja/
     ├── igreja/
@@ -140,14 +140,14 @@ O **Sistema de Gestão de Igrejas** é uma aplicação web desenvolvida em Djang
     ├── requirements.txt
     └── README.md
 
-###📄  Licença
+### 📄  Licença
   Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
 
-###📌  Observações
+### 📌  Observações
   - O projeto está em desenvolvimento e pode conter funcionalidades em fase de testes.
   - Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
 
-###📬  Contato
+### 📬  Contato
   -  **Autor:** Celso Reis
   -  **Email:** celsosr87@gmail.com
   -  **LinkedIn:** https://www.linkedin.com/in/celso-reis/
