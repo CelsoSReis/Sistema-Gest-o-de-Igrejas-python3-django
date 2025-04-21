@@ -7,11 +7,11 @@ from reportlab.lib import colors
 from datetime import datetime
 from plataformadizimos.models import Dizimos
 from plataformaigreja.models import Membros
+from igreja.models import Igreja
 from plataformacontas.models import ContaPagar
 from django.core.files.storage import default_storage
 from io import BytesIO
 import os
-
 
 @login_required(login_url='/usuarios/login')
 def visualizar_relatorio_membros(request):
@@ -19,49 +19,76 @@ def visualizar_relatorio_membros(request):
     membros = Membros.objects.filter(pastor=request.user).order_by("nome")
     return render(request, 'relatorio_membros.html', {'membros': membros})
 
-def desenhar_cabecalho(c, titulo):
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(200, 800, titulo)
-    c.line(50, 790, 550, 790)  # Linha horizontal abaixo do título
+def desenhar_cabecalho(c, titulo, logo_path=None):
+    if logo_path and os.path.exists(logo_path):
+        try:
+            c.drawImage(logo_path, 50, 790, width=50, height=40, mask='auto')
+        except Exception as e:
+            print(f"Erro ao carregar imagem do cabeçalho: {e}")
 
-def desenhar_tabela_membros(c, membros):
-    x_inicial, y_inicial = 50, 750
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(220, 800, titulo)
+    c.line(50, 790, 550, 790)
+
+
+def desenhar_titulos_tabela(c, x_inicial, y_atual):
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(x_inicial, y_atual, "Nome")
+    c.drawString(x_inicial + 200, y_atual, "Email")
+    c.drawString(x_inicial + 370, y_atual, "Telefone")
+
+def desenhar_tabela_membros(c, membros, logo_path=None):
+    x_inicial, y_inicial = 50, 770
     espacamento_linha = 20
-    
+
     c.setFont("Helvetica-Bold", 12)
     c.drawString(x_inicial, y_inicial, "Nome")
     c.drawString(x_inicial + 200, y_inicial, "Email")
-    c.drawString(x_inicial + 350, y_inicial, "Telefone")
-    
+    c.drawString(x_inicial + 370, y_inicial, "Telefone")
+
     c.setFont("Helvetica", 10)
     y_atual = y_inicial - espacamento_linha
-    
+
     for membro in membros:
-        c.drawString(x_inicial, y_atual, membro.nome[:25])  # Nome truncado para caber
-        c.drawString(x_inicial + 200, y_atual, membro.email[:30])  # Email truncado
-        c.drawString(x_inicial + 350, y_atual, membro.telefone)
+        c.drawString(x_inicial, y_atual, membro.nome[:40])
+        c.drawString(x_inicial + 200, y_atual, membro.email[:30])
+        c.drawString(x_inicial + 370, y_atual, membro.telefone)
         y_atual -= espacamento_linha
-        
-        if y_atual < 50:  # Quebra de página se necessário
+
+        if y_atual < 50:
             c.showPage()
-            desenhar_cabecalho(c, "Relatório de Membros")
+            desenhar_cabecalho(c, "Relatório de Membros", logo_path)
+            # Redesenha o cabeçalho da tabela na nova página
+            c.setFont("Helvetica-Bold", 12)
+            c.drawString(x_inicial, y_inicial, "Nome")
+            c.drawString(x_inicial + 200, y_inicial, "Email")
+            c.drawString(x_inicial + 370, y_inicial, "Telefone")
+            c.setFont("Helvetica", 10)
             y_atual = y_inicial - espacamento_linha
 
 @login_required(login_url='/usuarios/login')
 def gerar_relatorio_membros(request):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="relatorio_membros.pdf"'
-    
+
     c = canvas.Canvas(response, pagesize=A4)
-    desenhar_cabecalho(c, "Relatório de Membros")
-    
+
+    # Pega logo da igreja
+    logo_path = None
+    igreja = Igreja.objects.filter(pastor=request.user).first()
+    if igreja and igreja.logo:
+        logo_path = igreja.logo.path
+
+    # Cabeçalho da primeira página
+    desenhar_cabecalho(c, "Relatório de Membros", logo_path)
+
+    # Tabela com membros em múltiplas páginas
     membros = Membros.objects.filter(pastor=request.user).order_by("nome")
-    desenhar_tabela_membros(c, membros)
-    
-    c.showPage()
+    desenhar_tabela_membros(c, membros, logo_path)
+
     c.save()
-    
     return response
+
 
 @login_required(login_url='/usuarios/login')
 def gerar_relatorio_dizimos(request):
