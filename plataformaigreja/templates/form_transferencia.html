@@ -1,0 +1,12 @@
+<h2>Transferir {{ membro.nome }}</h2>
+<form method="POST">
+  {% csrf_token %}
+  <label>Escolha a igreja de destino:</label>
+  <select name="igreja_destino" class="form-control">
+    {% for igreja in igrejas %}
+      <option value="{{ igreja.id }}">{{ igreja.nome }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <button type="submit" class="btn btn-primary">Confirmar Transferência</button>
+</form>

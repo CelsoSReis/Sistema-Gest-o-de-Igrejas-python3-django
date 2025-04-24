@@ -29,6 +29,13 @@ class Membros(models.Model):
         User, 
         on_delete=models.CASCADE
     )
-
+    nome_igreja = models.ForeignKey('igreja.Igreja', on_delete=models.CASCADE, null=True, blank=True)
+    ativo = models.BooleanField(default=True)
     def __str__(self):
         return self.nome
+
+class Transferencia(models.Model):
+    membro = models.ForeignKey(Membros, on_delete=models.CASCADE)
+    igreja_origem = models.ForeignKey('igreja.Igreja', related_name='igreja_origem', on_delete=models.CASCADE)
+    igreja_destino = models.ForeignKey('igreja.Igreja', related_name='igreja_destino', on_delete=models.CASCADE)
+    data_transferencia = models.DateTimeField(auto_now_add=True)

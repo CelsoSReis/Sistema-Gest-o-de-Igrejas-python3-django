@@ -34,6 +34,8 @@
                     </thead>
               
                     <tbody>
+
+
                         {% for membro in membros %}
                         <tr>
                             <td>{{membro.nome}}</td>
@@ -66,22 +68,7 @@
                             {% endif %}
                             </td>
                             <td>                
-                                <button id="btnGroupDrop1" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ações     
-                                </button>
-                                <ul class="dropdown-menu " aria-labelledby="btnGroupDrop1">
-                                    <li><a class="dropdown-item btn-light" href="{% url 'editar_membro' membro.id %}"><i class="fa fa-edit"></i> Editar</a></li>
-                                    <li><a class="dropdown-item btn-light" href="{% url 'detalhes_membro' membro.id %}"><i class="fa fa-info"></i> Dados</a></li>
-                                    <li><a class="dropdown-item btn-light" href="{% url 'exportar_carteirinha_membro' membro.id %}"><i class="fas fa-address-card"></i> Gerar Carteira</a></li>
-                                    <li>
-                                        <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}  
-                                            <button type="submit" class="dropdown-item btn-danger text-white"                                        
-                                                onclick="return confirm('Tem certeza que deseja excluir este membro?');"
-                                            >  <i class="fa fa-times"></i> Excluir                                      
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>                                                        
+                                <a href="{% url 'transferir_membro' membro.id %}" class="btn btn-warning btn-sm">Transferir</a>                                                        
                             </td>
                         </tr>
                         {% endfor %}

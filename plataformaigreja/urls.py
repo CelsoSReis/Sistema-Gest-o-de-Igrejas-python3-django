@@ -13,5 +13,6 @@ urlpatterns = [
     path('selecionar_carteirinhas/', views.selecionar_carteirinhas, name='selecionar_carteirinhas'),
     path('imprimir_carteirinhas/', views.imprimir_carteirinhas, name='imprimir_carteirinhas'),
     path('controle_transf/', views.controle_transf, name='controle_transf'),
+    path('membros/transferir/<int:membro_id>/', views.transferir_membro, name='transferir_membro'),
     path('controle_financeiro', views.controle_financeiro, name='controle_financeiro'),
 ]

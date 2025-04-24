@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import HttpResponse
 from .models import Membros
+from igreja.models import Igreja
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
@@ -14,6 +15,8 @@ from django.core.files.storage import default_storage
 from reportlab.lib.pagesizes import landscape
 from reportlab.lib.pagesizes import letter
 import os
+
+
 
 @login_required(login_url='/usuarios/login')
 def dashboard_igreja(request):
@@ -415,8 +418,8 @@ def imprimir_carteirinhas(request):
 #Controle de transferência de Membros
 @login_required(login_url='/usuarios/login')
 def controle_transf(request):
-    # Renderiza página dashboard
-    return render(request, 'controle_transf.html')
+    membros = Membros.objects.filter(pastor=request.user)
+    return render(request, 'controle_transf.html', {'membros': membros})
 
 #Controle de transferência de Membros
 @login_required(login_url='/usuarios/login')
@@ -424,3 +427,52 @@ def controle_financeiro(request):
     # Renderiza página dashboard
     return render(request, 'controle_finan.html')
 
+
+
+@login_required
+def listar_membros_transferencia(request):
+    membros = Membros.objects.filter(pastor=request.user, ativo=True)
+    return render(request, 'controle_transf.html', {'membros': membros})
+
+@login_required
+def transferir_membro(request, membro_id):
+    membro = get_object_or_404(Membros, id=membro_id, pastor=request.user)
+    igrejas = Igreja.objects.exclude(id=membro.nome_igreja.id)
+
+    if request.method == 'POST':
+        igreja_destino_id = request.POST.get('igreja_destino')
+        igreja_destino = get_object_or_404(nome_Igreja, id=igreja_destino_id)
+
+        # Cria histórico de transferência
+        Transferencia.objects.create(
+            membro=membro,
+            igreja_origem=membro.nome_igreja,
+            igreja_destino=igreja_destino,
+        )
+
+        # Desativa membro
+        membro.ativo = False
+        membro.save()
+
+        return gerar_carta_transferencia_pdf(membro, membro.igreja, igreja_destino)
+
+    return render(request, 'form_transferencia.html', {'membro': membro, 'igrejas': igrejas})
+
+def gerar_carta_transferencia_pdf(membro, igreja_origem, igreja_destino):
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(180, 800, "Carta de Transferência")
+
+    c.setFont("Helvetica", 12)
+    c.drawString(50, 750, f"Declaramos que o membro {membro.nome}")
+    c.drawString(50, 730, f"está sendo transferido da igreja {igreja_origem.nome}")
+    c.drawString(50, 710, f"para a igreja {igreja_destino.nome}.")
+    c.drawString(50, 690, "Que Deus continue abençoando sua caminhada.")
+
+    c.showPage()
+    c.save()
+
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='carta_transferencia.pdf')
