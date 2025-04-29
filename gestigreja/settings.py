@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'plataformarelatorios',
     'plataformadocumentos',
     'igreja',
+    'plataformaTransferencias',
 ]
 
 MIDDLEWARE = [

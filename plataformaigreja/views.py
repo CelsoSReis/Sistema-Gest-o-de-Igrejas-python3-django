@@ -27,6 +27,7 @@ def dashboard_igreja(request):
 def controle_membros(request):
     # Renderiza página dashboard
     return render(request, 'controle_memb.html')
+    
 
 @login_required(login_url='/usuarios/login')
 def membros(request):
@@ -436,43 +437,34 @@ def listar_membros_transferencia(request):
 
 @login_required
 def transferir_membro(request, membro_id):
-    membro = get_object_or_404(Membros, id=membro_id, pastor=request.user)
-    igrejas = Igreja.objects.exclude(id=membro.nome_igreja.id)
+    membro = get_object_or_404(Membro, id=membro_id)
 
     if request.method == 'POST':
-        igreja_destino_id = request.POST.get('igreja_destino')
-        igreja_destino = get_object_or_404(nome_Igreja, id=igreja_destino_id)
+        # Confirma a transferência: deleta o membro
+        membro.delete()
+        return redirect('controle_membros')  # Ou para onde você quiser redirecionar após a transferência
 
-        # Cria histórico de transferência
-        Transferencia.objects.create(
-            membro=membro,
-            igreja_origem=membro.nome_igreja,
-            igreja_destino=igreja_destino,
-        )
-
-        # Desativa membro
-        membro.ativo = False
-        membro.save()
-
-        return gerar_carta_transferencia_pdf(membro, membro.igreja, igreja_destino)
-
-    return render(request, 'form_transferencia.html', {'membro': membro, 'igrejas': igrejas})
-
-def gerar_carta_transferencia_pdf(membro, igreja_origem, igreja_destino):
+    # Se for GET, gera a carta de transferência
     buffer = BytesIO()
-    c = canvas.Canvas(buffer, pagesize=A4)
+    p = canvas.Canvas(buffer)
 
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(180, 800, "Carta de Transferência")
+    texto = f"""
+    Carta de Transferência
 
-    c.setFont("Helvetica", 12)
-    c.drawString(50, 750, f"Declaramos que o membro {membro.nome}")
-    c.drawString(50, 730, f"está sendo transferido da igreja {igreja_origem.nome}")
-    c.drawString(50, 710, f"para a igreja {igreja_destino.nome}.")
-    c.drawString(50, 690, "Que Deus continue abençoando sua caminhada.")
+    Declaramos que {membro.nome} está sendo transferido(a) da igreja {membro.nome_igreja.nome if membro.nome_igreja else 'não especificada'} para outra congregação.
 
-    c.showPage()
-    c.save()
+    Data: _____________
+    """
+
+    p.drawString(100, 750, "Carta de Transferência")
+    p.drawString(100, 700, f"Nome: {membro.nome}")
+    if membro.nome_igreja:
+        p.drawString(100, 675, f"Igreja de origem: {membro.nome_igreja.nome}")
+    else:
+        p.drawString(100, 675, "Igreja de origem: Não especificada")
+    p.drawString(100, 650, "Data: ___________________")
+    p.showPage()
+    p.save()
 
     buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='carta_transferencia.pdf')
+    return FileResponse(buffer, as_attachment=True, filename=f"carta_transferencia_{membro.nome}.pdf")

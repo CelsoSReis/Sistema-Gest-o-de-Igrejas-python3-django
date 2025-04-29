@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from plataformaigreja.models import Membros
+
 
 class Igreja(models.Model):
     nome_igreja = models.CharField(max_length=255, verbose_name="Nome da Igreja", default="Igreja")
