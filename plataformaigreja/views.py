@@ -33,7 +33,7 @@ def controle_membros(request):
 def membros(request):
     if request.method == "GET":
         # Busca membros do pastor logado
-        membros = Membros.objects.filter(pastor=request.user)
+        membros = Membros.objects.filter(pastor=request.user, ativo=True)
         total_membros = membros.count()  # Conta os membros daquele pastor
 
         return render(request, 'membros.html', {
@@ -257,7 +257,7 @@ def exportar_todas_carteirinhas(request):
     """Gera um PDF com todas as carteirinhas (8 por página, 4 linhas x 2 colunas)."""
     
     # Busca todos os membros cadastrados pelo usuário logado
-    membros = Membros.objects.filter(pastor=request.user)
+    membros = Membros.objects.filter(pastor=request.user, ativo=True)
 
     # Se não houver membros, retorna erro
     if not membros.exists():
@@ -332,7 +332,7 @@ def exportar_todas_carteirinhas(request):
 @login_required(login_url='/usuarios/login')
 def selecionar_carteirinhas(request):
     """Página para selecionar quais carteirinhas imprimir (exibe apenas os membros cadastrados pelo usuário)."""
-    membros = Membros.objects.filter(pastor=request.user)  # Filtra pelo usuário logado
+    membros = Membros.objects.filter(pastor=request.user, ativo=True)  # Filtra pelo usuário logado
     return render(request, 'selecionar_carteirinhas.html', {'membros': membros})
 
 @login_required(login_url='/usuarios/login')
@@ -419,16 +419,14 @@ def imprimir_carteirinhas(request):
 #Controle de transferência de Membros
 @login_required(login_url='/usuarios/login')
 def controle_transf(request):
-    membros = Membros.objects.filter(pastor=request.user)
+    membros = Membros.objects.filter(pastor=request.user, ativo=True)
     return render(request, 'controle_transf.html', {'membros': membros})
 
-#Controle de transferência de Membros
+#Controle de Financeiro
 @login_required(login_url='/usuarios/login')
 def controle_financeiro(request):
     # Renderiza página dashboard
     return render(request, 'controle_finan.html')
-
-
 
 @login_required
 def listar_membros_transferencia(request):

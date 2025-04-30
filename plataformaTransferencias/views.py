@@ -53,3 +53,9 @@ def transferir_membro(request, membro_id):
         return redirect('controle_transf')
 
     return redirect('controle_transf')
+
+#Controle de membros transferidos
+@login_required(login_url='/usuarios/login')
+def controle_transferidos(request):
+    membros = Membros.objects.filter(pastor=request.user, ativo=False)
+    return render(request, 'transferencias/controle_transferidos.html', {'membros': membros})

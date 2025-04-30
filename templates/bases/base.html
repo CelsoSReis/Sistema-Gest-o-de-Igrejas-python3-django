@@ -537,12 +537,12 @@
          data: {
            datasets: [
              {
-               data: [{{ total_membros }}, 0, 0],
+               data: [{{ total_membros }}, {{ total_membros_transf }}, 0],
                backgroundColor: ["#f3545d", "#fdaf4b", "#1d7af3"],
              },
            ],
  
-           labels: ["Sede", "Congregação 1", "Congregação 2"],
+           labels: ["Ativos", "Transferidos", "Congregação 2"],
          },
          options: {
            responsive: true,
