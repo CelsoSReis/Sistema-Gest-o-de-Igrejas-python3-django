@@ -440,7 +440,7 @@ def transferir_membro(request, membro_id):
     if request.method == 'POST':
         # Confirma a transferência: deleta o membro
         membro.delete()
-        return redirect('controle_membros')  # Ou para onde você quiser redirecionar após a transferência
+        return redirect('controle_membros')  #redirecionar após a transferência
 
     # Se for GET, gera a carta de transferência
     buffer = BytesIO()
@@ -466,3 +466,36 @@ def transferir_membro(request, membro_id):
 
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=True, filename=f"carta_transferencia_{membro.nome}.pdf")
+
+#Detalhes membro
+@login_required(login_url='/usuarios/login')
+def detalhes_transf(request, membro_id):
+    """Exibe os detalhes de um membro específico, convertendo siglas para nomes completos."""
+    membro = get_object_or_404(Membros, id=membro_id)
+
+    # Dicionário de mapeamento de cargos
+    cargos_dict = {
+        "A": "Auxiliar",
+        "C": "Congregado",
+        "Cr": "Crianças",
+        "Da": "Diaconisa",
+        "D": "Diácono",
+        "E": "Evangelista",
+        "J": "Jovem",
+        "Mb": "Membro",
+        "Mi": "Missionário(a)",
+        "Pr": "Pastor",
+        "P": "Presbítero",
+    }
+
+    # Dicionário de mapeamento de sexo
+    sexo_dict = {
+        "M": "Masculino",
+        "F": "Feminino",
+    }
+
+    # Converter siglas para nomes completos
+    membro.cargo_nome = cargos_dict.get(membro.cargo, "Não informado")
+    membro.sexo_nome = sexo_dict.get(membro.sexo, "Não informado")
+
+    return render(request, 'controle_transf.html', {'membro': membro})

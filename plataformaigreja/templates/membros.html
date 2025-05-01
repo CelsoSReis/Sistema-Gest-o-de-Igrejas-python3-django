@@ -180,11 +180,7 @@
                       <li><a class="dropdown-item btn-light" href="{% url 'editar_membro' membro.id %}"><i class="fa fa-edit"></i> Editar</a></li>
                       <li><a class="dropdown-item btn-light" href="{% url 'detalhes_membro' membro.id %}"><i class="fa fa-info"></i> Dados</a></li>
                       <li><a class="dropdown-item btn-light" href="{% url 'exportar_carteirinha_membro' membro.id %}"><i class="fas fa-address-card"></i> Gerar Carteira</a></li>
-                      <li><form action="{% url 'transferir_membro' membro.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm" onclick="return confirmarTransferencia()"><i class="fas fa-address-card"></i>    Transferir Membro</button>
-                          </form>
-                      </li>
+                      <li><a class="dropdown-item btn-light" href="{% url 'detalhes_transf' membro.id %}"><i class="fas fa-redo"></i> Transferir Membro</a></li>
                       <li>
                         <form action="{% url 'excluir_membro' membro.id %}" method="post">{% csrf_token %}  
                           <button type="submit" class="dropdown-item btn-danger text-white"                                        
@@ -313,8 +309,5 @@
             });
         });
     });
-    function confirmarTransferencia() {
-      return confirm("Tem certeza de que deseja transferir este membro?");
-    }
     </script>
 {% endblock %}

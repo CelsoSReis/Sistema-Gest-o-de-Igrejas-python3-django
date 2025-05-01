@@ -40,28 +40,6 @@
           </div>
 
           <div class="col-sm-6 col-md-3">
-            <div class="card card-stats card-secondary card-round">
-              <a href="{% url 'controle_transferidos' %}">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-5">
-                      <div class="icon-big text-center">
-                        <i class="fas fa-users"></i>
-                      </div>
-                    </div>
-                    <div class="col-7 col-stats">
-                      <div class="numbers">
-                        <p class="card-category">Membros Transferidos</p>
-                        <h4 class="card-title">{{ total_membros_transf }}</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-danger card-round">
               <a href="{% url 'selecionar_carteirinhas' %}">
                 <div class="card-body">
@@ -75,6 +53,28 @@
                       <div class="numbers">
                         <p class="card-category">Carteirinha de Membro</p>
                         <h4 class="card-title">{{ total_membros }}</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-secondary card-round">
+              <a href="{% url 'controle_transferidos' %}">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="icon-big text-center">
+                        <i class="fas fa-users"></i>
+                      </div>
+                    </div>
+                    <div class="col-7 col-stats">
+                      <div class="numbers">
+                        <p class="card-category">Membros Transferidos</p>
+                        <h4 class="card-title">{{ total_membros_transf }}</h4>
                       </div>
                     </div>
                   </div>
