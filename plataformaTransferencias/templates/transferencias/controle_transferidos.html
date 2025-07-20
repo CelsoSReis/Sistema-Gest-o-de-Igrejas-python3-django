@@ -70,11 +70,9 @@
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <div class="d-grid gap-2">
                                         <li>                                        
-                                            <!--<a href="{% url 'transferir_membro' membro.id %}" class="btn btn-warning btn-sm">Transferir</a>-->
-                                            <form action="#" method="post">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-warning">Gerar Carta de Transferência</button>
-                                            </form>                                        
+                                            <a href="{% url 'reativar_membro' membro.id %}" class="btn btn-warning btn-sm">
+                                                Carta de Transferência
+                                            </a>                                     
                                         </li>
                                         <li>
                                             <a href="{% url 'reativar_membro' membro.id %}" class="btn btn-success btn-sm">

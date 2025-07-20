@@ -21,7 +21,7 @@ def transferir_membro(request, membro_id):
         membro.save()
 
         messages.success(request, f'{membro.nome} foi marcado como transferido (inativo).')
-        return redirect('/index/membros/')
+        return redirect('controle_transferidos')
 
     return redirect('/index/membros/')
 
