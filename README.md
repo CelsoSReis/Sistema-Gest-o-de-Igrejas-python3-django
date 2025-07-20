@@ -1,4 +1,4 @@
-# Sistema de Gestão de Igrejas (Em desenvolvimento)
+# Sistema de Gestão de Igrejas
 
 ![GitHub](https://img.shields.io/github/license/seu-usuario/seu-repositorio)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
