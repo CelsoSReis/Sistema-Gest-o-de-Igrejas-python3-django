@@ -77,10 +77,9 @@
                                             </form>                                        
                                         </li>
                                         <li>
-                                            <form action="" method="post">
-                                                {% csrf_token %}  
-                                                <button type="submit" style="width: 100%" class="btn btn-sm btn-success">Reativar Membro</button>
-                                            </form>
+                                            <a href="{% url 'reativar_membro' membro.id %}" class="btn btn-success btn-sm">
+                                                Reativar Membro
+                                            </a>
                                         </li>
                                     </div>
                                 </ul>                                                        

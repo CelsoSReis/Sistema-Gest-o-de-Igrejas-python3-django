@@ -30,3 +30,15 @@ def transferir_membro(request, membro_id):
 def controle_transferidos(request):
     membros = Membros.objects.filter(pastor=request.user, ativo=False)
     return render(request, 'transferencias/controle_transferidos.html', {'membros': membros})
+
+# Reativar membro transferido
+@login_required(login_url='/usuarios/login')
+def reativar_membro(request, membro_id):
+    membro = get_object_or_404(Membros, id=membro_id, pastor=request.user)
+
+    if not membro.ativo:
+        membro.ativo = True
+        membro.save()
+        messages.success(request, f'{membro.nome} foi reativado com sucesso.')
+
+    return redirect('controle_transferidos')
