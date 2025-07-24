@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/reis/Documentos/GitHub/Sistema-Gest-o-de-Igrejas-python3-django/venv
+set -gx VIRTUAL_ENV /home/celso/Documentos/GitHub/Sistema-Gest-o-de-Igrejas-python3-django/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

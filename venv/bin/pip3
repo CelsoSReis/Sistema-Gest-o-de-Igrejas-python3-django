@@ -1,4 +1,4 @@
-#!/home/reis/Documentos/GitHub/Sistema-Gest-o-de-Igrejas-python3-django/venv/bin/python3
+#!/home/celso/Documentos/GitHub/Sistema-Gest-o-de-Igrejas-python3-django/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
