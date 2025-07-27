@@ -1,8 +1,0 @@
-<h1>Transferências Realizadas</h1>
-<ul>
-    {% for transferencia in transferencias %}
-        <li>{{ TransferenciaMembros.membro }} - De: {{ TransferenciaMembros.igreja_origem }} Para: {{ TransferenciaMembros.igreja_destino }}</li>
-    {% empty %}
-        <li>Sem transferências registradas.</li>
-    {% endfor %}
-</ul>

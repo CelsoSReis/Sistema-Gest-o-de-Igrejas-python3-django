@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from igreja.models import Igreja
 from plataformaigreja.models import Membros
+from django.conf import settings
+
 
 class TransferenciaMembros(models.Model):
     membro = models.ForeignKey(Membros, on_delete=models.CASCADE, related_name='transferencias')
@@ -12,8 +14,12 @@ class TransferenciaMembros(models.Model):
 
     def __str__(self):
         return f'Transferência de {self.membro} para {self.igreja_destino}'
+
 class Transferencia(models.Model):
     membro = models.ForeignKey(Membros, on_delete=models.CASCADE)
-    igreja_origem = models.ForeignKey('igreja.Igreja', related_name='igreja_origem', on_delete=models.CASCADE)
-    igreja_destino = models.ForeignKey('igreja.Igreja', related_name='igreja_destino', on_delete=models.CASCADE)
-    data_transferencia = models.DateTimeField(auto_now_add=True)
+    igreja_destino = models.CharField(max_length=255)
+    data_transferencia = models.DateField()
+    observacoes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.membro.nome} - {self.igreja_destino}"

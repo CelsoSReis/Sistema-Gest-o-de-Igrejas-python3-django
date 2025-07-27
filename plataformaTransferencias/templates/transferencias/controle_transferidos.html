@@ -70,19 +70,54 @@
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <div class="d-grid gap-2">
                                         <li>                                        
-                                            <a href="{% url 'reativar_membro' membro.id %}" class="btn btn-warning btn-sm">
-                                                Carta de Transferência
-                                            </a>                                     
+                                            <a href="{% url 'gerar_carta_transferencia' membro.id %}" class="btn btn-primary btn-sm">
+                                                Gerar Carta de Transferência
+                                            </a>
+                                     
                                         </li>
                                         <li>
                                             <a href="{% url 'reativar_membro' membro.id %}" class="btn btn-success btn-sm">
                                                 Reativar Membro
                                             </a>
                                         </li>
+                                        <li>
+                                            <!-- Botão para abrir o modal -->
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalTransferencia{{ membro.id }}" class="btn btn-primary btn-sm">
+                                                Gerar Carta de Transferência
+                                            </a>
+                                            <!-- Modal -->
+                                        </li>
                                     </div>
                                 </ul>                                                        
                             </td>
                         </tr>
+                        <div class="modal fade" id="modalTransferencia{{ membro.id }}" tabindex="-1" aria-labelledby="modalLabel{{ membro.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'gerar_carta_transferencia' membro.id %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel{{ membro.id }}">Carta de Transferência</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="data_transferencia{{ membro.id }}" class="form-label">Data da Transferência</label>
+            <input type="date" class="form-control" name="data_transferencia" required>
+          </div>
+          <div class="mb-3">
+            <label for="igreja_destino{{ membro.id }}" class="form-label">Igreja de Destino</label>
+            <textarea class="form-control" name="igreja_destino" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Gerar PDF</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
                         {% endfor %}
                     </tbody>
                 </table>
