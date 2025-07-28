@@ -20,6 +20,9 @@ def gerar_carta_transferencia(request, membro_id):
 
     if request.method == "POST":
         data_transferencia = request.POST.get("data_transferencia")
+        # Formata a data
+        data_formatada = datetime.strptime(data_transferencia, "%Y-%m-%d").strftime("%d/%m/%Y")
+
         igreja_destino = request.POST.get("igreja_destino")
 
         # Pega dados da igreja do usuário atual
@@ -39,8 +42,8 @@ def gerar_carta_transferencia(request, membro_id):
         p.setFont("Helvetica", 12)
 
         corpo = f"""
-Declaramos que o membro {membro.nome}, pertencente à igreja {igreja_origem.nome_igreja},
-foi transferido(a) em {data_transferencia} para a seguinte igreja:
+Declaramos que o membro {membro.nome}, pertencente à {igreja_origem.nome_igreja},
+foi transferido(a) em {data_formatada} para a seguinte igreja:
 
 {igreja_destino}
 
@@ -51,7 +54,7 @@ Atenciosamente,
 Endereço: {igreja_origem.endereco}
 """
 
-        text_object = p.beginText(80, altura - 140)
+        text_object = p.beginText(50, altura - 140)
         for linha in corpo.splitlines():
             text_object.textLine(linha.strip())
         p.drawText(text_object)
